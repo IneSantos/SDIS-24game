@@ -1,3 +1,5 @@
+package game;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -6,22 +8,22 @@ import java.util.*;
 /**
  * Created by inesa on 12/05/2016.
  */
-public class jogo24 {
+public class Game24 {
 
     public int currentState = 0;
     public String equation;
     public Character prevNumb;
     public Character nextNumb;
-    public ArrayList<Integer> challenges = new ArrayList<>();
+    public ArrayList<ArrayList<Integer>> challenges = new ArrayList<>();
 
 
-    public jogo24() {
+    public Game24() {
 
         this.equation = "";
     }
 
     public static void main(String args[]) {
-        jogo24 j = new jogo24();
+        Game24 j = new Game24();
         j.readFile();
         Scanner reader = new Scanner(System.in);
         String in = reader.nextLine();
@@ -163,11 +165,12 @@ public class jogo24 {
                 line = br.readLine();
 
                 if(line!=null){
+                    ArrayList<Integer> numbers = new ArrayList<>();
                 String[] t = line.split(" ");
                     for(int i = 0; i < t.length; i++) {
-                        challenges.add(Integer.parseInt(t[i]));
-                        System.out.println(t[i]);
+                        numbers.add(Integer.parseInt(t[i]));
                 }
+                    challenges.add(numbers);
                 }
             }
         } catch (IOException e) {

@@ -1,4 +1,4 @@
-import javafx.scene.paint.ImagePattern;
+package graphs;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -7,25 +7,28 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-import java.util.List;
 
 /**
  * Created by inesa on 19/05/2016.
  */
 class NumbersPanel extends JPanel {
-    private static final int PREF_W = 800;
-    private static final int PREF_H = 600;
-    private static final int BIGREC_WIDTH = 100;
+    private static final int PREF_W = 400;
+    private static final int PREF_H = 400;
+    private static final int REC_WIDTH = 200;
     private ArrayList<BufferedImage> squares = new ArrayList<BufferedImage>();
+    private ArrayList<Integer> challenges = new ArrayList<>();
 
 
-    public NumbersPanel() {
-        Random r = new Random();
+    public NumbersPanel(ArrayList<Integer> challenges) {
+        this.challenges = challenges;
+        //setBorder(BorderFactory.createLineBorder(Color.black));
+        
         for (int j = 0; j < 2; j++) {
             for (int i = 0; i < 2; i++) {
-                addSquare(BIGREC_WIDTH, BIGREC_WIDTH, r.nextInt(18));
+                addSquare(REC_WIDTH, REC_WIDTH, this.challenges.get(i*2+j));
             }
         }
+
     }
 
     public void addSquare(int width, int height, int number) {
@@ -57,7 +60,7 @@ class NumbersPanel extends JPanel {
         Graphics2D g2 = (Graphics2D) g;
         for(int i =0; i < 2; i++){
             for(int j= 0; j < 2; j++) {
-                g2.drawImage(squares.get(i*2+j), i * BIGREC_WIDTH, j*BIGREC_WIDTH, null);
+                g2.drawImage(squares.get(i*2+j), i * REC_WIDTH, j* REC_WIDTH, null);
             }
         }
     }
