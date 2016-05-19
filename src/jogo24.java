@@ -13,7 +13,7 @@ public class jogo24 {
     public Character prevNumb;
     public Character nextNumb;
     public ArrayList<Integer> challenges = new ArrayList<>();
-    
+
 
     public jogo24() {
 
