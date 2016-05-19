@@ -1,3 +1,6 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -9,14 +12,17 @@ public class jogo24 {
     public String equation;
     public Character prevNumb;
     public Character nextNumb;
-
+    public ArrayList<Integer> challenges = new ArrayList<>();
+    
 
     public jogo24() {
+
         this.equation = "";
     }
 
     public static void main(String args[]) {
         jogo24 j = new jogo24();
+        j.readFile();
         Scanner reader = new Scanner(System.in);
         String in = reader.nextLine();
 
@@ -26,6 +32,7 @@ public class jogo24 {
             in = reader.nextLine();
         }
         System.out.println(j.check24(j.equation));
+
     }
 
     public void stateMachine(String input) {
@@ -140,6 +147,38 @@ public class jogo24 {
                 break;
         }
         return res;
+    }
+
+    public void readFile() {
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new FileReader(System.getProperty("user.dir")+ "/resources/challenges.txt"));
+
+            StringBuilder sb = new StringBuilder();
+            String line = br.readLine();
+
+            while (line != null) {
+                sb.append(line);
+                sb.append(System.lineSeparator());
+                line = br.readLine();
+
+                if(line!=null){
+                String[] t = line.split(" ");
+                    for(int i = 0; i < t.length; i++) {
+                        challenges.add(Integer.parseInt(t[i]));
+                        System.out.println(t[i]);
+                }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                br.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     //SPLIT WAS RETURNING "" SO I NEEDED TO CREATE THIS
