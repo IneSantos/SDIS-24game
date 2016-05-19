@@ -1,4 +1,4 @@
-package graphs;
+package graphics;
 
 import java.awt.*;
 

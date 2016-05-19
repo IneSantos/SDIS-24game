@@ -1,4 +1,4 @@
-package graphs;
+package graphics;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -6,42 +6,32 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Created by inesa on 19/05/2016.
  */
-class  OperationsPanel  extends JPanel {
-
-    private static final int PREF_W = 200;
+class NumbersPanel extends JPanel {
+    private static final int PREF_W = 400;
     private static final int PREF_H = 400;
-    private static final int REC_WIDTH = 100;
+    private static final int REC_WIDTH = 200;
     private ArrayList<BufferedImage> squares = new ArrayList<BufferedImage>();
-    private ArrayList<String> scores = new ArrayList<String>();
+    private ArrayList<Integer> challenges = new ArrayList<>();
 
-    public OperationsPanel(ArrayList<String> scores) {
-        this.scores = scores;
+
+    public NumbersPanel(ArrayList<Integer> challenges) {
+        this.challenges = challenges;
         //setBorder(BorderFactory.createLineBorder(Color.black));
 
         for (int j = 0; j < 2; j++) {
             for (int i = 0; i < 2; i++) {
-                addSquare(REC_WIDTH, REC_WIDTH, 0, i, j);
+                addSquare(REC_WIDTH, REC_WIDTH, this.challenges.get(i*2+j));
             }
         }
 
-        JLabel jlabel = new JLabel("Scores: ");
-        jlabel.setFont(new Font("Verdana",1,25));
-        add(jlabel);
-        for(int k = 0; k < this.scores.size(); k++){
-            jlabel = new JLabel(k + ". " + this.scores.get(k));
-            jlabel.setFont(new Font("Verdana",1,15));
-            jlabel.setPreferredSize(new Dimension(100,20));
-            add(jlabel);
-        }
     }
 
-    public void addSquare(int width, int height, int number, int i, int j) {
+    public void addSquare(int width, int height, int number) {
         BufferedImage rect;
         int posX = number%6;
         int posY = number/6;
@@ -70,7 +60,7 @@ class  OperationsPanel  extends JPanel {
         Graphics2D g2 = (Graphics2D) g;
         for(int i =0; i < 2; i++){
             for(int j= 0; j < 2; j++) {
-                g2.drawImage(squares.get(i*2+j), i * REC_WIDTH , j* REC_WIDTH + REC_WIDTH*2, null);
+                g2.drawImage(squares.get(i*2+j), i * REC_WIDTH, j* REC_WIDTH, null);
             }
         }
     }
