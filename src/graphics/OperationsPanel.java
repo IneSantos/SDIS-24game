@@ -25,7 +25,7 @@ class  OperationsPanel  extends JPanel {
 
         for (int j = 0; j < 2; j++) {
             for (int i = 0; i < 2; i++) {
-                addSquare(REC_WIDTH, REC_WIDTH, 0, i, j);
+                addSquare(REC_WIDTH, REC_WIDTH, i*2+j, i, j);
             }
         }
 
@@ -42,14 +42,14 @@ class  OperationsPanel  extends JPanel {
 
     public void addSquare(int width, int height, int number, int i, int j) {
         BufferedImage rect;
-        int posX = number%6;
-        int posY = number/6;
+        int posX = number%4;
+        int posY = number/4;
         try {
-            rect = ImageIO.read(new File(System.getProperty("user.dir") + "/resources/numbers.png"));
+            rect = ImageIO.read(new File(System.getProperty("user.dir") + "/resources/operations.png"));
             BufferedImage resizedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
             Graphics2D g = resizedImage.createGraphics();
-            int h = rect.getHeight()/3;
-            int w = rect.getWidth()/6;
+            int h = rect.getHeight()/1;
+            int w = rect.getWidth()/4;
             g.drawImage(rect.getSubimage(posX*w, posY*h ,w, h), 0, 0, width, height, null);
             g.dispose();
             squares.add(resizedImage);

@@ -33,14 +33,14 @@ class NumbersPanel extends JPanel {
 
     public void addSquare(int width, int height, int number) {
         BufferedImage rect;
-        int posX = number%6;
-        int posY = number/6;
+        int posX = number%5;
+        int posY = number/5;
         try {
-            rect = ImageIO.read(new File(System.getProperty("user.dir") + "/resources/numbers.png"));
+            rect = ImageIO.read(new File(System.getProperty("user.dir") + "/resources/numbers3.png"));
             BufferedImage resizedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
             Graphics2D g = resizedImage.createGraphics();
-            int h = rect.getHeight()/3;
-            int w = rect.getWidth()/6;
+            int h = rect.getHeight()/2;
+            int w = rect.getWidth()/5;
             g.drawImage(rect.getSubimage(posX*w, posY*h ,w, h), 0, 0, width, height, null);
             g.dispose();
             squares.add(resizedImage);
