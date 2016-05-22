@@ -9,7 +9,7 @@ import java.util.Vector;
 public class DataBase {
 
     HashMap<String, Vector> availableRooms;
-    RoomInfo currentRoom;
+    RoomID currentRoom;
     static DataBase instance;
 
     DataBase () {
@@ -21,7 +21,7 @@ public class DataBase {
         return instance;
     }
 
-    public RoomInfo getCurrentRoom() {
+    public RoomID getCurrentRoom() {
         return currentRoom;
     }
 }
