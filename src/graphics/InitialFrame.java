@@ -1,22 +1,24 @@
 package graphics;
 
+import javax.swing.*;
 import java.awt.*;
 
-import javax.swing.*;
+/**
+ * Created by inesa on 22/05/2016.
+ */
+public class InitialFrame extends JFrame {
 
-public class GameFrame extends JFrame {
-
-    public GameFrame(){
+    public InitialFrame() throws HeadlessException {
         super("Jogo 24");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-        CenterPanel centerPanel = new CenterPanel();
+        CenterInitialFrame centerPanel = new CenterInitialFrame();
         setLayout(new BorderLayout());
         NorthPanel north = new NorthPanel();
-        Chat east = new Chat();
+        Panel east = new Panel();
         east.add(Box.createHorizontalStrut(100));
         Panel west = new Panel();
-        west.add(Box.createHorizontalStrut(10));
+        west.add(Box.createHorizontalStrut(100));
         Panel south = new Panel();
         south.add(Box.createVerticalStrut(100));
         getContentPane().add(north, BorderLayout.PAGE_START);
@@ -31,8 +33,6 @@ public class GameFrame extends JFrame {
     }
 
     public static void main(String[] args) {
-        new GameFrame();
+        new InitialFrame();
     }
-
 }
-

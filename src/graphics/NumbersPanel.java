@@ -21,7 +21,7 @@ class NumbersPanel extends JPanel {
 
     public NumbersPanel(ArrayList<Integer> challenges) {
         this.challenges = challenges;
-        //setBorder(BorderFactory.createLineBorder(Color.black));
+       // setBorder(BorderFactory.createLineBorder(Color.black));
 
         for (int j = 0; j < 2; j++) {
             for (int i = 0; i < 2; i++) {

@@ -21,13 +21,7 @@ class  OperationsPanel  extends JPanel {
 
     public OperationsPanel(ArrayList<String> scores) {
         this.scores = scores;
-        //setBorder(BorderFactory.createLineBorder(Color.black));
-
-        for (int j = 0; j < 2; j++) {
-            for (int i = 0; i < 2; i++) {
-                addSquare(REC_WIDTH, REC_WIDTH, i*2+j, i, j);
-            }
-        }
+       // setBorder(BorderFactory.createLineBorder(Color.black));
 
         JLabel jlabel = new JLabel("Scores: ");
         jlabel.setFont(new Font("Verdana",1,25));
@@ -38,6 +32,14 @@ class  OperationsPanel  extends JPanel {
             jlabel.setPreferredSize(new Dimension(100,20));
             add(jlabel);
         }
+
+        for (int j = 0; j < 2; j++) {
+            for (int i = 0; i < 2; i++) {
+                addSquare(REC_WIDTH, REC_WIDTH, i*2+j, i, j);
+            }
+        }
+
+
     }
 
     public void addSquare(int width, int height, int number, int i, int j) {

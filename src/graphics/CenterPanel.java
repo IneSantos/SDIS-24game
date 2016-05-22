@@ -3,6 +3,7 @@ package graphics;
 import game.Game24;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -24,6 +25,7 @@ public class CenterPanel  extends JPanel {
         scores.add("Pedro");
 
         Random r = new Random();
+
         NumbersPanel numbersPanel = new NumbersPanel(g.challenges.get(r.nextInt(g.challenges.size())));
         OperationsPanel operationsPanel = new OperationsPanel(scores);
         add(numbersPanel);
