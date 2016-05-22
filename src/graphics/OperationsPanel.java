@@ -33,7 +33,7 @@ class  OperationsPanel  extends JPanel {
         jlabel.setFont(new Font("Verdana",1,25));
         add(jlabel);
         for(int k = 0; k < this.scores.size(); k++){
-            jlabel = new JLabel(k + ". " + this.scores.get(k));
+            jlabel = new JLabel((k+1)+ ". " + this.scores.get(k));
             jlabel.setFont(new Font("Verdana",1,15));
             jlabel.setPreferredSize(new Dimension(100,20));
             add(jlabel);
