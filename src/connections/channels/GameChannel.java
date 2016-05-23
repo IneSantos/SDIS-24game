@@ -12,6 +12,7 @@ import java.io.IOException;
  */
 public class GameChannel extends Channel {
 
+    private boolean listening = true;
     public GameChannel(String mcAddress, int mcPort) throws IOException {
         super(mcAddress, mcPort);
         this.setThread(new GameThread());
@@ -19,7 +20,7 @@ public class GameChannel extends Channel {
 
     public class GameThread extends Thread {
         public void run() {
-            while (true) {
+            while (listening) {
                 joinGroup();
                 byte[] msg = rcvMultiCastMsg();
                 Header msgHeader = Message.getHeaderFromData(msg);
@@ -37,6 +38,7 @@ public class GameChannel extends Channel {
 
     }
 
+    public void stopListen() { listening = false; }
     private void handleAvailableRooms() {
         if (DataBase.getInstance().getCurrentRoom() == null) return;
     }

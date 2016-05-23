@@ -12,16 +12,16 @@ public class DataBase {
     RoomID currentRoom;
     static DataBase instance;
 
-    DataBase () {
+    public DataBase () {
         currentRoom = null;
         instance = this;
     }
 
-    public static DataBase getInstance() {
-        return instance;
-    }
+    public static DataBase getInstance() { return instance; }
 
-    public RoomID getCurrentRoom() {
-        return currentRoom;
+    public RoomID getCurrentRoom() { return currentRoom; }
+
+    public void setCurrentRoom(RoomID room) {
+        this.currentRoom = room;
     }
 }
