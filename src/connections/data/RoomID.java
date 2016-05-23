@@ -12,13 +12,14 @@ public class RoomID {
     String owner;
     String dateOfCreation;
 
-    RoomID (String name, String owner, String dateOfCreation) {
+    public RoomID (String name, String owner, String dateOfCreation) {
         this.name = name;
         this.owner = owner;
         this.dateOfCreation = dateOfCreation;
     }
-    RoomID (String name) {
+    public RoomID (String name, String owner) {
         this.name = name;
+        this.owner = owner;
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date = new Date();
         this.dateOfCreation = dateFormat.format(date);
