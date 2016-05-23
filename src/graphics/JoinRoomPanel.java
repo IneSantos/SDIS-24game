@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class JoinRoomPanel extends JPanel {
 
     private static final int PREF_W = 600;
-    private static final int PREF_H = 400;
+    private static final int PREF_H = 500;
     JLabel jlabel;
     ArrayList<String> roomsName = new ArrayList<>();
 
@@ -56,14 +56,14 @@ public class JoinRoomPanel extends JPanel {
         //  areaScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 
-     /*   JPanel jPanel = new JPanel();
-        for(int i = roomsName.size() - 1 ; i >= 0; i--) {
+        JPanel jPanel = new JPanel();
+        for (int i = roomsName.size() - 1; i >= 0; i--) {
             JLabel label = new JLabel();
             label.setText(roomsName.get(i));
             jPanel.add(label);
             jPanel.add(Box.createRigidArea(new Dimension(1, 5)));
-*/
-           /* label.addMouseListener(new MouseAdapter() {
+
+           /*label.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseEntered(MouseEvent e) {
                     label.setForeground(Color.BLUE);
@@ -75,14 +75,14 @@ public class JoinRoomPanel extends JPanel {
                     label.setForeground(Color.BLACK);
 
                 }
-            });
-        }*/
-     /*   BoxLayout boxLayout = new BoxLayout(jPanel, BoxLayout.Y_AXIS);
+            });*/
+        }
+        BoxLayout boxLayout = new BoxLayout(jPanel, BoxLayout.Y_AXIS);
         jPanel.setLayout(boxLayout);
         add(areaScroll);
-*/
-        JPanel jPanel = new JPanel();
-        for (int i = 0; i < 50; i++) {
+
+      /*  JPanel jPanel = new JPanel();
+        for (int i = 0; i < 40; i++) {
             JLabel jLabel = new JLabel("Label");
             jPanel.add(jLabel);
             jPanel.add(Box.createRigidArea(new Dimension(1, 5)));
@@ -91,6 +91,17 @@ public class JoinRoomPanel extends JPanel {
         jPanel.setLayout(boxLayout);
         JScrollPane jScrollPane = new JScrollPane(jPanel);
         add(jScrollPane);
+*/
+
+        JButton refreshButton = new JButton("REFRESH");
+        refreshButton.setPreferredSize(new Dimension(200, 30));
+        add(refreshButton);
+
+        refreshButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Primiu o refresh");
+            }
+        });
         // }
 
     }

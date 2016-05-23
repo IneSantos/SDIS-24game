@@ -27,5 +27,7 @@ public class CenterInitialFrame extends JPanel {
         JoinRoomPanel joinRoomPanel = new JoinRoomPanel();
         add(joinRoomPanel);
 
+
+
     }
 }

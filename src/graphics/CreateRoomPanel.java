@@ -51,6 +51,18 @@ public class CreateRoomPanel extends JPanel {
         add(jlabel);
         add(textField);
 
+        add(Box.createVerticalStrut(80));
+
+        JButton createButton = new JButton("CREATE ROOM");
+        createButton.setPreferredSize(new Dimension(200, 30));
+        add(createButton);
+
+        createButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Primiu o create");
+            }
+        });
+
         mouseListenners();
         keyboardListenners();
     }
