@@ -1,6 +1,10 @@
 package graphics;
 
 import javax.swing.*;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.DefaultStyledDocument;
+import javax.swing.text.Document;
+import javax.swing.text.html.CSS;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -16,13 +20,15 @@ public class JoinRoomPanel extends JPanel {
     JLabel jlabel;
     ArrayList<String> roomsName = new ArrayList<>();
 
+    Document doc = new DefaultStyledDocument();
+
     public JoinRoomPanel() {
 
-        roomsName.add("teste00000000000000000000000000000");
-        roomsName.add("teste111111111111111111111111111111111");
-        roomsName.add("teste22222222222222222222222222");
-        roomsName.add("teste3222222222");
-        roomsName.add("teste433333333333333333");
+        roomsName.add("teste0000000000000000000000000000000000000000000000000000000000000000");
+        roomsName.add("teste10000000000000000000000000000000000000000000000000000000000000000");
+        roomsName.add("teste20000000000000000000000000000000000000000000000000000000000000000");
+        roomsName.add("teste30000000000000000000000000000000000000000000000000000000000000000");
+        roomsName.add("teste40000000000000000000000000000000000000000000000000000000000000000");
 
         setPreferredSize(new Dimension(PREF_W, PREF_H));
         setBorder(BorderFactory.createLineBorder(Color.blue));
@@ -38,18 +44,22 @@ public class JoinRoomPanel extends JPanel {
         textArea.setPreferredSize(new Dimension(400,300));
         textArea.setEditable(false);
 
-        JScrollPane areaScroll = new JScrollPane (textArea);
+        JScrollPane areaScroll = new JScrollPane(textArea);
         areaScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         areaScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         add(areaScroll);
 
-        for(int i= roomsName.size() ; i > 0; i--){
-            JLabel roomName = new JLabel(roomsName.get(i-1));
+        for(int i = roomsName.size() ; i > 0; i--){
+            JLabel roomName = new JLabel("1",JLabel.CENTER);
+            roomName.setText("<html>" + roomsName.get(i-1) + "</html>");
             roomName.setFont(new Font("Verdana",4,20));
-            roomName.setPreferredSize(new Dimension(100,20));
+            /*Dimension d = roomName.getPreferredSize();
+            System.out.println("width " + d.width);
+            System.out.println("height "  + d.height);
+            roomName.setPreferredSize(new Dimension(d.width,d.height));*/
             roomName.setBorder(BorderFactory.createLineBorder(Color.blue));
-            textArea.setCaretPosition(textArea.getDocument().getLength());
             textArea.insertComponent(roomName);
+
             roomName.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseEntered(MouseEvent e) {
@@ -64,8 +74,6 @@ public class JoinRoomPanel extends JPanel {
                 }
             });
         }
-
-
 
     }
 
