@@ -14,6 +14,9 @@ public class Constants {
     public static final int MSG_SIZE = 256;
 
     public static final int MESSAGE_TYPE = 0;
-    public static final int PEER_ID = 0;
+    public static final int USERNAME = 1;
+    public static final int USER_DATE = 2;
+    public static final int ROOM_ID = 3;
+    public static final int ROOM_DATE = 4;
 
 }

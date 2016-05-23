@@ -1,5 +1,7 @@
 package graphics;
 
+import connections.Peer;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -99,7 +101,7 @@ public class JoinRoomPanel extends JPanel {
 
         refreshButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Primiu o refresh");
+                Peer.getInstance().requestAvailableRooms();
             }
         });
         // }

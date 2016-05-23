@@ -2,6 +2,7 @@ package connections;
 
 import connections.channels.GameChannel;
 import connections.data.DataBase;
+import connections.data.PeerID;
 import connections.data.RoomID;
 import connections.messages.Header;
 import connections.messages.Message;
@@ -15,14 +16,15 @@ import java.net.DatagramSocket;
  */
 
 public class Peer {
-    private String id;
+    private PeerID peerId;
     private DatagramSocket socket;
 
     private GameChannel gameChannel;
     private DataBase database;
+    private static Peer instance;
 
     public Peer() {
-        this.id = Constants.ANONYMOUS;
+        this.peerId = new PeerID(Constants.ANONYMOUS);
         try {
             this.gameChannel = new GameChannel(Constants.DEFAULT_ADDRESS, Constants.GAME_PORT);
         } catch (IOException e) {
@@ -30,29 +32,38 @@ public class Peer {
         }
         database = new DataBase();
         gameChannel.listen();
+        this.instance = this;
     }
 
     public static void main(String[] args) {
         Peer peer = new Peer();
-        peer.requestAvailableRooms();
         if (args[0].equals("createRoom")) {
             if (args.length == 3) {
-                peer.setID(args[2]);
+                peer.setPeerUsername(args[2]);
                 peer.createRoom(args[1]);
             }
+        } else if (args[0].equals("requestRooms")) {
+            if (args.length == 1)
+                peer.requestAvailableRooms();
+        } else if (args.length == 0) {
+
         }
     }
 
-    private void requestAvailableRooms() {
-        Header header = new Header(Header.AVAILABLE_ROOMS, id);
+    public PeerID getPeerID() { return this.peerId; }
+    public static Peer getInstance() { return instance; }
+
+    public void requestAvailableRooms() {
+        Header header = new Header(Header.AVAILABLE_ROOMS, peerId);
         Message message = new Message(gameChannel.getSocket(), gameChannel.getAddress(), header);
         message.send();
     }
 
     private void createRoom(String roomName) {
-        RoomID createdRoom = new RoomID(roomName, id);
+        RoomID createdRoom = new RoomID(roomName);
         database.setCurrentRoom(createdRoom);
     }
 
-    public void setID(String id) { this.id = id; }
+    public DataBase getDataBase() { return database; }
+    public void setPeerUsername (String username) { this.peerId.setUsername(username); };
 }

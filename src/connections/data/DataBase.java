@@ -9,7 +9,7 @@ import java.util.Vector;
 public class DataBase {
 
     HashMap<String, Vector> availableRooms;
-    RoomID currentRoom;
+    RoomID currentRoom; /* A sala em que o jogador se encontra, null se não está em nenhuma sala */
     static DataBase instance;
 
     public DataBase () {

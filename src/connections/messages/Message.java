@@ -1,5 +1,7 @@
 package connections.messages;
 
+import connections.data.PeerID;
+import connections.data.RoomID;
 import utilities.Constants;
 
 import java.io.IOException;
@@ -21,15 +23,19 @@ public class Message implements Runnable {
         this.address = address;
         this.header = header;
     }
-
     public void send() { this.run(); }
     private static String[] splitArgs(String message) { return message.split(" "); }
     public static Header getHeaderFromData(byte[] data) {
-        String headerStr = data.toString();
+        String headerStr = new String(data, 0, data.length);
         String[] splittedHeader = splitArgs(headerStr);
-        return new Header(splittedHeader[Constants.MESSAGE_TYPE], splittedHeader[Constants.PEER_ID]);
+        PeerID peerId = new PeerID(splittedHeader[Constants.USERNAME], splittedHeader[Constants.USER_DATE]);
+        Header header = new Header(splittedHeader[Constants.MESSAGE_TYPE], peerId);
+        if (splittedHeader[Constants.MESSAGE_TYPE].equals(Header.ROOM)) {
+            RoomID roomId = new RoomID(splittedHeader[Constants.ROOM_ID], splittedHeader[Constants.ROOM_DATE]);
+            header.setRoomID(roomId);
+        }
+        return header;
     }
-
     @Override
     public void run() {
         byte[] message = header.toString().getBytes();

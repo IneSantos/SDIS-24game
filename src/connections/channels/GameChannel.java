@@ -1,9 +1,11 @@
 package connections.channels;
 
 
+import connections.Peer;
 import connections.data.DataBase;
 import connections.messages.Header;
 import connections.messages.Message;
+import utilities.Constants;
 
 import java.io.IOException;
 
@@ -24,9 +26,13 @@ public class GameChannel extends Channel {
                 joinGroup();
                 byte[] msg = rcvMultiCastMsg();
                 Header msgHeader = Message.getHeaderFromData(msg);
+                if (!Peer.getInstance().getPeerID().equals(msgHeader.getSenderID()))
                 switch (msgHeader.getType()) {
                     case Header.AVAILABLE_ROOMS:
                         handleAvailableRooms();
+                        break;
+                    case Header.ROOM:
+                        handleRoom(msgHeader);
                         break;
                     default:
                         System.out.println(getChannelTag() + "Message with type (" + msgHeader.getType() + ") is not supported");
@@ -40,6 +46,13 @@ public class GameChannel extends Channel {
 
     public void stopListen() { listening = false; }
     private void handleAvailableRooms() {
+        System.out.println("Available rooms request received");
         if (DataBase.getInstance().getCurrentRoom() == null) return;
+        Header replyHeader = new Header(Header.ROOM, Peer.getInstance().getPeerID(), Peer.getInstance().getDataBase().getCurrentRoom());
+        Message reply = new Message(getSocket(), getAddress(), replyHeader);
+        reply.send();
+    }
+    private void handleRoom(Header header) {
+        System.out.println(header.toString());
     }
 }

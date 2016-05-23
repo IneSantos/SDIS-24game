@@ -1,5 +1,7 @@
 package connections.data;
 
+import utilities.Utilities;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -9,19 +11,19 @@ import java.util.Date;
  */
 public class RoomID {
     String name;
-    String owner;
     String dateOfCreation;
 
-    public RoomID (String name, String owner, String dateOfCreation) {
+    public RoomID (String name, String dateOfCreation) {
         this.name = name;
-        this.owner = owner;
         this.dateOfCreation = dateOfCreation;
     }
-    public RoomID (String name, String owner) {
+    public RoomID (String name) {
         this.name = name;
-        this.owner = owner;
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        Date date = new Date();
-        this.dateOfCreation = dateFormat.format(date);
+        this.dateOfCreation = Utilities.getCurrentDate();
+    }
+
+    @Override
+    public String toString() {
+        return name + " " + dateOfCreation;
     }
 }

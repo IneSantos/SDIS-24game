@@ -1,0 +1,43 @@
+package connections.data;
+
+import utilities.Utilities;
+
+/**
+ * Created by Pedro Fraga on 23-May-16.
+ */
+public class PeerID {
+    String username;
+    String dateOfCreation;
+
+    public PeerID(String name) {
+        this.username = name;
+        this.dateOfCreation = Utilities.getCurrentDate();
+    }
+    public PeerID(String name, String dateOfCreation) {
+        this.username = name;
+        this.dateOfCreation = dateOfCreation;
+    }
+
+    public String getName() { return username; }
+    public String getDateOfCreation() { return dateOfCreation; }
+
+    @Override
+    public String toString() {
+        return username + " " + dateOfCreation;
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PeerID peerId = (PeerID) o;
+        return username.equals(peerId.getName()) && dateOfCreation.equals(peerId.getDateOfCreation());
+    }
+    @Override
+    public int hashCode() {
+        int result = username != null ? username.hashCode() : 0;
+        result = 31 * result + (dateOfCreation != null ? dateOfCreation.hashCode() : 0);
+        return result;
+    }
+
+    public void setUsername(String username) { this.username = username; }
+}
