@@ -21,9 +21,6 @@ public class CenterPanel  extends JPanel {
         g.readFile();
 
         ArrayList<String> scores = new ArrayList<String>();
-        scores.add("Joao");
-        scores.add("Ines");
-        scores.add("Pedro");
 
         Random r = new Random();
 

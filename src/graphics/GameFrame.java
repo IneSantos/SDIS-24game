@@ -19,7 +19,7 @@ public class GameFrame extends JFrame {
         east.add(Box.createHorizontalStrut(100));
         Panel west = new Panel();
         west.add(Box.createHorizontalStrut(10));
-        Panel south = new Panel();
+        South south = new South(peer);
         south.add(Box.createVerticalStrut(100));
         getContentPane().add(north, BorderLayout.PAGE_START);
         getContentPane().add(west, BorderLayout.WEST);

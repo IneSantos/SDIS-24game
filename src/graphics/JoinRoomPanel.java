@@ -25,8 +25,8 @@ public class JoinRoomPanel extends JPanel {
 
     ArrayList<String> roomsName = new ArrayList<>();
 
-    Document doc = new DefaultStyledDocument();
     public static JoinRoomPanel instance;
+    JButton refreshButton;
 
     public JoinRoomPanel() {
 
@@ -45,7 +45,7 @@ public class JoinRoomPanel extends JPanel {
         JTextPane pane = new JTextPane();
         pane.setEditable(false);
 
-        for (int i = 0; i < 30; i++) {
+       for (int i = 0; i < 30; i++) {
             roomsName.add("Sala " + i);
         }
 
@@ -57,16 +57,11 @@ public class JoinRoomPanel extends JPanel {
         areaScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         add(areaScroll);
 
-        JButton refreshButton = new JButton("REFRESH");
+        refreshButton = new JButton("REFRESH");
         refreshButton.setPreferredSize(new Dimension(200, 30));
         add(refreshButton);
+        buttonListener();
 
-        refreshButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                Peer.getInstance().requestAvailableRooms();
-                Peer.getInstance().getDataBase().clearAvailableRooms();
-            }
-        });
         instance = this;
     }
 
@@ -76,6 +71,15 @@ public class JoinRoomPanel extends JPanel {
 
     public JList getListbox() {
         return listbox;
+    }
+
+    private void buttonListener(){
+        refreshButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Peer.getInstance().requestAvailableRooms();
+                Peer.getInstance().getDataBase().clearAvailableRooms();
+            }
+        });
     }
 
 }
