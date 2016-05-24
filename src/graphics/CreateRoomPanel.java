@@ -16,8 +16,8 @@ public class CreateRoomPanel extends JPanel {
     JLabel jlabel;
     JLabel jlabel1;
     Peer peer;
-    JTextField textField;
-    JTextField textField1;
+    CustomTextField textField;
+    CustomTextField textField1;
     JButton createButton;
     String nickName = "";
     String roomName = "";
@@ -37,6 +37,7 @@ public class CreateRoomPanel extends JPanel {
         jlabel1.setFont(new Font("Verdana", 1, 15));
         jlabel1.setPreferredSize(new Dimension(130, 30));
 
+
         //enterText
         textField1 = new CustomTextField("Name a room...", 20);
 
@@ -44,11 +45,49 @@ public class CreateRoomPanel extends JPanel {
         add(jlabel1);
         add(textField1);
 
+        textField1.addFocusListener(new FocusListener() {
+
+            @Override
+            public void focusGained(FocusEvent e) {
+                //Your code here
+                System.out.println("Gained focus");
+                textField1.normalText();
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                //Your code here
+                System.out.println("lost focus");
+                if (textField.getText().equals("name a room..."))
+                    textField.normalText();
+            }
+        });
+
         jlabel = new JLabel("Your nickname: ");
         jlabel.setFont(new Font("Verdana", 1, 15));
 
         //enterText
         textField = new CustomTextField("insert your nickname...", 20);
+
+
+        textField.addFocusListener(new FocusListener() {
+
+            @Override
+            public void focusGained(FocusEvent e) {
+                //Your code here
+                System.out.println("Gained focus");
+                textField.normalText();
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                //Your code here
+                System.out.println("lost focus");
+                if (textField.getText().equals("insert your nickname..."))
+                    textField.custText();
+            }
+        });
+
 
         keyBoardListener();
 
@@ -66,7 +105,7 @@ public class CreateRoomPanel extends JPanel {
     }
 
 
-    private void keyBoardListener(){
+    private void keyBoardListener() {
         textField.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -100,7 +139,7 @@ public class CreateRoomPanel extends JPanel {
         });
     }
 
-    private void buttonListener(){
+    private void buttonListener() {
         createButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Primiu o create");
@@ -112,19 +151,18 @@ public class CreateRoomPanel extends JPanel {
                 peer.setPeerUsername(nickName);
                 peer.createRoom(roomName);
 
-                if(!nickName.equals("") || !roomName.equals("")) {
-                    InitialFrame.getFrames()[0].setVisible(false);
-
-                    nickName = "";
-                    roomName = "";
-                    
-                    new GameFrame(peer);
-                }
-                else {
+                if (nickName.equals("") || roomName.equals("")) {
                     JOptionPane.showMessageDialog(InitialFrame.getFrames()[0],
                             "Missing Room Name or Nickname",
                             "Missing parameter error",
                             JOptionPane.ERROR_MESSAGE);
+                } else {
+                    InitialFrame.getFrames()[0].setVisible(false);
+
+                    nickName = "";
+                    roomName = "";
+
+                    new GameFrame(peer);
                 }
             }
         });

@@ -45,9 +45,9 @@ public class JoinRoomPanel extends JPanel {
         JTextPane pane = new JTextPane();
         pane.setEditable(false);
 
-       for (int i = 0; i < 30; i++) {
+       for (int i = 30; i >= 0; i--) {
             roomsName.add("Sala " + i);
-        }
+       }
 
         // Create a new listbox control
         listbox = new JList( roomsName.toArray() );

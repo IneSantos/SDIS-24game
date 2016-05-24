@@ -24,6 +24,7 @@ public class CustomTextField extends JTextField {
     public CustomTextField(String placeholder, int columns) {
         super(columns);
         setPlaceholder(placeholder);
+
     }
 
     @Override
@@ -106,6 +107,14 @@ public class CustomTextField extends JTextField {
 
         });
 
+    }
+
+    public void normalText() {
+        setForeground(Color.BLACK);
+    }
+
+    public void custText() {
+        setForeground(getPlaceholderForeground());
     }
 
     private void customizeText(String text) {
