@@ -50,6 +50,7 @@ public class CreateRoomPanel extends JPanel {
             @Override
             public void focusGained(FocusEvent e) {
                 textField1.normalText();
+                textField1.setText("");
             }
 
             @Override

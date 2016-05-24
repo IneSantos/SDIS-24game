@@ -17,9 +17,16 @@ public class South extends JPanel {
         jlabel.setFont(new Font("Verdana",2,20));
         add(jlabel);
 
-        add(Box.createHorizontalStrut(80));
+        add(Box.createHorizontalStrut(50));
 
         jlabel = new JLabel("Nickname: " + peer.getPeerID().getName());
+        jlabel.setFont(new Font("Verdana",2,20));
+        add(jlabel);
+
+        add(Box.createHorizontalStrut(50));
+
+        //TODO: add number of players
+        jlabel = new JLabel("Nº Players: ");
         jlabel.setFont(new Font("Verdana",2,20));
         add(jlabel);
 

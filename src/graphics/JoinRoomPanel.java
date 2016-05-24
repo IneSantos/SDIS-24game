@@ -5,6 +5,8 @@ import connections.Peer;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.Document;
@@ -45,9 +47,10 @@ public class JoinRoomPanel extends JPanel {
         JTextPane pane = new JTextPane();
         pane.setEditable(false);
 
-       for (int i = 30; i >= 0; i--) {
+      /* for (int i = 30; i >= 0; i--) {
             roomsName.add("Sala " + i);
        }
+       */
 
         // Create a new listbox control
         listbox = new JList( roomsName.toArray() );
@@ -62,7 +65,15 @@ public class JoinRoomPanel extends JPanel {
         add(refreshButton);
         buttonListener();
 
-        instance = this;
+        listbox.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                System.out.println(e.toString());
+             //  new GameFrame(peer);
+            }
+        });
+
+                instance = this;
     }
 
     public static JoinRoomPanel getInstance() {
