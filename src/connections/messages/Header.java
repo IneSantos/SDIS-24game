@@ -12,27 +12,31 @@ public class Header {
     public static final String ROOM = "ROOM";
     String type;
     PeerID senderId;
-    RoomID room;
+    RoomID roomId;
     public Header(String type, PeerID senderId) {
         this.type = type;
         this.senderId = senderId;
-        this.room = null;
+        this.roomId = null;
     }
     public Header(String type, PeerID senderId, RoomID roomId) {
         this.type = type;
         this.senderId = senderId;
-        this.room = roomId;
+        this.roomId = roomId;
     }
     public String toString() {
         String string = "";
         string += type + " " + senderId.toString();
-        string += room == null ? "" : " " + room.toString();
+        string += roomId == null ? "" : " " + roomId.toString();
         return string;
     }
     public String getType() { return type; }
-    public void setRoomID(RoomID roomID) { this.room = roomID; }
+    public void setRoomID(RoomID roomID) { this.roomId = roomID; }
 
     public PeerID getSenderID() {
         return senderId;
+    }
+
+    public RoomID getRoomID() {
+        return roomId;
     }
 }

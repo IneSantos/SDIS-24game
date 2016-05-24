@@ -21,25 +21,21 @@ import java.util.ArrayList;
  */
 public class JoinRoomPanel extends JPanel {
 
-    private static final int PREF_W = 600;
-    private static final int PREF_H = 500;
-    JLabel jlabel;
+    private JList listbox;
+
     ArrayList<String> roomsName = new ArrayList<>();
 
     Document doc = new DefaultStyledDocument();
+    public static JoinRoomPanel instance;
 
     public JoinRoomPanel() {
 
-        roomsName.add("teste0000000000000000000000000000000000000000000000000000000000000000");
-        roomsName.add("teste1000000000000000000000000000000000000000000000000000000000000000");
-        roomsName.add("teste2000000000000000000000000000000000000000000000000000000000000000");
-        roomsName.add("teste3000000000000000000000000000000000000000000000000000000000000000");
-        roomsName.add("teste4000000000000000000000000000000000000000000000000000000000000000");
-
+        int PREF_W = 600;
+        int PREF_H = 500;
         setPreferredSize(new Dimension(PREF_W, PREF_H));
         setBorder(BorderFactory.createLineBorder(Color.blue));
 
-        jlabel = new JLabel("Join Room: ");
+        JLabel jlabel = new JLabel("Join Room: ");
         jlabel.setFont(new Font("Verdana", 1, 30));
         jlabel.setPreferredSize(new Dimension(400, 30));
         add(jlabel);
@@ -51,36 +47,18 @@ public class JoinRoomPanel extends JPanel {
         JTextPane pane = new JTextPane();
         pane.setEditable(false);
 
-        JScrollPane areaScroll = new JScrollPane(pane);
+        for (int i = 0; i < 30; i++) {
+            roomsName.add("Sala " + i);
+        }
+
+        // Create a new listbox control
+        listbox = new JList( roomsName.toArray() );
+
+        JScrollPane areaScroll = new JScrollPane(listbox);
         areaScroll.setPreferredSize(new Dimension(500, 300));
         areaScroll.setViewportBorder(new LineBorder(Color.RED));
         areaScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         //  areaScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-
-
-        JPanel jPanel = new JPanel();
-        for (int i = roomsName.size() - 1; i >= 0; i--) {
-            JLabel label = new JLabel();
-            label.setText(roomsName.get(i));
-            jPanel.add(label);
-            jPanel.add(Box.createRigidArea(new Dimension(1, 5)));
-
-           /*label.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    label.setForeground(Color.BLUE);
-
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    label.setForeground(Color.BLACK);
-
-                }
-            });*/
-        }
-        BoxLayout boxLayout = new BoxLayout(jPanel, BoxLayout.Y_AXIS);
-        jPanel.setLayout(boxLayout);
         add(areaScroll);
 
       /*  JPanel jPanel = new JPanel();
@@ -105,7 +83,14 @@ public class JoinRoomPanel extends JPanel {
             }
         });
         // }
+        instance = this;
+    }
 
+    public static JoinRoomPanel getInstance() {
+        return instance;
+    }
+    public JList getListbox() {
+        return listbox;
     }
 
 }

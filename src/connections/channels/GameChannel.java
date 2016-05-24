@@ -53,6 +53,6 @@ public class GameChannel extends Channel {
         reply.send();
     }
     private void handleRoom(Header header) {
-        System.out.println(header.toString());
+        Peer.getInstance().getDataBase().updateRooms(header);
     }
 }

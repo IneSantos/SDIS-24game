@@ -34,8 +34,7 @@ public class CreateRoomPanel extends JPanel {
         jlabel1.setPreferredSize(new Dimension(130, 30));
 
         //enterText
-        textField1 = new JTextField("Enter name...", 20);
-        textField1.setFont(new Font("Verdana", 4, 10));
+        textField1 = new CustomTextField("Pick a nickname...", 20);
 
 
         add(jlabel1);
@@ -45,8 +44,7 @@ public class CreateRoomPanel extends JPanel {
         jlabel.setFont(new Font("Verdana", 1, 15));
 
         //enterText
-        textField = new JTextField("Enter nickname...", 20);
-        textField.setFont(new Font("Verdana", 4, 10));
+        textField = new CustomTextField("Pick a room name...", 20);
 
         add(jlabel);
         add(textField);
@@ -63,73 +61,6 @@ public class CreateRoomPanel extends JPanel {
             }
         });
 
-        mouseListenners();
-        keyboardListenners();
     }
 
-    public void mouseListenners() {
-
-        textField1.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                textField1.setText("");
-                if (textField.getText().equals(""))
-                    textField.setText("Enter nickname...");
-            }
-        });
-
-        textField.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                textField.setText("");
-                if (textField1.getText().equals(""))
-                    textField1.setText("Enter Name..");
-            }
-        });
-    }
-
-
-    public void keyboardListenners() {
-
-        textField1.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                super.keyTyped(e);
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-                super.keyPressed(e);
-                char c = e.getKeyChar();
-                roomName += c;
-                System.out.println(roomName);
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                super.keyReleased(e);
-            }
-        });
-
-
-        textField.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                super.keyTyped(e);
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-                super.keyPressed(e);
-                char c = e.getKeyChar();
-                nickName += c;
-                System.out.println(nickName);
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                super.keyReleased(e);
-            }
-        });
-    }
 }
