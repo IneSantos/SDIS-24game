@@ -66,4 +66,9 @@ public class Peer {
 
     public DataBase getDataBase() { return database; }
     public void setPeerUsername (String username) { this.peerId.setUsername(username); };
+
+    public void createRoom(String roomName, String nickName) {
+        setPeerUsername(nickName);
+        createRoom(roomName);
+    }
 }

@@ -134,8 +134,7 @@ public class CreateRoomPanel extends JPanel {
     private void buttonListener() {
         createButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                peer.setPeerUsername(nickName);
-                peer.createRoom(roomName);
+                peer.createRoom(roomName, nickName);
 
                 if (nickName.equals("") || roomName.equals("")) {
                     JOptionPane.showMessageDialog(InitialFrame.getFrames()[0],
