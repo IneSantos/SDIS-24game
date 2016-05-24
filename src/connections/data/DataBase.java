@@ -48,4 +48,10 @@ public class DataBase extends Thread {
         if (JoinRoomPanel.getInstance() != null)
             JoinRoomPanel.getInstance().getListbox().setModel(model);
     }
+
+    public void clearAvailableRooms() {
+        availableRooms.clear();
+        if (JoinRoomPanel.getInstance() != null)
+            JoinRoomPanel.getInstance().getListbox().setModel(new DefaultListModel());
+    }
 }

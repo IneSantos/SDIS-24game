@@ -42,8 +42,6 @@ public class JoinRoomPanel extends JPanel {
 
         add(Box.createVerticalStrut(80));
 
-        //  JPanel panel = new JPanel(new FlowLayout());
-
         JTextPane pane = new JTextPane();
         pane.setEditable(false);
 
@@ -58,20 +56,7 @@ public class JoinRoomPanel extends JPanel {
         areaScroll.setPreferredSize(new Dimension(500, 300));
         areaScroll.setViewportBorder(new LineBorder(Color.RED));
         areaScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        //  areaScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         add(areaScroll);
-
-      /*  JPanel jPanel = new JPanel();
-        for (int i = 0; i < 40; i++) {
-            JLabel jLabel = new JLabel("Label");
-            jPanel.add(jLabel);
-            jPanel.add(Box.createRigidArea(new Dimension(1, 5)));
-        }
-        BoxLayout boxLayout = new BoxLayout(jPanel, BoxLayout.Y_AXIS);
-        jPanel.setLayout(boxLayout);
-        JScrollPane jScrollPane = new JScrollPane(jPanel);
-        add(jScrollPane);
-*/
 
         JButton refreshButton = new JButton("REFRESH");
         refreshButton.setPreferredSize(new Dimension(200, 30));
