@@ -15,7 +15,7 @@ public class GameFrame extends JFrame {
         CenterPanel centerPanel = new CenterPanel(peer);
         setLayout(new BorderLayout());
         NorthPanel north = new NorthPanel();
-        Chat east = new Chat();
+        Chat east = new Chat(peer);
         east.add(Box.createHorizontalStrut(100));
         Panel west = new Panel();
         west.add(Box.createHorizontalStrut(10));

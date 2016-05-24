@@ -1,5 +1,7 @@
 package graphics;
 
+import connections.Peer;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -21,10 +23,13 @@ public class Chat extends JPanel {
     JTextArea textArea;
 
     ArrayList<String> messages = new ArrayList<>();
+    Peer p ;
 
-    public Chat() {
+    public Chat(Peer peer) {
         setPreferredSize(new Dimension(PREF_W, PREF_H));
        // setBorder(BorderFactory.createLineBorder(Color.black));
+
+        this.p = peer;
 
         textArea = new JTextArea(22,35);
         textArea.setFont(new Font("Verdana",1,15));
@@ -74,7 +79,7 @@ public class Chat extends JPanel {
         sendButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 messages.add(textField.getText());
-                textArea.append(messages.get(messages.size()-1) + "\n");
+                textArea.append(p.getPeerID().getName() +  ": " + messages.get(messages.size()-1) + "\n");
                 textField.setText("Enter text...");
                 textField.custText();
                 System.out.println(messages);
