@@ -3,6 +3,7 @@ package connections.data;
 import connections.messages.Header;
 import graphics.JoinRoomPanel;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Vector;
@@ -40,7 +41,11 @@ public class DataBase extends Thread {
             peers.add(header.getSenderID());
             availableRooms.put(header.getRoomID(), peers);
         }
-        String[] keyArray =  availableRooms.keySet().toArray(new String[availableRooms.size()]);
-        JoinRoomPanel.getInstance().getListbox();
+        DefaultListModel model = new DefaultListModel();
+        for (RoomID room : availableRooms.keySet()) {
+            model.addElement(room.getName());
+        }
+        if (JoinRoomPanel.getInstance() != null)
+            JoinRoomPanel.getInstance().getListbox().setModel(model);
     }
 }
