@@ -18,7 +18,6 @@ import java.net.DatagramSocket;
 public class Peer {
     private PeerID peerId;
     private DatagramSocket socket;
-
     private GameChannel gameChannel;
     private DataBase database;
     private static Peer instance;
@@ -52,9 +51,10 @@ public class Peer {
 
     public PeerID getPeerID() { return this.peerId; }
     public static Peer getInstance() { return instance; }
+    public GameChannel getGameChannel() { return gameChannel; }
 
     public void requestAvailableRooms() {
-        Header header = new Header(Header.AVAILABLE_ROOMS, peerId);
+        Header header = new Header(Header.R_U_THERE, peerId);
         Message message = new Message(gameChannel.getSocket(), gameChannel.getAddress(), header);
         message.send();
     }

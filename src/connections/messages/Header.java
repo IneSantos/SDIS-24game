@@ -8,8 +8,8 @@ import connections.data.RoomID;
  */
 public class Header {
 
-    public static final String AVAILABLE_ROOMS = "AVAILABLE_ROOMS";
-    public static final String ROOM = "ROOM";
+    public static final String R_U_THERE = "R-U-THERE";
+    public static final String R_U_THERE_ACK = "R-U-THERE-ACK";
     String type;
     PeerID senderId;
     RoomID roomId;

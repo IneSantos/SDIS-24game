@@ -65,6 +65,7 @@ public class JoinRoomPanel extends JPanel {
         refreshButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Peer.getInstance().requestAvailableRooms();
+                Peer.getInstance().getDataBase().clearAvailableRooms();
             }
         });
         // }

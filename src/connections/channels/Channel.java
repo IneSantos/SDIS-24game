@@ -58,7 +58,7 @@ public class Channel {
     void setThread(Thread thread) {
         this.thread = thread;
     }
-    String getChannelTag() {
+    public String getChannelTag() {
         return "[" + address.getHostAddress() + ":" + socket.getLocalPort() + "] ";
     }
     public MulticastSocket getSocket() { return socket; }

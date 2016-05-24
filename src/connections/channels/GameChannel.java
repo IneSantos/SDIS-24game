@@ -5,7 +5,6 @@ import connections.Peer;
 import connections.data.DataBase;
 import connections.messages.Header;
 import connections.messages.Message;
-import utilities.Constants;
 
 import java.io.IOException;
 
@@ -28,10 +27,10 @@ public class GameChannel extends Channel {
                 Header msgHeader = Message.getHeaderFromData(msg);
                 if (!Peer.getInstance().getPeerID().equals(msgHeader.getSenderID()))
                 switch (msgHeader.getType()) {
-                    case Header.AVAILABLE_ROOMS:
+                    case Header.R_U_THERE:
                         handleAvailableRooms();
                         break;
-                    case Header.ROOM:
+                    case Header.R_U_THERE_ACK:
                         handleRoom(msgHeader);
                         break;
                     default:
@@ -48,7 +47,7 @@ public class GameChannel extends Channel {
     private void handleAvailableRooms() {
         System.out.println("Available rooms request received");
         if (DataBase.getInstance().getCurrentRoom() == null) return;
-        Header replyHeader = new Header(Header.ROOM, Peer.getInstance().getPeerID(), Peer.getInstance().getDataBase().getCurrentRoom());
+        Header replyHeader = new Header(Header.R_U_THERE_ACK, Peer.getInstance().getPeerID(), Peer.getInstance().getDataBase().getCurrentRoom());
         Message reply = new Message(getSocket(), getAddress(), replyHeader);
         reply.send();
     }

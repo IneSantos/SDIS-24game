@@ -1,5 +1,6 @@
 package connections.messages;
 
+import connections.Peer;
 import connections.data.PeerID;
 import connections.data.RoomID;
 import utilities.Constants;
@@ -8,6 +9,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by Pedro Fraga on 22-May-16.
@@ -30,7 +32,7 @@ public class Message implements Runnable {
         String[] splittedHeader = splitArgs(headerStr);
         PeerID peerId = new PeerID(splittedHeader[Constants.USERNAME], splittedHeader[Constants.USER_DATE]);
         Header header = new Header(splittedHeader[Constants.MESSAGE_TYPE], peerId);
-        if (splittedHeader[Constants.MESSAGE_TYPE].equals(Header.ROOM)) {
+        if (splittedHeader[Constants.MESSAGE_TYPE].equals(Header.R_U_THERE_ACK)) {
             RoomID roomId = new RoomID(splittedHeader[Constants.ROOM_ID], splittedHeader[Constants.ROOM_DATE]);
             header.setRoomID(roomId);
         }
@@ -38,6 +40,14 @@ public class Message implements Runnable {
     }
     @Override
     public void run() {
+        if (header.getType().equals(Header.R_U_THERE_ACK)) {
+            int timeout = ThreadLocalRandom.current().nextInt(0, 400);
+            try {
+                Thread.sleep(timeout);
+            } catch (InterruptedException e) {
+                System.err.println("[" + address.getHostAddress() + ":" + socket.getLocalPort() + "] Could not sleep while sending an R-U-THERE-ACK");
+            }
+        }
         byte[] message = header.toString().getBytes();
         DatagramPacket packet = new DatagramPacket(message,
                 message.length, address,
@@ -45,7 +55,7 @@ public class Message implements Runnable {
         try {
             socket.send(packet);
         } catch (IOException e) {
-            System.err.println("[" + address.getHostAddress() + ":" + socket.getLocalPort() + "] could not send message '" + message.toString() + "'");
+            System.err.println("[" + address.getHostAddress() + ":" + socket.getLocalPort() + "] Could not send message '" + message.toString() + "'");
         }
     }
 }

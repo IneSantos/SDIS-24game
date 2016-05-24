@@ -12,14 +12,17 @@ import java.util.Date;
 public class RoomID {
     String name;
     String dateOfCreation;
+    boolean answering;
 
     public RoomID (String name, String dateOfCreation) {
         this.name = name;
         this.dateOfCreation = dateOfCreation;
+        this.answering = false;
     }
     public RoomID (String name) {
         this.name = name;
         this.dateOfCreation = Utilities.getCurrentDate();
+        this.answering = false;
     }
 
     @Override
