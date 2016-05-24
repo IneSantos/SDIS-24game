@@ -49,15 +49,11 @@ public class CreateRoomPanel extends JPanel {
 
             @Override
             public void focusGained(FocusEvent e) {
-                //Your code here
-                System.out.println("Gained focus");
                 textField1.normalText();
             }
 
             @Override
             public void focusLost(FocusEvent e) {
-                //Your code here
-                System.out.println("lost focus");
                 if (textField.getText().equals("name a room..."))
                     textField.normalText();
             }
@@ -74,15 +70,11 @@ public class CreateRoomPanel extends JPanel {
 
             @Override
             public void focusGained(FocusEvent e) {
-                //Your code here
-                System.out.println("Gained focus");
                 textField.normalText();
             }
 
             @Override
             public void focusLost(FocusEvent e) {
-                //Your code here
-                System.out.println("lost focus");
                 if (textField.getText().equals("insert your nickname..."))
                     textField.custText();
             }
@@ -142,12 +134,6 @@ public class CreateRoomPanel extends JPanel {
     private void buttonListener() {
         createButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Primiu o create");
-
-                System.out.println("nick: " + nickName);
-
-                System.out.println("room: " + roomName);
-
                 peer.setPeerUsername(nickName);
                 peer.createRoom(roomName);
 

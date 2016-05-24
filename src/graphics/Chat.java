@@ -4,10 +4,7 @@ import connections.Peer;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 
 /**
@@ -47,21 +44,18 @@ public class Chat extends JPanel {
         textField = new CustomTextField("Enter text...", 30);
         textField.setFont(new Font("Verdana",1,15));
         textField.setEditable(true);
+        keyBoardListener();
 
         textField.addFocusListener(new FocusListener() {
 
             @Override
             public void focusGained(FocusEvent e) {
-                //Your code here
-                System.out.println("Gained focus");
                 textField.setText("");
                 textField.normalText();
             }
 
             @Override
             public void focusLost(FocusEvent e) {
-                //Your code here
-                System.out.println("lost focus");
                 textField.custText();
             }
         });
@@ -82,7 +76,22 @@ public class Chat extends JPanel {
                 textArea.append(p.getPeerID().getName() +  ": " + messages.get(messages.size()-1) + "\n");
                 textField.setText("Enter text...");
                 textField.custText();
-                System.out.println(messages);
+            }
+        });
+    }
+
+    public void keyBoardListener(){
+        textField.addKeyListener(new KeyAdapter()
+        {
+            public void keyPressed(KeyEvent e)
+            {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER)
+                {
+                    messages.add(textField.getText());
+                    textArea.append(p.getPeerID().getName() +  ": " + messages.get(messages.size()-1) + "\n");
+                    textField.setText("Enter text...");
+                    textField.custText();
+                }
             }
         });
     }
