@@ -1,5 +1,6 @@
 package graphics;
 
+import connections.Peer;
 import game.Game24;
 
 import javax.swing.*;
@@ -14,7 +15,7 @@ public class CenterPanel  extends JPanel {
 
     private static final int SPACE = 50;
 
-    public CenterPanel() {
+    public CenterPanel(Peer peer) {
 
         Game24 g = new Game24();
         g.readFile();

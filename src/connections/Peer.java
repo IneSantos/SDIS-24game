@@ -59,7 +59,7 @@ public class Peer {
         message.send();
     }
 
-    private void createRoom(String roomName) {
+    public void createRoom(String roomName) {
         RoomID createdRoom = new RoomID(roomName);
         database.setCurrentRoom(createdRoom);
     }

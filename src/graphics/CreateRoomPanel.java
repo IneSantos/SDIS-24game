@@ -1,5 +1,7 @@
 package graphics;
 
+import connections.Peer;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -13,13 +15,15 @@ public class CreateRoomPanel extends JPanel {
     private static final int PREF_H = 400;
     JLabel jlabel;
     JLabel jlabel1;
-    JButton create;
+    Peer peer;
     JTextField textField;
     JTextField textField1;
+    JButton createButton;
     String nickName = "";
     String roomName = "";
 
-    public CreateRoomPanel() {
+    public CreateRoomPanel(Peer peer) {
+        this.peer = peer;
         setPreferredSize(new Dimension(PREF_W, PREF_H));
         //setBorder(BorderFactory.createLineBorder(Color.blue));
         jlabel = new JLabel("Create Room: ");
@@ -34,7 +38,7 @@ public class CreateRoomPanel extends JPanel {
         jlabel1.setPreferredSize(new Dimension(130, 30));
 
         //enterText
-        textField1 = new CustomTextField("Pick a nickname...", 20);
+        textField1 = new CustomTextField("Name a room...", 20);
 
 
         add(jlabel1);
@@ -44,23 +48,73 @@ public class CreateRoomPanel extends JPanel {
         jlabel.setFont(new Font("Verdana", 1, 15));
 
         //enterText
-        textField = new CustomTextField("Pick a room name...", 20);
+        textField = new CustomTextField("insert your nickname...", 20);
+
+        keyBoardListener();
 
         add(jlabel);
         add(textField);
 
         add(Box.createVerticalStrut(80));
 
-        JButton createButton = new JButton("CREATE ROOM");
+        createButton = new JButton("CREATE ROOM");
         createButton.setPreferredSize(new Dimension(200, 30));
         add(createButton);
+        buttonListener();
 
-        createButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Primiu o create");
+
+    }
+
+
+    private void keyBoardListener(){
+        textField.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                nickName += e.getKeyChar();
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+
             }
         });
 
+        textField1.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                roomName += e.getKeyChar();
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+
+            }
+        });
+    }
+
+    private void buttonListener(){
+        createButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Primiu o create");
+
+                System.out.println("nick: " + nickName);
+
+                System.out.println("room: " + roomName);
+
+                peer.setPeerUsername(nickName);
+                peer.createRoom(roomName);
+
+                new GameFrame(peer);
+            }
+        });
     }
 
 }

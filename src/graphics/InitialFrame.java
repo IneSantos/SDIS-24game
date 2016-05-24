@@ -1,5 +1,7 @@
 package graphics;
 
+import connections.Peer;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -8,11 +10,11 @@ import java.awt.*;
  */
 public class InitialFrame extends JFrame {
 
-    public InitialFrame() throws HeadlessException {
+    public InitialFrame(Peer peer) throws HeadlessException {
         super("Jogo 24");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-        CenterInitialFrame centerPanel = new CenterInitialFrame();
+        CenterInitialFrame centerPanel = new CenterInitialFrame(peer);
         setLayout(new BorderLayout());
         NorthPanel north = new NorthPanel();
         Panel east = new Panel();
@@ -31,7 +33,4 @@ public class InitialFrame extends JFrame {
         setVisible(true);
     }
 
-    public static void main(String[] args) {
-        new InitialFrame();
-    }
 }

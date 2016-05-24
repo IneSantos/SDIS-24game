@@ -1,5 +1,7 @@
 package graphics;
 
+import connections.Peer;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -11,11 +13,11 @@ public class CenterInitialFrame extends JPanel {
     private static final int PREF_W = 400;
     private static final int PREF_H = 400;
 
-    public CenterInitialFrame() {
+    public CenterInitialFrame(Peer peer) {
         setPreferredSize(new Dimension(PREF_W, PREF_H));
         //setBorder(BorderFactory.createLineBorder(Color.blue));
 
-        CreateRoomPanel createRoom = new CreateRoomPanel();
+        CreateRoomPanel createRoom = new CreateRoomPanel(peer);
         add(createRoom);
 
 

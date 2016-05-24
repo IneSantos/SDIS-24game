@@ -1,16 +1,18 @@
 package graphics;
 
+import connections.Peer;
+
 import java.awt.*;
 
 import javax.swing.*;
 
 public class GameFrame extends JFrame {
 
-    public GameFrame(){
+    public GameFrame(Peer peer){
         super("Jogo 24");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-        CenterPanel centerPanel = new CenterPanel();
+        CenterPanel centerPanel = new CenterPanel(peer);
         setLayout(new BorderLayout());
         NorthPanel north = new NorthPanel();
         Chat east = new Chat();
@@ -29,10 +31,5 @@ public class GameFrame extends JFrame {
         setVisible(true);
 
     }
-
-    public static void main(String[] args) {
-        new GameFrame();
-    }
-
 }
 

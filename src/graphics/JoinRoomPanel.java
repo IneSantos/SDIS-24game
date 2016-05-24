@@ -33,7 +33,7 @@ public class JoinRoomPanel extends JPanel {
         int PREF_W = 600;
         int PREF_H = 500;
         setPreferredSize(new Dimension(PREF_W, PREF_H));
-        setBorder(BorderFactory.createLineBorder(Color.blue));
+        //setBorder(BorderFactory.createLineBorder(Color.blue));
 
         JLabel jlabel = new JLabel("Join Room: ");
         jlabel.setFont(new Font("Verdana", 1, 30));
@@ -54,7 +54,6 @@ public class JoinRoomPanel extends JPanel {
 
         JScrollPane areaScroll = new JScrollPane(listbox);
         areaScroll.setPreferredSize(new Dimension(500, 300));
-        areaScroll.setViewportBorder(new LineBorder(Color.RED));
         areaScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         add(areaScroll);
 
@@ -68,13 +67,13 @@ public class JoinRoomPanel extends JPanel {
                 Peer.getInstance().getDataBase().clearAvailableRooms();
             }
         });
-        // }
         instance = this;
     }
 
     public static JoinRoomPanel getInstance() {
         return instance;
     }
+
     public JList getListbox() {
         return listbox;
     }

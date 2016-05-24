@@ -8,9 +8,10 @@ import graphics.InitialFrame;
  */
 public class Launcher {
     private Peer peer;
+
     public static void main(String args[]) {
         Peer peer = new Peer();
-        new InitialFrame();
+        new InitialFrame(peer);
         peer.requestAvailableRooms();
     }
 }
