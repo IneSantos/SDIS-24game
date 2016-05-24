@@ -112,7 +112,16 @@ public class CreateRoomPanel extends JPanel {
                 peer.setPeerUsername(nickName);
                 peer.createRoom(roomName);
 
-                new GameFrame(peer);
+                if(!nickName.equals("") && !roomName.equals("")) {
+                    InitialFrame.getFrames()[0].setVisible(false);
+                    new GameFrame(peer);
+                }
+                else {
+                    JOptionPane.showMessageDialog(InitialFrame.getFrames()[0],
+                            "Missing Room Name or Nickname",
+                            "Inane error",
+                            JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
     }
