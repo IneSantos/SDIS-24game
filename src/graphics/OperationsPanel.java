@@ -15,7 +15,7 @@ import java.util.ArrayList;
 /**
  * Created by inesa on 19/05/2016.
  */
-class  OperationsPanel  extends JPanel {
+class OperationsPanel extends JPanel {
 
     private static final int PREF_W = 200;
     private static final int PREF_H = 400;
@@ -27,24 +27,20 @@ class  OperationsPanel  extends JPanel {
         this.scores = scores;
         //setBorder(BorderFactory.createLineBorder(Color.black));
 
-        for(int k = 0; k < 6; k++){
-            this.scores.add("player " + k);
-        }
-
         JLabel jlabel = new JLabel("Scores: ");
-        jlabel.setFont(new Font("Verdana",1,25));
+        jlabel.setFont(new Font("Verdana", 1, 25));
         add(jlabel);
 
-        for(int k = 0; k < this.scores.size(); k++){
-            jlabel = new JLabel((k+1)+ ". " + this.scores.get(k));
-            jlabel.setFont(new Font("Verdana",1,15));
-            jlabel.setPreferredSize(new Dimension(100,20));
+        for (int k = 0; k < this.scores.size(); k++) {
+            jlabel = new JLabel((k + 1) + ". " + this.scores.get(k));
+            jlabel.setFont(new Font("Verdana", 1, 15));
+            jlabel.setPreferredSize(new Dimension(100, 20));
             add(jlabel);
         }
 
         for (int j = 0; j < 2; j++) {
             for (int i = 0; i < 2; i++) {
-                addSquare(REC_WIDTH, REC_WIDTH, i*2+j, i, j);
+                addSquare(REC_WIDTH, REC_WIDTH, i * 2 + j, i, j);
             }
         }
 
@@ -52,27 +48,34 @@ class  OperationsPanel  extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 System.out.println(e.getX() + " Y " + e.getY());
-                if (e.getX() >= 0 && e.getX() <= 100) {
-                    if (e.getY() >= 200 && e.getY() <= 300) {
-                        System.out.println("Primeiro quadrado " + " eq " + game.getEquation());
-                        game.setEquation("*");
-                        game.stateMachine("*");
-                    } else if (e.getY() > 300 && e.getY() <= 400) {
-                        System.out.println("Terceiro quadrado "+ " eq " + game.getEquation());
-                        game.setEquation("/");
-                        game.stateMachine("/");
+                if (!game.check4for3()) {
+                    if (e.getX() >= 0 && e.getX() <= 100) {
+                        if (e.getY() >= 200 && e.getY() <= 300) {
+                            System.out.println("Primeiro quadrado " + " eq " + game.getEquation());
+                            game.setEquation( game.getEquation() + "*");
+                            game.stateMachine("*");
+                        } else if (e.getY() > 300 && e.getY() <= 400) {
+                            System.out.println("Terceiro quadrado " + " eq " + game.getEquation());
+                            game.setEquation(game.getEquation() +  "/");
+                            game.stateMachine("/");
+                        }
+                    } else if (e.getX() > 100 && e.getX() <= 200) {
+                        if (e.getY() >= 200 && e.getY() <= 300) {
+                            System.out.println("Segundo quadrado " + " eq " + game.getEquation());
+                            game.setEquation( game.getEquation() + "-");
+                            game.stateMachine("-");
+
+                        } else if (e.getY() > 300 && e.getY() <= 400) {
+                            System.out.println("Quarto quadrado " + " eq " + game.getEquation());
+                            game.setEquation( game.getEquation() + "+");
+                            game.stateMachine("+");
+
+                        }
                     }
-                } else if (e.getX() > 100 && e.getX() <= 200) {
-                    if (e.getY() >= 200 && e.getY() <= 300) {
-                        System.out.println("Segundo quadrado "+ " eq " + game.getEquation());
-                        game.setEquation("-");
-                        game.stateMachine("-");
-
-                    } else if (e.getY() > 300 && e.getY() <= 400) {
-                        System.out.println("Quarto quadrado "+ " eq " + game.getEquation());
-                        game.setEquation("+");
-                        game.stateMachine("+");
-
+                    else{
+                        if(game.check24(game.getEquation())){
+                            scores.add("entrou");
+                        }
                     }
                 }
 
@@ -106,15 +109,15 @@ class  OperationsPanel  extends JPanel {
 
     public void addSquare(int width, int height, int number, int i, int j) {
         BufferedImage rect;
-        int posX = number%4;
-        int posY = number/4;
+        int posX = number % 4;
+        int posY = number / 4;
         try {
             rect = ImageIO.read(new File(System.getProperty("user.dir") + "/resources/operationsW.png"));
             BufferedImage resizedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
             Graphics2D g = resizedImage.createGraphics();
-            int h = rect.getHeight()/1;
-            int w = rect.getWidth()/4;
-            g.drawImage(rect.getSubimage(posX*w, posY*h ,w, h), 0, 0, width, height, null);
+            int h = rect.getHeight() / 1;
+            int w = rect.getWidth() / 4;
+            g.drawImage(rect.getSubimage(posX * w, posY * h, w, h), 0, 0, width, height, null);
             g.dispose();
             squares.add(resizedImage);
         } catch (IOException e) {
@@ -131,9 +134,9 @@ class  OperationsPanel  extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        for(int i =0; i < 2; i++){
-            for(int j= 0; j < 2; j++) {
-                g2.drawImage(squares.get(i*2+j), i * REC_WIDTH , j* REC_WIDTH + REC_WIDTH*2, null);
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 2; j++) {
+                g2.drawImage(squares.get(i * 2 + j), i * REC_WIDTH, j * REC_WIDTH + REC_WIDTH * 2, null);
             }
         }
     }

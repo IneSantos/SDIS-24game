@@ -22,7 +22,7 @@ public class GameFrame extends JFrame {
         setLayout(new BorderLayout());
 
         NorthPanel north = new NorthPanel();
-        Chat east = new Chat(peer);
+        Chat east = new Chat(peer, g);
         east.add(Box.createHorizontalStrut(100));
         Panel west = new Panel();
 

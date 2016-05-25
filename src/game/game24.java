@@ -27,7 +27,7 @@ public class Game24 {
         Scanner reader = new Scanner(System.in);
         String in = reader.nextLine();
 
-        while (!in.equals(";")) {
+        while (!j.check4for3()) {
             j.equation += in;
             j.stateMachine(in);
             in = reader.nextLine();
@@ -36,56 +36,65 @@ public class Game24 {
 
     }
 
-    public void stateMachine(String input) {
+    public boolean stateMachine(String input) {
         switch (this.currentState) {
             case 0:
                 if (input.matches("[0-9]+"))
                     this.currentState = 1;
-                else
+                else if (input.matches("#")) {
                     this.equation = "";
+                    this.currentState = 0;
+                } else this.equation = "";
                 break;
             case 1:
-                if (input.matches("[*+/-]"))
+                if (input.matches("[*+/-]")) {
                     this.currentState = 2;
+                }
                 else if (input.matches("[0-9]+")) {
 
                     this.currentState = 1;
 
-                    if (this.equation.length() == 1) {
-                        this.equation = "";
-                        this.equation += input;
+                    this.prevNumb = this.equation.charAt(this.equation.length() - 2);
+                    this.nextNumb = this.equation.charAt(this.equation.length() - 1);
 
-                    } else {
-                        this.prevNumb = this.equation.charAt(this.equation.length() - 2);
-                        this.nextNumb = this.equation.charAt(this.equation.length() - 1);
-
-                        String str = this.equation.substring(0, this.equation.length() - input.length());
-                        String newStr = this.equation.substring(0, this.equation.length() - str.length() - input.length());
-                        this.equation = "";
-                        this.equation += newStr + input;
-                    }
+                    String str = this.equation.substring(0, this.equation.length() - input.length());
+                    String newStr = this.equation.substring(0, this.equation.length() - 2);
+                    this.equation = "";
+                    this.equation += newStr + input;
+                } else if (input.matches("#")) {
+                    this.equation = "";
+                    this.currentState = 0;
                 }
                 break;
             case 2:
-                if (input.matches("[*+/-]")) {
-                    this.equation = this.equation.substring(0, this.equation.length() - 1);
-                    this.currentState = 2;
-                }
-                else if (input.matches("[0-9]+"))
+                if (input.matches("[0-9]+"))
                     this.currentState = 3;
+                else if (input.matches("#")) {
+                    this.equation = "";
+                    this.currentState = 0;
+                }
+                else{
+                    String newStr = this.equation.substring(0, this.equation.length() - 2);
+                    this.equation = "";
+                    this.equation += newStr + input;
+                }
                 break;
             case 3:
-                if (input.matches("[*+/-]"))
+                if (input.matches("[*+/-]")) {
                     this.currentState = 2;
-                else if (input.matches("[0-9]+")) {
+
+                } else if (input.matches("[0-9]+")) {
                     this.currentState = 3;
                     this.prevNumb = this.equation.charAt(this.equation.length() - 2);
                     this.nextNumb = this.equation.charAt(this.equation.length() - 1);
 
                     String str = this.equation.substring(0, this.equation.length() - input.length());
-                    String newStr = this.equation.substring(0, this.equation.length() - str.length() - input.length());
+                    String newStr = this.equation.substring(0, this.equation.length() - 2);
                     this.equation = "";
                     this.equation += newStr + input;
+                } else if (input.matches("#")) {
+                    this.equation = "";
+                    this.currentState = 0;
                 }
                 break;
             default:
@@ -93,6 +102,15 @@ public class Game24 {
         }
         System.out.println("state " + this.currentState);
         System.out.println("eq " + this.equation);
+        return check4for3();
+    }
+
+    public boolean check4for3() {
+
+        String[] numbers = this.equation.split("[*+/-]");
+        String[] ops = removeempty(this.equation.split("[0-9]"));
+
+        return (numbers.length == 4 && ops.length == 3);
     }
 
     public boolean check24(String input) {
@@ -182,7 +200,7 @@ public class Game24 {
     }
 
     public void setEquation(String equation) {
-        this.equation += equation;
+            this.equation = equation;
     }
 
     public String getEquation() {
