@@ -15,20 +15,19 @@ public class CenterPanel  extends JPanel {
 
     private static final int SPACE = 50;
 
-    public CenterPanel(Peer peer) {
-
-        Game24 g = new Game24();
+    public CenterPanel(Peer peer, Game24 g) {
         g.readFile();
 
         ArrayList<String> scores = new ArrayList<String>();
 
         Random r = new Random();
 
-        NumbersPanel numbersPanel = new NumbersPanel(g.challenges.get(r.nextInt(g.challenges.size())));
-        OperationsPanel operationsPanel = new OperationsPanel(scores);
+        NumbersPanel numbersPanel = new NumbersPanel(g.challenges.get(r.nextInt(g.challenges.size())), g);
+        OperationsPanel operationsPanel = new OperationsPanel(scores, g);
         add(numbersPanel);
         add(Box.createHorizontalStrut(SPACE));
         add(operationsPanel);
+
     }
 
 

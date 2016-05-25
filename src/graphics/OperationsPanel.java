@@ -1,8 +1,12 @@
 package graphics;
 
+import game.Game24;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -19,13 +23,18 @@ class  OperationsPanel  extends JPanel {
     private ArrayList<BufferedImage> squares = new ArrayList<BufferedImage>();
     private ArrayList<String> scores = new ArrayList<String>();
 
-    public OperationsPanel(ArrayList<String> scores) {
+    public OperationsPanel(ArrayList<String> scores, Game24 game) {
         this.scores = scores;
-       // setBorder(BorderFactory.createLineBorder(Color.black));
+        //setBorder(BorderFactory.createLineBorder(Color.black));
+
+        for(int k = 0; k < 6; k++){
+            this.scores.add("player " + k);
+        }
 
         JLabel jlabel = new JLabel("Scores: ");
         jlabel.setFont(new Font("Verdana",1,25));
         add(jlabel);
+
         for(int k = 0; k < this.scores.size(); k++){
             jlabel = new JLabel((k+1)+ ". " + this.scores.get(k));
             jlabel.setFont(new Font("Verdana",1,15));
@@ -39,6 +48,59 @@ class  OperationsPanel  extends JPanel {
             }
         }
 
+        addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println(e.getX() + " Y " + e.getY());
+                if (e.getX() >= 0 && e.getX() <= 100) {
+                    if (e.getY() >= 200 && e.getY() <= 300) {
+                        System.out.println("Primeiro quadrado " + " eq " + game.getEquation());
+                        game.setEquation("*");
+                        game.stateMachine("*");
+                    } else if (e.getY() > 300 && e.getY() <= 400) {
+                        System.out.println("Terceiro quadrado "+ " eq " + game.getEquation());
+                        game.setEquation("/");
+                        game.stateMachine("/");
+                    }
+                } else if (e.getX() > 100 && e.getX() <= 200) {
+                    if (e.getY() >= 200 && e.getY() <= 300) {
+                        System.out.println("Segundo quadrado "+ " eq " + game.getEquation());
+                        game.setEquation("-");
+                        game.stateMachine("-");
+
+                    } else if (e.getY() > 300 && e.getY() <= 400) {
+                        System.out.println("Quarto quadrado "+ " eq " + game.getEquation());
+                        game.setEquation("+");
+                        game.stateMachine("+");
+
+                    }
+                }
+
+                GameFrame.getSouth().getEquation().setText("Equation: " + game.getEquation());
+                GameFrame.getSouth().getEquation().paintImmediately(GameFrame.getSouth().getEquation().getVisibleRect());
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+
 
     }
 
@@ -47,7 +109,7 @@ class  OperationsPanel  extends JPanel {
         int posX = number%4;
         int posY = number/4;
         try {
-            rect = ImageIO.read(new File(System.getProperty("user.dir") + "/resources/operations.png"));
+            rect = ImageIO.read(new File(System.getProperty("user.dir") + "/resources/operationsW.png"));
             BufferedImage resizedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
             Graphics2D g = resizedImage.createGraphics();
             int h = rect.getHeight()/1;

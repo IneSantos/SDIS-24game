@@ -1,6 +1,7 @@
 package graphics;
 
 import connections.Peer;
+import game.Game24;
 
 import javax.swing.*;
 import javax.swing.text.Utilities;
@@ -10,8 +11,9 @@ import java.awt.*;
  * Created by inesa on 24/05/2016.
  */
 public class South extends JPanel {
+    JLabel equation;
 
-    public South(Peer peer){
+    public South(Peer peer, Game24 game){
 
         JLabel jlabel = new JLabel("Room: " + peer.getDataBase().getCurrentRoom().getName());
         jlabel.setFont(new Font("Verdana",2,20));
@@ -19,9 +21,15 @@ public class South extends JPanel {
 
         add(Box.createHorizontalStrut(50));
 
+        equation = new JLabel("Equation: " + game.getEquation());
+        equation.setFont(new Font("Verdana",2,20));
+        add(equation);
+
+        add(Box.createHorizontalStrut(50));
         jlabel = new JLabel("Nickname: " + peer.getPeerID().getName());
         jlabel.setFont(new Font("Verdana",2,20));
         add(jlabel);
+
 
         add(Box.createHorizontalStrut(50));
 
@@ -30,6 +38,10 @@ public class South extends JPanel {
         jlabel.setFont(new Font("Verdana",2,20));
         add(jlabel);
 
-        add(Box.createHorizontalStrut(500));
     }
+
+    public JLabel getEquation() {
+        return equation;
+    }
+
 }

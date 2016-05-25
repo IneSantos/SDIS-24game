@@ -10,15 +10,14 @@ import java.util.*;
  */
 public class Game24 {
 
-    public int currentState = 0;
-    public String equation;
-    public Character prevNumb;
-    public Character nextNumb;
+    private int currentState = 0;
+    private String equation;
+    private Character prevNumb;
+    private Character nextNumb;
     public ArrayList<ArrayList<Integer>> challenges = new ArrayList<>();
 
 
     public Game24() {
-
         this.equation = "";
     }
 
@@ -42,10 +41,8 @@ public class Game24 {
             case 0:
                 if (input.matches("[0-9]+"))
                     this.currentState = 1;
-                else if (input.matches("#")){
+                else
                     this.equation = "";
-                    this.currentState = 0;
-                }
                 break;
             case 1:
                 if (input.matches("[*+/-]"))
@@ -54,25 +51,28 @@ public class Game24 {
 
                     this.currentState = 1;
 
-                    this.prevNumb = this.equation.charAt(this.equation.length() - 2);
-                    this.nextNumb = this.equation.charAt(this.equation.length() - 1);
+                    if (this.equation.length() == 1) {
+                        this.equation = "";
+                        this.equation += input;
 
-                    String str = this.equation.substring(0, this.equation.length() - input.length());
-                    String newStr = this.equation.substring(0, this.equation.length() - str.length() - input.length());
-                    this.equation = "";
-                    this.equation += newStr + input;
-                } else if (input.matches("#")){
-                    this.equation = "";
-                    this.currentState = 0;
+                    } else {
+                        this.prevNumb = this.equation.charAt(this.equation.length() - 2);
+                        this.nextNumb = this.equation.charAt(this.equation.length() - 1);
+
+                        String str = this.equation.substring(0, this.equation.length() - input.length());
+                        String newStr = this.equation.substring(0, this.equation.length() - str.length() - input.length());
+                        this.equation = "";
+                        this.equation += newStr + input;
+                    }
                 }
                 break;
             case 2:
-                if (input.matches("[0-9]+"))
-                    this.currentState = 3;
-                else if (input.matches("#")){
-                    this.equation = "";
-                    this.currentState = 0;
+                if (input.matches("[*+/-]")) {
+                    this.equation = this.equation.substring(0, this.equation.length() - 1);
+                    this.currentState = 2;
                 }
+                else if (input.matches("[0-9]+"))
+                    this.currentState = 3;
                 break;
             case 3:
                 if (input.matches("[*+/-]"))
@@ -86,16 +86,13 @@ public class Game24 {
                     String newStr = this.equation.substring(0, this.equation.length() - str.length() - input.length());
                     this.equation = "";
                     this.equation += newStr + input;
-                } else if (input.matches("#")){
-                    this.equation = "";
-                    this.currentState = 0;
                 }
                 break;
             default:
                 break;
         }
-        System.out.println(this.currentState);
-        System.out.println(this.equation);
+        System.out.println("state " + this.currentState);
+        System.out.println("eq " + this.equation);
     }
 
     public boolean check24(String input) {
@@ -154,7 +151,7 @@ public class Game24 {
     public void readFile() {
         BufferedReader br = null;
         try {
-            br = new BufferedReader(new FileReader(System.getProperty("user.dir")+ "/resources/challenges.txt"));
+            br = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/resources/challenges.txt"));
 
             StringBuilder sb = new StringBuilder();
             String line = br.readLine();
@@ -164,12 +161,12 @@ public class Game24 {
                 sb.append(System.lineSeparator());
                 line = br.readLine();
 
-                if(line!=null){
+                if (line != null) {
                     ArrayList<Integer> numbers = new ArrayList<>();
-                String[] t = line.split(" ");
-                    for(int i = 0; i < t.length; i++) {
+                    String[] t = line.split(" ");
+                    for (int i = 0; i < t.length; i++) {
                         numbers.add(Integer.parseInt(t[i]));
-                }
+                    }
                     challenges.add(numbers);
                 }
             }
@@ -182,6 +179,14 @@ public class Game24 {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void setEquation(String equation) {
+        this.equation += equation;
+    }
+
+    public String getEquation() {
+        return equation;
     }
 
     //SPLIT WAS RETURNING "" SO I NEEDED TO CREATE THIS
