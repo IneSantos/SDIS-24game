@@ -1,5 +1,6 @@
 package connections.data;
 
+import utilities.Constants;
 import utilities.Utilities;
 
 /**
@@ -23,7 +24,7 @@ public class PeerID {
 
     @Override
     public String toString() {
-        return username + " " + dateOfCreation;
+        return username + Constants.DOUBLECRLF + dateOfCreation;
     }
     @Override
     public boolean equals(Object o) {
