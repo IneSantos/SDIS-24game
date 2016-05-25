@@ -13,6 +13,7 @@ public class Header {
     String type;
     PeerID senderId;
     RoomID roomId;
+
     public Header(String type, PeerID senderId) {
         this.type = type;
         this.senderId = senderId;
