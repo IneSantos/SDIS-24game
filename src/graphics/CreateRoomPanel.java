@@ -71,7 +71,7 @@ public class CreateRoomPanel extends JPanel {
                 String roomName = textFieldRoom.getText();
                 peer.createRoom(roomName, nickName);
 
-                if (nickName.equals("") || roomName.equals("")) {
+                if (nickName.equals("insert your nickname...") || roomName.equals("Name a room...")) {
                     JOptionPane.showMessageDialog(InitialFrame.getFrames()[0],
                             "Missing Room Name or Nickname",
                             "Missing parameter error",
