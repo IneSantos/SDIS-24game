@@ -1,5 +1,6 @@
 package connections.data;
 
+import utilities.Constants;
 import utilities.Utilities;
 
 import java.text.DateFormat;
@@ -12,22 +13,26 @@ import java.util.Date;
 public class RoomID {
     String name;
     String dateOfCreation;
+    int port;
+
     boolean answering;
 
-    public RoomID (String name, String dateOfCreation) {
+    public RoomID (String name, int port, String dateOfCreation) {
         this.name = name;
+        this.port = port;
         this.dateOfCreation = dateOfCreation;
         this.answering = false;
     }
-    public RoomID (String name) {
+    public RoomID (String name, int port) {
         this.name = name;
+        this.port = port;
         this.dateOfCreation = Utilities.getCurrentDate();
         this.answering = false;
     }
 
     @Override
     public String toString() {
-        return name + " " + dateOfCreation;
+        return name + Constants.DOUBLECRLF + dateOfCreation;
     }
 
     @Override

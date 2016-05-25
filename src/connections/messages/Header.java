@@ -2,6 +2,7 @@ package connections.messages;
 
 import connections.data.PeerID;
 import connections.data.RoomID;
+import utilities.Constants;
 
 /**
  * Created by Pedro Fraga on 22-May-16.
@@ -26,8 +27,8 @@ public class Header {
     }
     public String toString() {
         String string = "";
-        string += type + " " + senderId.toString();
-        string += roomId == null ? "" : " " + roomId.toString();
+        string += type + Constants.DOUBLECRLF + senderId.toString();
+        string += roomId == null ? "" : Constants.DOUBLECRLF + roomId.toString();
         return string;
     }
     public String getType() { return type; }

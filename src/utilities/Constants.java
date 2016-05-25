@@ -10,6 +10,8 @@ public class Constants {
     public static final String DEFAULT_ADDRESS = "239.255.55.55";
     public static final int GAME_PORT = 5555;
     public static final int ROOM_CHANNEL = 5556;
+    public static final String CRLF = "\r\n";
+    public static final String DOUBLECRLF = CRLF + CRLF;
 
     public static final int MSG_SIZE = 256;
 

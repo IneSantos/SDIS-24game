@@ -26,7 +26,7 @@ public class Message implements Runnable {
         this.header = header;
     }
     public void send() { this.run(); }
-    private static String[] splitArgs(String message) { return message.split(" "); }
+    private static String[] splitArgs(String message) { return message.split(Constants.DOUBLECRLF); }
 
     public static Header getHeaderFromData(byte[] data) {
         String headerStr = new String(data, 0, data.length);
