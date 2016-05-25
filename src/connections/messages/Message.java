@@ -27,6 +27,7 @@ public class Message implements Runnable {
     }
     public void send() { this.run(); }
     private static String[] splitArgs(String message) { return message.split(" "); }
+
     public static Header getHeaderFromData(byte[] data) {
         String headerStr = new String(data, 0, data.length);
         String[] splittedHeader = splitArgs(headerStr);

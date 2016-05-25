@@ -46,20 +46,6 @@ public class Chat extends JPanel {
         textField.setEditable(true);
         keyBoardListener();
 
-        textField.addFocusListener(new FocusListener() {
-
-            @Override
-            public void focusGained(FocusEvent e) {
-                textField.setText("");
-                textField.normalText();
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                textField.custText();
-            }
-        });
-
         sendButton = new JButton("SEND");
         buttonListener();
 

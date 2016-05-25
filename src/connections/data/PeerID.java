@@ -6,7 +6,7 @@ import utilities.Utilities;
  * Created by Pedro Fraga on 23-May-16.
  */
 public class PeerID {
-    String username;
+    String username = "";
     String dateOfCreation;
 
     public PeerID(String name) {

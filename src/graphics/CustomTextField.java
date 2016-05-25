@@ -94,6 +94,7 @@ public class CustomTextField extends JTextField {
             public void focusGained(FocusEvent e) {
                 if (!isTextWrittenIn()) {
                     setText("");
+                    normalText();
                 }
 
             }
@@ -102,6 +103,7 @@ public class CustomTextField extends JTextField {
             public void focusLost(FocusEvent e) {
                 if (getText().trim().length() == 0) {
                     customizeText(text);
+                    custText();
                 }
             }
 

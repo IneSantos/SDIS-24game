@@ -16,11 +16,9 @@ public class CreateRoomPanel extends JPanel {
     JLabel jlabel;
     JLabel jlabel1;
     Peer peer;
-    CustomTextField textField;
-    CustomTextField textField1;
+    CustomTextField textFieldNick;
+    CustomTextField textFieldRoom;
     JButton createButton;
-    String nickName = "";
-    String roomName = "";
 
     public CreateRoomPanel(Peer peer) {
         this.peer = peer;
@@ -39,53 +37,21 @@ public class CreateRoomPanel extends JPanel {
 
 
         //enterText
-        textField1 = new CustomTextField("Name a room...", 20);
+        textFieldRoom = new CustomTextField("Name a room...", 20);
 
 
         add(jlabel1);
-        add(textField1);
-
-        textField1.addFocusListener(new FocusListener() {
-
-            @Override
-            public void focusGained(FocusEvent e) {
-                textField1.normalText();
-                textField1.setText("");
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                if (textField.getText().equals("name a room..."))
-                    textField.normalText();
-            }
-        });
+        add(textFieldRoom);
 
         jlabel = new JLabel("Your nickname: ");
         jlabel.setFont(new Font("Verdana", 1, 15));
 
         //enterText
-        textField = new CustomTextField("insert your nickname...", 20);
+        textFieldNick = new CustomTextField("insert your nickname...", 20);
 
-
-        textField.addFocusListener(new FocusListener() {
-
-            @Override
-            public void focusGained(FocusEvent e) {
-                textField.normalText();
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                if (textField.getText().equals("insert your nickname..."))
-                    textField.custText();
-            }
-        });
-
-
-        keyBoardListener();
 
         add(jlabel);
-        add(textField);
+        add(textFieldNick);
 
         add(Box.createVerticalStrut(80));
 
@@ -98,43 +64,11 @@ public class CreateRoomPanel extends JPanel {
     }
 
 
-    private void keyBoardListener() {
-        textField.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-                nickName += e.getKeyChar();
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-
-            }
-        });
-
-        textField1.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-                roomName += e.getKeyChar();
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-
-            }
-        });
-    }
-
     private void buttonListener() {
         createButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                String nickName = textFieldNick.getText();
+                String roomName = textFieldRoom.getText();
                 peer.createRoom(roomName, nickName);
 
                 if (nickName.equals("") || roomName.equals("")) {
@@ -144,10 +78,6 @@ public class CreateRoomPanel extends JPanel {
                             JOptionPane.ERROR_MESSAGE);
                 } else {
                     InitialFrame.getFrames()[0].setVisible(false);
-
-                    nickName = "";
-                    roomName = "";
-
                     new GameFrame(peer);
                 }
             }
