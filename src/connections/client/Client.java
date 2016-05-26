@@ -7,15 +7,13 @@ package connections.client;
 import connections.data.PeerID;
 import connections.data.RoomID;
 import connections.messages.ClientMessage;
-import graphics.JoinRoomPanel;
+import graphics.initialFrame.JoinRoomPanel;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import utilities.Constants;
-import utilities.Utilities;
 
 import javax.swing.*;
 import java.io.*;
-import java.net.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 

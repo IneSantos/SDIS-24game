@@ -1,10 +1,7 @@
 package launcher;
 
-import connections.Peer;
 import connections.client.Client;
-import graphics.InitialFrame;
-
-import java.io.IOException;
+import graphics.initialFrame.InitialFrame;
 
 /**
  * Created by Pedro Fraga on 23-May-16.
