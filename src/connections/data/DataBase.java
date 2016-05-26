@@ -1,6 +1,6 @@
 package connections.data;
 
-import graphics.JoinRoomPanel;
+import graphics.initialFrame.JoinRoomPanel;
 
 import javax.swing.*;
 import java.util.ArrayList;
