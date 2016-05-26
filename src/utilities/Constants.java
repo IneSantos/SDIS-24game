@@ -14,15 +14,19 @@ public class Constants {
     public static final String REQUEST = "request";
     public static final String ROOMS = "rooms";
     public static final String GET_ROOMS = "get rooms";
+    public static final String CREATE_ROOM = "create room";
     public static final String NAME = "name";
     public static final String DATE_CREATION = "dateOfCreation";
     public static final String ROOM_ID = "room id";
+    public static final String PEER_ID = "peer id";
     public static final String PEER_ARRAY = "peer array";
     public static final String ERROR_STRING = "error";
     public static final String NOT_FOUND = "not found";
+    public static final String OK_STRING = "ok";
 
     public static final int MSG_SIZE = 256;
 
     public static final int OK = 200;
     public static final int ERROR = 404;
+
 }

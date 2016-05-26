@@ -10,11 +10,11 @@ import java.awt.*;
  */
 public class InitialFrame extends JFrame {
 
-    public InitialFrame(Peer peer) throws HeadlessException {
+    public InitialFrame() throws HeadlessException {
         super("Jogo 24");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-        CenterInitialFrame centerPanel = new CenterInitialFrame(peer);
+        CenterInitialFrame centerPanel = new CenterInitialFrame();
         setLayout(new BorderLayout());
         NorthPanel north = new NorthPanel();
         Panel east = new Panel();

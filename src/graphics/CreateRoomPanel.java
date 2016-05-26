@@ -20,7 +20,7 @@ public class CreateRoomPanel extends JPanel {
     CustomTextField textFieldRoom;
     JButton createButton;
 
-    public CreateRoomPanel(Peer peer) {
+    public CreateRoomPanel() {
         this.peer = peer;
         setPreferredSize(new Dimension(PREF_W, PREF_H));
         //setBorder(BorderFactory.createLineBorder(Color.blue));
@@ -69,7 +69,6 @@ public class CreateRoomPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 String nickName = textFieldNick.getText();
                 String roomName = textFieldRoom.getText();
-                peer.createRoom(roomName, nickName);
 
                 if (nickName.equals("insert your nickname...") || roomName.equals("Name a room...")) {
                     JOptionPane.showMessageDialog(InitialFrame.getFrames()[0],
@@ -78,6 +77,9 @@ public class CreateRoomPanel extends JPanel {
                             JOptionPane.ERROR_MESSAGE);
                 } else {
                     InitialFrame.getFrames()[0].setVisible(false);
+                    Peer peer = new  Peer();
+                    peer.setPeerUsername(nickName);
+                    peer.createRoom(roomName);
                     new GameFrame(peer);
                 }
             }

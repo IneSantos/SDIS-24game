@@ -25,18 +25,18 @@ public class RequestHandler implements HttpHandler  {
     public void handle(HttpExchange t) throws IOException {
         InputStream in = t.getRequestBody();
         String request = Utilities.getBytesFromInputStream(in);
-        JSONObject jsonRequest;
+        handleRequest(request, t);
+        in.close();
+    }
+
+    private void handleRequest(String request, HttpExchange t) throws IOException {
+        JSONObject jsonRequest = new JSONObject();
         if (Utilities.isJSONValid(request)) {
             jsonRequest = new JSONObject(request);
             request = jsonRequest.getString(Constants.REQUEST);
         } else {
             request = Constants.ERROR_STRING;
         }
-        handleRequest(request, t);
-        in.close();
-    }
-
-    private void handleRequest(String request, HttpExchange t) throws IOException {
         switch(request) {
             case Constants.GET_ROOMS:
                 JSONObject roomsJson = new JSONObject();
@@ -53,6 +53,21 @@ public class RequestHandler implements HttpHandler  {
                 }
                 roomsJson.put(Constants.ROOMS, roomsArray);
                 sendJson(roomsJson, t, Constants.OK);
+                break;
+            case Constants.CREATE_ROOM:
+                System.out.println(request);
+                JSONObject createdRoom = jsonRequest.getJSONObject(Constants.CREATE_ROOM);
+                JSONObject roomJson = createdRoom.getJSONObject(Constants.ROOM_ID);
+                JSONObject peerJson = createdRoom.getJSONObject(Constants.PEER_ID);
+                RoomID roomId = new RoomID(roomJson);
+                PeerID peerId = new PeerID(peerJson);
+                ArrayList<PeerID> peerArray = new ArrayList<>();
+                peerArray.add(peerId);
+                Server.getAvailableRooms().put(roomId, peerArray);
+                System.err.println("Unknown request (" + request + ")");
+                JSONObject jsonOk = new JSONObject();
+                jsonOk.put(Constants.CREATE_ROOM, Constants.OK_STRING);
+                sendJson(jsonOk, t, Constants.OK);
                 break;
             default:
                 System.err.println("Unknown request (" + request + ")");

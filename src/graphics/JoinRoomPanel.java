@@ -1,6 +1,7 @@
 package graphics;
 
 import connections.Peer;
+import connections.client.Client;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -87,8 +88,8 @@ public class JoinRoomPanel extends JPanel {
     private void buttonListener(){
         refreshButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Peer.getInstance().requestAvailableRooms();
-                Peer.getInstance().getDataBase().clearAvailableRooms();
+                Client.getInstance().requestAvailableRooms();
+                Client.getInstance().clearAvailableRooms();
             }
         });
     }

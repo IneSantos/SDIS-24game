@@ -3,6 +3,8 @@ package connections;
 import connections.data.DataBase;
 import connections.data.PeerID;
 import connections.data.RoomID;
+import connections.messages.ClientMessage;
+import org.json.JSONObject;
 import utilities.Constants;
 
 import java.io.IOException;
@@ -45,9 +47,19 @@ public class Peer {
     public void requestAvailableRooms() {
     }
 
-    public void createRoom(String roomName) {
+    public boolean createRoom(String roomName) {
         RoomID createdRoom = new RoomID(roomName);
         database.setCurrentRoom(createdRoom);
+
+        JSONObject peerInfo = new JSONObject();
+        peerInfo.put(Constants.PEER_ID, new JSONObject(peerId));
+        peerInfo.put(Constants.ROOM_ID, new JSONObject(createdRoom));
+
+        JSONObject msgJson = new JSONObject();
+        msgJson.put(Constants.REQUEST, Constants.CREATE_ROOM);
+        msgJson.put(Constants.CREATE_ROOM, peerInfo);
+        ClientMessage msg = new ClientMessage(msgJson);
+        return msg.handleCreateRoom(msg.send());
     }
 
     public DataBase getDataBase() { return database; }

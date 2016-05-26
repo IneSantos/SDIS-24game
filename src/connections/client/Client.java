@@ -6,6 +6,7 @@ package connections.client;
 
 import connections.data.PeerID;
 import connections.data.RoomID;
+import connections.messages.ClientMessage;
 import graphics.JoinRoomPanel;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -20,45 +21,26 @@ import java.util.HashMap;
 
 public class Client {
 
-    private URL url;
-    private HttpURLConnection connection;
-    private Client instance;
     private HashMap<RoomID, ArrayList<PeerID>> availableRooms;
+    private static Client instance;
 
 
     public Client() {
-        String urlString = "http://localhost:8000/24game";
-        try {
-            url = new URL(urlString);
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
-            connection.setDoOutput(true);
-            connection.setRequestProperty("Content-Type", "application/json");
-            instance = this;
-            availableRooms = new HashMap<>();
-        } catch (Exception e) {
-           System.err.println("Could not create a client.")
-        }
+        availableRooms = new HashMap<>();
+        instance = this;
     }
 
-    public boolean requestAvailableRooms() throws IOException {
-        PrintWriter out = new PrintWriter(connection.getOutputStream());
+    private boolean handleAvailableRooms() throws IOException {
+
+
         JSONObject message = new JSONObject();
         message.put(Constants.REQUEST, Constants.GET_ROOMS);
-        System.out.println(message);
-        out.println(message);
-        out.close();
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(connection.getInputStream()));
-        String line = in.readLine();
-        JSONObject rooms = new JSONObject(line);
-        System.out.println(rooms);
+        ClientMessage roomRequest = new ClientMessage(message);
+        JSONObject rooms = roomRequest.send();
         if (!handleRooms(rooms)) {
-            System.err.println("Cant handle");
+            System.err.println("Cant handle rooms message");
             return false;
         }
-        System.out.println(availableRooms.toString());
-        in.close();
         DefaultListModel model = new DefaultListModel();
         for (RoomID room : availableRooms.keySet()) {
             model.addElement(room.getName());
@@ -68,12 +50,21 @@ public class Client {
         return true;
     }
 
+    public boolean requestAvailableRooms() {
+        try {
+            return handleAvailableRooms();
+        } catch (IOException e) {
+            System.err.println("Could not get available rooms from server");
+            return false;
+        }
+    }
+
+
     private boolean handleRooms(JSONObject rooms) {
         if (rooms.isNull(Constants.ROOMS))
             return false;
         JSONArray roomArray = rooms.getJSONArray(Constants.ROOMS);
         for (int i = 0; i < roomArray.length(); i++) {
-            System.out.println(roomArray.get(i));
             JSONObject roomInfo = roomArray.getJSONObject(i);
 
             JSONObject roomIdJson = roomInfo.getJSONObject(Constants.ROOM_ID);
@@ -89,5 +80,11 @@ public class Client {
         }
         return true;
     }
+    public static Client getInstance() {
+        return instance;
+    }
 
+    public void clearAvailableRooms() {
+        availableRooms.clear();
+    }
 }

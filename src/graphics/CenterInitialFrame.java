@@ -13,11 +13,11 @@ public class CenterInitialFrame extends JPanel {
     private static final int PREF_W = 400;
     private static final int PREF_H = 400;
 
-    public CenterInitialFrame(Peer peer) {
+    public CenterInitialFrame() {
         setPreferredSize(new Dimension(PREF_W, PREF_H));
         //setBorder(BorderFactory.createLineBorder(Color.blue));
 
-        CreateRoomPanel createRoom = new CreateRoomPanel(peer);
+        CreateRoomPanel createRoom = new CreateRoomPanel();
         add(createRoom);
 
 
