@@ -39,6 +39,11 @@ class NumbersPanel extends JPanel {
         addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
                 if (e.getX() >= 0 && e.getX() <= 200) {
                     if (e.getY() >= 0 && e.getY() <= 200) {
                         System.out.println("Primeiro quadrado " + challenges.get(0) + " eq " + game.getEquation());
@@ -63,11 +68,6 @@ class NumbersPanel extends JPanel {
                 }
                 GameFrame.getSouth().getEquation().setText("Equation: " + game.getEquation());
                 GameFrame.getSouth().getEquation().paintImmediately(GameFrame.getSouth().getEquation().getVisibleRect());
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
             }
 
             @Override

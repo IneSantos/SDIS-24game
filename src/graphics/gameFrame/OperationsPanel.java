@@ -44,9 +44,37 @@ class OperationsPanel extends JPanel {
             }
         }
 
+        mouseListener(game);
+
+    }
+
+    public void addSquare(int width, int height, int number, int i, int j) {
+        BufferedImage rect;
+        int posX = number % 4;
+        int posY = number / 4;
+        try {
+            rect = ImageIO.read(new File(System.getProperty("user.dir") + "/resources/images/operationsW.png"));
+            BufferedImage resizedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g = resizedImage.createGraphics();
+            int h = rect.getHeight() / 1;
+            int w = rect.getWidth() / 4;
+            g.drawImage(rect.getSubimage(posX * w, posY * h, w, h), 0, 0, width, height, null);
+            g.dispose();
+            squares.add(resizedImage);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void mouseListener(Game24 game){
         addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
                 System.out.println(e.getX() + " Y " + e.getY());
                 if (!game.check4for3()) {
                     if (e.getX() >= 0 && e.getX() <= 100) {
@@ -84,11 +112,6 @@ class OperationsPanel extends JPanel {
             }
 
             @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
             public void mouseReleased(MouseEvent e) {
 
             }
@@ -103,26 +126,6 @@ class OperationsPanel extends JPanel {
 
             }
         });
-
-
-    }
-
-    public void addSquare(int width, int height, int number, int i, int j) {
-        BufferedImage rect;
-        int posX = number % 4;
-        int posY = number / 4;
-        try {
-            rect = ImageIO.read(new File(System.getProperty("user.dir") + "/resources/images/operationsW.png"));
-            BufferedImage resizedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-            Graphics2D g = resizedImage.createGraphics();
-            int h = rect.getHeight() / 1;
-            int w = rect.getWidth() / 4;
-            g.drawImage(rect.getSubimage(posX * w, posY * h, w, h), 0, 0, width, height, null);
-            g.dispose();
-            squares.add(resizedImage);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
