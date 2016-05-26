@@ -86,4 +86,7 @@ public class Client {
         availableRooms.clear();
     }
 
+    public HashMap<RoomID,ArrayList<PeerID>> getAvailableRooms() {
+        return availableRooms;
+    }
 }

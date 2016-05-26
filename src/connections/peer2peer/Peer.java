@@ -96,4 +96,8 @@ public class Peer extends Thread {
         setPeerUsername(nickName);
         createRoom(roomName);
     }
+
+    public void joinRoom(RoomID room) {
+
+    }
 }
