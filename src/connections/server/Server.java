@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
-import connections.data.PeerID;
-import connections.data.RoomID;
+import connections.peer2peer.data.PeerID;
+import connections.peer2peer.data.RoomID;
 
 
 public class Server {

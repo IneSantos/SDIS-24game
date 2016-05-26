@@ -1,6 +1,6 @@
 package launcher;
 
-import connections.client.Client;
+import connections.server.Client;
 import graphics.initialFrame.InitialFrame;
 
 /**

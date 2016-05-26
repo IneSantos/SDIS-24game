@@ -1,12 +1,13 @@
 package graphics.initialFrame;
 
-import connections.Peer;
+import connections.peer2peer.Peer;
 import graphics.utilities.CustomTextField;
 import graphics.gameFrame.GameFrame;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.net.UnknownHostException;
 
 /**
  * Created by inesa on 22/05/2016.
@@ -79,7 +80,12 @@ public class CreateRoomPanel extends JPanel {
                             JOptionPane.ERROR_MESSAGE);
                 } else {
                     InitialFrame.getFrames()[0].setVisible(false);
-                    Peer peer = new  Peer();
+                    Peer peer = null;
+                    try {
+                        peer = new Peer();
+                    } catch (UnknownHostException e1) {
+                        System.err.println("Could not create a peer");
+                    }
                     peer.setPeerUsername(nickName);
                     peer.createRoom(roomName);
                     new GameFrame(peer);

@@ -1,6 +1,6 @@
 package graphics.initialFrame;
 
-import connections.client.Client;
+import connections.server.Client;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;

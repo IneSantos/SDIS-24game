@@ -1,6 +1,6 @@
 package graphics.gameFrame;
 
-import connections.Peer;
+import connections.peer2peer.Peer;
 import game.Game24;
 import graphics.utilities.CustomTextField;
 

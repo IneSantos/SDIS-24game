@@ -2,10 +2,9 @@ package connections.server;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import connections.data.PeerID;
-import connections.data.RoomID;
+import connections.peer2peer.data.PeerID;
+import connections.peer2peer.data.RoomID;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import utilities.Constants;
 import utilities.Utilities;
