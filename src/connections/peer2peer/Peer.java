@@ -7,8 +7,8 @@ import connections.server.messages.ClientMessage;
 import org.json.JSONObject;
 import utilities.Constants;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import java.io.IOException;
+import java.net.*;
 
 /**
  * Created by Pedro Fraga on 22-May-16.
@@ -16,15 +16,19 @@ import java.net.UnknownHostException;
 
 public class Peer {
     private PeerID peerId;
+
     private InetAddress adress;
     private int port;
+    private DatagramSocket socket;
+
     private DataBase database;
     private static Peer instance;
 
-    public Peer() throws UnknownHostException {
+    public Peer() throws UnknownHostException, SocketException {
         this.peerId = new PeerID(Constants.ANONYMOUS);
         database = new DataBase();
         adress = InetAddress.getByName(ClientMessage.getHostname());
+        socket = new DatagramSocket();
         instance = this;
     }
 
@@ -35,7 +39,7 @@ public class Peer {
     public void requestAvailableRooms() {
     }
 
-    public boolean createRoom(String roomName) {
+    public void createRoom(String roomName) {
         RoomID createdRoom = new RoomID(roomName);
         database.setCurrentRoom(createdRoom);
 
@@ -47,7 +51,24 @@ public class Peer {
         msgJson.put(Constants.REQUEST, Constants.CREATE_ROOM);
         msgJson.put(Constants.CREATE_ROOM, peerInfo);
         ClientMessage msg = new ClientMessage(msgJson);
-        return msg.handleCreateRoom(msg.send());
+        port =  msg.handleCreateRoom(msg.send());
+        try {
+            sendRequest("teste");
+        } catch(Exception e) {
+            System.err.println("Could not send a message through tcp");
+        }
+    }
+
+    public void sendRequest(String request) throws IOException {
+        byte[] buf = request.getBytes();
+        DatagramPacket packet = new DatagramPacket(buf, buf.length, adress, port);
+        socket.send(packet);
+
+        buf = new byte[utilities.Constants.MSG_SIZE];
+        packet = new DatagramPacket(buf, buf.length);
+        this.socket.receive(packet);
+        String response = new String(packet.getData(), 0, packet.getLength());
+        System.out.println("'" + response + "' response was received.");
     }
 
     public DataBase getDataBase() { return database; }

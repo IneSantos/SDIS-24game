@@ -16,14 +16,11 @@ import connections.peer2peer.data.RoomID;
 
 public class Server {
     public static HashMap<RoomID, ArrayList<PeerID>> availableRooms;
+    public static HashMap<PeerID, Integer> establishedConnections;
 
     public static void main(String[] args) throws Exception {
         availableRooms = new HashMap<>();
-        ArrayList<PeerID> peerArray = new ArrayList<>();
-        peerArray.add(new PeerID("Fraga"));
-        peerArray.add(new PeerID("Memes"));
-        availableRooms.put(new RoomID("Sala do Fraga"), peerArray);
-
+        establishedConnections = new HashMap<>();
         HttpServer server = HttpServer.create(new InetSocketAddress(8000), 0);
         server.createContext("/24game", new RequestHandler());
         server.setExecutor(null); // creates a default executor
@@ -32,5 +29,9 @@ public class Server {
 
     public static HashMap<RoomID, ArrayList<PeerID>> getAvailableRooms() {
         return availableRooms;
+    }
+
+    public static HashMap<PeerID, Integer> getEstablishedConnections() {
+        return establishedConnections;
     }
 }

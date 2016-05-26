@@ -2,6 +2,7 @@ package connections.server;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import connections.peer2peer.Peer;
 import connections.peer2peer.data.PeerID;
 import connections.peer2peer.data.RoomID;
 import org.json.JSONArray;
@@ -63,9 +64,11 @@ public class RequestHandler implements HttpHandler  {
                 ArrayList<PeerID> peerArray = new ArrayList<>();
                 peerArray.add(peerId);
                 Server.getAvailableRooms().put(roomId, peerArray);
-                System.err.println("Unknown request (" + request + ")");
+                ServerPeer serverPeer = new ServerPeer();
+                serverPeer.start();
+                Server.getEstablishedConnections().put(peerId, serverPeer.getPort());
                 JSONObject jsonOk = new JSONObject();
-                jsonOk.put(Constants.CREATE_ROOM, Constants.OK_STRING);
+                jsonOk.put(Constants.CREATE_ROOM, "" + serverPeer.getPort());
                 sendJson(jsonOk, t, Constants.OK);
                 break;
             default:

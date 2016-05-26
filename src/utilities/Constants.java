@@ -24,7 +24,7 @@ public class Constants {
     public static final String NOT_FOUND = "not found";
     public static final String OK_STRING = "ok";
 
-    public static final int MSG_SIZE = 256;
+    public static final int MSG_SIZE = 512;
 
     public static final int OK = 200;
     public static final int ERROR = 404;

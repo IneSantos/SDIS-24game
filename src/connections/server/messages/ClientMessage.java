@@ -44,10 +44,10 @@ public class ClientMessage {
         }
     }
 
-    public boolean handleCreateRoom(JSONObject serverResponse) {
+    public int handleCreateRoom(JSONObject serverResponse) {
         System.out.println(serverResponse);
         String result = serverResponse.getString(Constants.CREATE_ROOM);
-        return result.equals(Constants.OK);
+        return Integer.parseInt(result);
     }
     public static String getHostname() {
         return hostname;

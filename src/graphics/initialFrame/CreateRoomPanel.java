@@ -7,6 +7,7 @@ import graphics.gameFrame.GameFrame;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 
 /**
@@ -83,7 +84,7 @@ public class CreateRoomPanel extends JPanel {
                     Peer peer = null;
                     try {
                         peer = new Peer();
-                    } catch (UnknownHostException e1) {
+                    } catch (Exception e1) {
                         System.err.println("Could not create a peer");
                     }
                     peer.setPeerUsername(nickName);
