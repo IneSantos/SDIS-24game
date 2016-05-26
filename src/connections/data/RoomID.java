@@ -1,5 +1,6 @@
 package connections.data;
 
+import org.json.JSONObject;
 import utilities.Constants;
 import utilities.Utilities;
 
@@ -14,22 +15,27 @@ public class RoomID {
     String name;
     String dateOfCreation;
 
-    boolean answering;
 
     public RoomID (String name, String dateOfCreation) {
         this.name = name;
         this.dateOfCreation = dateOfCreation;
-        this.answering = false;
     }
     public RoomID (String name) {
         this.name = name;
         this.dateOfCreation = Utilities.getCurrentDate();
-        this.answering = false;
+    }
+
+    public RoomID(JSONObject roomIdJson) {
+        name  = roomIdJson.getString(Constants.ROOMNAME);
+        dateOfCreation = roomIdJson.getString(Constants.DATE_CREATION);
     }
 
     @Override
     public String toString() {
-        return name + Constants.DOUBLECRLF + dateOfCreation;
+        JSONObject roomjson = new JSONObject();
+        roomjson.put(Constants.ROOMNAME, name);
+        roomjson.put(Constants.DATE_CREATION, dateOfCreation);
+        return roomjson.toString();
     }
 
     @Override

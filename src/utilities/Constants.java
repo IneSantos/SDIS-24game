@@ -10,15 +10,20 @@ public class Constants {
     public static final String DEFAULT_ADDRESS = "239.255.55.55";
     public static final int GAME_PORT = 5555;
     public static final int ROOM_CHANNEL = 5556;
-    public static final String CRLF = "\r\n";
-    public static final String DOUBLECRLF = CRLF + CRLF;
+
+    public static final String REQUEST = "request";
+    public static final String ROOMS = "rooms";
+    public static final String GET_ROOMS = "get rooms";
+    public static final String USERNAME = "username";
+    public static final String DATE_CREATION = "date of creation";
+    public static final String ROOMNAME = "room name";
+    public static final String ROOM_ID = "room id";
+    public static final String PEER_ARRAY = "peer array";
+    public static final String ERROR_STRING = "error";
+    public static final String NOT_FOUND = "not found";
 
     public static final int MSG_SIZE = 256;
 
-    public static final int MESSAGE_TYPE = 0;
-    public static final int USERNAME = 1;
-    public static final int USER_DATE = 2;
-    public static final int ROOM_ID = 3;
-    public static final int ROOM_DATE = 4;
-
+    public static final int OK = 200;
+    public static final int ERROR = 404;
 }

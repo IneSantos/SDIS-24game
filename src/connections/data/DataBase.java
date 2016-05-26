@@ -1,12 +1,10 @@
 package connections.data;
 
-import connections.messages.Header;
 import graphics.JoinRoomPanel;
 
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Vector;
 
 /**
  * Created by Pedro Fraga on 22-May-16.
@@ -31,7 +29,7 @@ public class DataBase extends Thread {
         this.currentRoom = room;
     }
 
-    public void updateRooms(Header header) {
+   /* public void updateRooms(Header header) {
         if(!availableRooms.containsKey(header.getRoomID())) {
             ArrayList<PeerID> newPeer = new ArrayList<>();
             newPeer.add(header.getSenderID());
@@ -47,7 +45,7 @@ public class DataBase extends Thread {
         }
         if (JoinRoomPanel.getInstance() != null)
             JoinRoomPanel.getInstance().getListbox().setModel(model);
-    }
+    }*/
 
     public void clearAvailableRooms() {
         availableRooms.clear();

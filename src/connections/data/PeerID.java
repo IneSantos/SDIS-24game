@@ -1,5 +1,6 @@
 package connections.data;
 
+import org.json.JSONObject;
 import utilities.Constants;
 import utilities.Utilities;
 
@@ -19,12 +20,20 @@ public class PeerID {
         this.dateOfCreation = dateOfCreation;
     }
 
+    public PeerID(JSONObject peerIdJson) {
+        username = peerIdJson.getString(Constants.USERNAME);
+        dateOfCreation = peerIdJson.getString(Constants.DATE_CREATION);
+    }
+
     public String getName() { return username; }
     public String getDateOfCreation() { return dateOfCreation; }
 
     @Override
     public String toString() {
-        return username + Constants.DOUBLECRLF + dateOfCreation;
+        JSONObject peerjson = new JSONObject();
+        peerjson.put(Constants.USERNAME, username);
+        peerjson.put(Constants.DATE_CREATION, dateOfCreation);
+        return peerjson.toString();
     }
     @Override
     public boolean equals(Object o) {
