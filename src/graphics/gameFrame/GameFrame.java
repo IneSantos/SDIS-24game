@@ -35,6 +35,7 @@ public class GameFrame extends JFrame {
         getContentPane().add(south, BorderLayout.SOUTH);
         getContentPane().add(centerPanel, BorderLayout.CENTER);
         getContentPane().add(east, BorderLayout.EAST);
+
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
