@@ -56,7 +56,13 @@ public class JoinRoomPanel extends JPanel {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 System.out.println(e.toString());
-             //  new GameFrame(peer);
+                String name = JOptionPane.showInputDialog(InitialFrame.getFrames()[0], "What's your nickname?");
+                System.out.printf("The user's name is '%s'.\n", name);
+                if(name != null){
+                    System.out.println("nome!!!");
+                }else
+                    System.out.println("sem nome");
+
             }
         });
 

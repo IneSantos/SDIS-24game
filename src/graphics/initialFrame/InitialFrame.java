@@ -10,6 +10,11 @@ import java.awt.*;
  */
 public class InitialFrame extends JFrame {
 
+    GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+    int width = gd.getDisplayMode().getWidth();
+    int height = gd.getDisplayMode().getHeight();
+
+
     public InitialFrame() throws HeadlessException {
         super("Jogo 24");
 
@@ -37,4 +42,13 @@ public class InitialFrame extends JFrame {
         setVisible(true);
     }
 
+    @Override
+    public int getWidth() {
+        return width;
+    }
+
+    @Override
+    public int getHeight() {
+        return height;
+    }
 }
