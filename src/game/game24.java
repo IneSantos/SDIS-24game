@@ -20,7 +20,7 @@ public class Game24 {
     public Game24() {
         this.equation = "";
     }
-
+/*
     public static void main(String args[]) {
         Game24 j = new Game24();
         j.readFile();
@@ -34,7 +34,7 @@ public class Game24 {
         }
         System.out.println(j.check24(j.equation));
 
-    }
+    }*/
 
     public boolean stateMachine(String input) {
         switch (this.currentState) {
