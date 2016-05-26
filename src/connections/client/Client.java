@@ -6,11 +6,13 @@ package connections.client;
 
 import connections.data.PeerID;
 import connections.data.RoomID;
+import graphics.JoinRoomPanel;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import utilities.Constants;
 import utilities.Utilities;
 
+import javax.swing.*;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
@@ -24,14 +26,19 @@ public class Client {
     private HashMap<RoomID, ArrayList<PeerID>> availableRooms;
 
 
-    public Client() throws IOException {
+    public Client() {
         String urlString = "http://localhost:8000/24game";
-        url = new URL(urlString);
-        connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("POST");
-        connection.setDoOutput(true);
-        connection.setRequestProperty("Content-Type", "application/json");
-        instance = this;
+        try {
+            url = new URL(urlString);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setDoOutput(true);
+            connection.setRequestProperty("Content-Type", "application/json");
+            instance = this;
+            availableRooms = new HashMap<>();
+        } catch (Exception e) {
+           System.err.println("Could not create a client.")
+        }
     }
 
     public boolean requestAvailableRooms() throws IOException {
@@ -52,6 +59,12 @@ public class Client {
         }
         System.out.println(availableRooms.toString());
         in.close();
+        DefaultListModel model = new DefaultListModel();
+        for (RoomID room : availableRooms.keySet()) {
+            model.addElement(room.getName());
+        }
+        if (JoinRoomPanel.getInstance() != null)
+            JoinRoomPanel.getInstance().getListbox().setModel(model);
         return true;
     }
 
@@ -61,14 +74,14 @@ public class Client {
         JSONArray roomArray = rooms.getJSONArray(Constants.ROOMS);
         for (int i = 0; i < roomArray.length(); i++) {
             System.out.println(roomArray.get(i));
-            JSONArray roomInfo = new JSONArray(roomArray.get(i));
-            JSONObject roomIdJson = new JSONObject(roomInfo.get(0));
+            JSONObject roomInfo = roomArray.getJSONObject(i);
+
+            JSONObject roomIdJson = roomInfo.getJSONObject(Constants.ROOM_ID);
             RoomID roomId = new RoomID(roomIdJson);
-            JSONObject peerInfo = new JSONObject(roomInfo.get(1));
-            JSONArray peerArray = new JSONArray(peerInfo.get(Constants.PEER_ARRAY));
+            JSONArray peerArray = roomInfo.getJSONArray(Constants.PEER_ARRAY);
             ArrayList<PeerID> peerIdArray = new ArrayList<>();
             for (int a = 0; a < peerArray.length(); a++) {
-                JSONObject peerIdJson = new JSONObject(peerArray.get(a));
+                JSONObject peerIdJson = peerArray.getJSONObject(a);
                 PeerID peerId = new PeerID(peerIdJson);
                 peerIdArray.add(peerId);
             }
@@ -77,10 +90,4 @@ public class Client {
         return true;
     }
 
-    public static void main(String[] args) throws Exception {
-        Client client = new Client();
-        if (!client.requestAvailableRooms())
-            System.err.println("Returning false");
-
-    }
 }

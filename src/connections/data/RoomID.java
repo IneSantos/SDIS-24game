@@ -26,14 +26,14 @@ public class RoomID {
     }
 
     public RoomID(JSONObject roomIdJson) {
-        name  = roomIdJson.getString(Constants.ROOMNAME);
+        name  = roomIdJson.getString(Constants.NAME);
         dateOfCreation = roomIdJson.getString(Constants.DATE_CREATION);
     }
 
     @Override
     public String toString() {
         JSONObject roomjson = new JSONObject();
-        roomjson.put(Constants.ROOMNAME, name);
+        roomjson.put(Constants.NAME, name);
         roomjson.put(Constants.DATE_CREATION, dateOfCreation);
         return roomjson.toString();
     }

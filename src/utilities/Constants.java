@@ -14,9 +14,8 @@ public class Constants {
     public static final String REQUEST = "request";
     public static final String ROOMS = "rooms";
     public static final String GET_ROOMS = "get rooms";
-    public static final String USERNAME = "username";
-    public static final String DATE_CREATION = "date of creation";
-    public static final String ROOMNAME = "room name";
+    public static final String NAME = "name";
+    public static final String DATE_CREATION = "dateOfCreation";
     public static final String ROOM_ID = "room id";
     public static final String PEER_ARRAY = "peer array";
     public static final String ERROR_STRING = "error";

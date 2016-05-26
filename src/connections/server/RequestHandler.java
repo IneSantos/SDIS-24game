@@ -42,17 +42,13 @@ public class RequestHandler implements HttpHandler  {
                 JSONObject roomsJson = new JSONObject();
                 JSONArray roomsArray = new JSONArray();
                 for (Map.Entry<RoomID, ArrayList<PeerID>> entry : Server.getAvailableRooms().entrySet()) {
-                    JSONArray roomAndPeers = new JSONArray();
+                    JSONObject roomAndPeers = new JSONObject();
 
                     RoomID roomId = entry.getKey();
                     ArrayList<PeerID> peerArray = entry.getValue();
-                    JSONObject roomIdJson = new JSONObject();
-                    roomIdJson.put(Constants.ROOM_ID, roomId);
-                    JSONObject peerArrayJson = new JSONObject();
-                    peerArrayJson.put(Constants.PEER_ARRAY, peerArray);
-
-                    roomAndPeers.put(roomId);
-                    roomAndPeers.put(peerArrayJson);
+                    JSONObject roomIdJson = new JSONObject(roomId);
+                    roomAndPeers.put(Constants.ROOM_ID, roomIdJson);
+                    roomAndPeers.put(Constants.PEER_ARRAY, peerArray);
                     roomsArray.put(roomAndPeers);
                 }
                 roomsJson.put(Constants.ROOMS, roomsArray);
