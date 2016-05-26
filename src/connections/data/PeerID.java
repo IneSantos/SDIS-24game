@@ -4,6 +4,8 @@ import org.json.JSONObject;
 import utilities.Constants;
 import utilities.Utilities;
 
+import java.net.InetAddress;
+
 /**
  * Created by Pedro Fraga on 23-May-16.
  */

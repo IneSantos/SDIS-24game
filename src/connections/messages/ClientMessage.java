@@ -15,11 +15,13 @@ import java.net.URL;
  */
 public class ClientMessage {
     private JSONObject jsonMsg;
+    private static String hostname = "localhost";
+
     public ClientMessage(JSONObject json) {
         this.jsonMsg = json;
     }
     public JSONObject send () {
-        String urlString = "http://localhost:8000/24game";
+        String urlString = "http://" + hostname + ":8000/24game";
         URL url = null;
         try {
             url = new URL(urlString);
@@ -47,5 +49,8 @@ public class ClientMessage {
         System.out.println(serverResponse);
         String result = serverResponse.getString(Constants.CREATE_ROOM);
         return result.equals(Constants.OK);
+    }
+    public static String getHostname() {
+        return hostname;
     }
 }

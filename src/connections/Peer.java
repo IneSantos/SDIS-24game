@@ -1,5 +1,6 @@
 package connections;
 
+import connections.client.Client;
 import connections.data.DataBase;
 import connections.data.PeerID;
 import connections.data.RoomID;
@@ -9,6 +10,8 @@ import utilities.Constants;
 
 import java.io.IOException;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 /**
  * Created by Pedro Fraga on 22-May-16.
@@ -16,30 +19,18 @@ import java.net.DatagramSocket;
 
 public class Peer {
     private PeerID peerId;
-    private DatagramSocket socket;
+    private InetAddress adress;
+    private int port;
     private DataBase database;
     private static Peer instance;
 
-    public Peer() {
+    public Peer() throws UnknownHostException {
         this.peerId = new PeerID(Constants.ANONYMOUS);
         database = new DataBase();
-        this.instance = this;
+        adress = InetAddress.getByName(ClientMessage.getHostname());
+        instance = this;
     }
-
-    public static void main(String[] args) {
-        Peer peer = new Peer();
-        if (args[0].equals("createRoom")) {
-            if (args.length == 3) {
-                peer.setPeerUsername(args[2]);
-                peer.createRoom(args[1]);
-            }
-        } else if (args[0].equals("requestRooms")) {
-            if (args.length == 1)
-                peer.requestAvailableRooms();
-        } else if (args.length == 0) {
-
-        }
-    }
+    
 
     public PeerID getPeerID() { return this.peerId; }
     public static Peer getInstance() { return instance; }

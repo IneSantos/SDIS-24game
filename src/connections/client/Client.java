@@ -87,4 +87,5 @@ public class Client {
     public void clearAvailableRooms() {
         availableRooms.clear();
     }
+
 }
