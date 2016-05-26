@@ -14,7 +14,7 @@ import java.net.*;
  * Created by Pedro Fraga on 22-May-16.
  */
 
-public class Peer {
+public class Peer extends Thread {
     private PeerID peerId;
 
     private InetAddress adress;
@@ -36,7 +36,30 @@ public class Peer {
     public PeerID getPeerID() { return this.peerId; }
     public static Peer getInstance() { return instance; }
 
-    public void requestAvailableRooms() {
+    public void run() {
+        try {
+            String response = sendRequest(Constants.R_U_THERE);
+            if (!response.equals(Constants.R_U_THERE_ACK))
+                return;
+        } catch(Exception e) {
+            System.err.println("Could not send a message through tcp");
+        }
+        while (true) {
+            try {
+                byte[] buf = new byte[utilities.Constants.MSG_SIZE];
+                DatagramPacket packet = new DatagramPacket(buf, buf.length);
+                this.socket.receive(packet);
+                String response = new String(packet.getData(), 0, packet.getLength());
+                if (response.equals(Constants.R_U_THERE)) {
+                    System.out.println("Sending R U THERE ACK");
+                    buf = Constants.R_U_THERE_ACK.getBytes();
+                    packet = new DatagramPacket(buf, buf.length, adress, port);
+                    socket.send(packet);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void createRoom(String roomName) {
@@ -52,14 +75,10 @@ public class Peer {
         msgJson.put(Constants.CREATE_ROOM, peerInfo);
         ClientMessage msg = new ClientMessage(msgJson);
         port =  msg.handleCreateRoom(msg.send());
-        try {
-            sendRequest("teste");
-        } catch(Exception e) {
-            System.err.println("Could not send a message through tcp");
-        }
+        start();
     }
 
-    public void sendRequest(String request) throws IOException {
+    public String sendRequest(String request) throws IOException {
         byte[] buf = request.getBytes();
         DatagramPacket packet = new DatagramPacket(buf, buf.length, adress, port);
         socket.send(packet);
@@ -68,7 +87,7 @@ public class Peer {
         packet = new DatagramPacket(buf, buf.length);
         this.socket.receive(packet);
         String response = new String(packet.getData(), 0, packet.getLength());
-        System.out.println("'" + response + "' response was received.");
+        return response;
     }
 
     public DataBase getDataBase() { return database; }

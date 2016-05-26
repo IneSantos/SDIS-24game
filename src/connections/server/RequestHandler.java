@@ -64,7 +64,7 @@ public class RequestHandler implements HttpHandler  {
                 ArrayList<PeerID> peerArray = new ArrayList<>();
                 peerArray.add(peerId);
                 Server.getAvailableRooms().put(roomId, peerArray);
-                ServerPeer serverPeer = new ServerPeer();
+                ServerPeer serverPeer = new ServerPeer(roomId, peerId);
                 serverPeer.start();
                 Server.getEstablishedConnections().put(peerId, serverPeer.getPort());
                 JSONObject jsonOk = new JSONObject();
