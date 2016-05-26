@@ -51,7 +51,6 @@ public class Peer extends Thread {
                 this.socket.receive(packet);
                 String response = new String(packet.getData(), 0, packet.getLength());
                 if (response.equals(Constants.R_U_THERE)) {
-                    System.out.println("Sending R U THERE ACK");
                     buf = Constants.R_U_THERE_ACK.getBytes();
                     packet = new DatagramPacket(buf, buf.length, adress, port);
                     socket.send(packet);

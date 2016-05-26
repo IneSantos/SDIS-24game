@@ -31,6 +31,7 @@ public class ServerPeer extends Thread {
 
     public ServerPeer (RoomID roomId, PeerID peerId) throws SocketException {
         socket = new DatagramSocket();
+        socket.setSoTimeout(500);
         port = socket.getLocalPort();
         client_port = -1;
         this.roomId = roomId;
@@ -71,17 +72,18 @@ public class ServerPeer extends Thread {
     }
 
     private void checkPeer() {
+        RcvAck rcvAck;
         while (listening) {
             try {
+                sendTcpData(Constants.R_U_THERE);
+                rcvAck = new RcvAck(instance);
+                rcvAck.start();
                 int ms = 1500;
                 Thread.sleep(ms);
-                sendTcpData(Constants.R_U_THERE);
-                new rcvAck(instance).start();
                 tries++;
             if (tries > 3) {
                 listening = false;
-            } else {
-                System.out.println(tries);
+                rcvAck.interrupt();
             }
             } catch (Exception e) {
                 System.err.println("Something was wrong");
@@ -91,6 +93,8 @@ public class ServerPeer extends Thread {
         peers.remove(peerId);
         if (peers.size() == 0)
             Server.getAvailableRooms().remove(roomId);
+        this.socket.close();
+        System.err.println("Peer " + peerId.getName() + " connection was closed");
     }
 
     private void sendTcpData(String msg) throws IOException {
@@ -99,22 +103,26 @@ public class ServerPeer extends Thread {
         socket.send(packet);
     }
 
-    class rcvAck extends Thread {
+    class RcvAck extends Thread {
         ServerPeer context;
-        public rcvAck (ServerPeer context) {
+        public RcvAck (ServerPeer context) {
             this.context = context;
         }
         public void run () {
             try {
                 String response = ServerPeer.getInstance().rcvTcpData();
-                System.out.println(response);
                 if (response.equals(Constants.R_U_THERE_ACK)) {
                     context.resetTries();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                System.err.println("Peer " + peerId.getName() + " timing out");
             }
         }
+    }
+    @Override
+    public void interrupt(){
+        super.interrupt();
+        this.socket.close();
     }
     private void resetTries() {
         tries = 0;

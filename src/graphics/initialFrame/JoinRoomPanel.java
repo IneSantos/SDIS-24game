@@ -56,7 +56,7 @@ public class JoinRoomPanel extends JPanel {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 System.out.println(e.toString());
-             //  new GameFrame(peer);
+                 //  new GameFrame(peer);
             }
         });
 
