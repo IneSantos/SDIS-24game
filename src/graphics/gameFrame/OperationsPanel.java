@@ -112,7 +112,7 @@ class OperationsPanel extends JPanel {
         int posX = number % 4;
         int posY = number / 4;
         try {
-            rect = ImageIO.read(new File(System.getProperty("user.dir") + "/resources/operationsW.png"));
+            rect = ImageIO.read(new File(System.getProperty("user.dir") + "/resources/images/operationsW.png"));
             BufferedImage resizedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
             Graphics2D g = resizedImage.createGraphics();
             int h = rect.getHeight() / 1;

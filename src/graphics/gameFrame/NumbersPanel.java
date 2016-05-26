@@ -94,7 +94,7 @@ class NumbersPanel extends JPanel {
         int posX = number % 5;
         int posY = number / 5;
         try {
-            rect = ImageIO.read(new File(System.getProperty("user.dir") + "/resources/numbers3.png"));
+            rect = ImageIO.read(new File(System.getProperty("user.dir") + "/resources/images/numbers3.png"));
             BufferedImage resizedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
             Graphics2D g = resizedImage.createGraphics();
             int h = rect.getHeight() / 2;
