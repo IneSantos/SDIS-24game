@@ -1,6 +1,9 @@
 package graphics.initialFrame;
 
+import connections.peer2peer.Peer;
+import connections.peer2peer.data.RoomID;
 import connections.server.Client;
+import graphics.gameFrame.GameFrame;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -59,7 +62,17 @@ public class JoinRoomPanel extends JPanel {
                 String name = JOptionPane.showInputDialog(InitialFrame.getFrames()[0], "What's your nickname?");
                 System.out.printf("The user's name is '%s'.\n", name);
                 if(name != null){
-                    System.out.println("nome!!!");
+                    InitialFrame.getFrames()[0].setVisible(false);
+                    Peer peer = null;
+                    try {
+                        peer = new Peer();
+                    } catch (Exception e1) {
+                        System.err.println("Could not create a peer");
+                    }
+                    peer.setPeerUsername(name);
+                    ArrayList keys = new ArrayList(Client.getInstance().getAvailableRooms().keySet());
+                    peer.joinRoom((RoomID) keys.get(e.getLastIndex()));
+                    new GameFrame(peer);
                 }else
                     System.out.println("sem nome");
 
