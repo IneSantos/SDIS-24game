@@ -10,9 +10,9 @@ import java.awt.*;
  */
 public class InitialFrame extends JFrame {
 
-    GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-    int width = gd.getDisplayMode().getWidth();
-    int height = gd.getDisplayMode().getHeight();
+    static GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+    public static int width = gd.getDisplayMode().getWidth();
+    public static int height = gd.getDisplayMode().getHeight();
 
 
     public InitialFrame() throws HeadlessException {
@@ -25,11 +25,11 @@ public class InitialFrame extends JFrame {
         setLayout(new BorderLayout());
         NorthPanel north = new NorthPanel();
         Panel east = new Panel();
-        east.add(Box.createHorizontalStrut(100));
+        east.add(Box.createHorizontalStrut((int)Math.floor(width/10)));
         Panel west = new Panel();
-        west.add(Box.createHorizontalStrut(100));
+        west.add(Box.createHorizontalStrut((int)Math.floor(width/10)));
         Panel south = new Panel();
-        south.add(Box.createVerticalStrut(100));
+        south.add(Box.createVerticalStrut((int)Math.floor(width/10)));
 
         getContentPane().add(north, BorderLayout.PAGE_START);
         getContentPane().add(west, BorderLayout.WEST);

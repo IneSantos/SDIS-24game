@@ -27,9 +27,11 @@ public class JoinRoomPanel extends JPanel {
 
     public JoinRoomPanel() {
 
-        int PREF_W = 600;
-        int PREF_H = 500;
-        setPreferredSize(new Dimension(PREF_W, PREF_H));
+        int PREF_W = (int)Math.floor((4*InitialFrame.width)/10);
+        int PREF_H = (int)Math.floor((6*InitialFrame.height)/8);
+
+       setPreferredSize(new Dimension(PREF_W, PREF_H));
+        System.out.println("Join Room : H: " + PREF_H + " W: " + PREF_W);
         //setBorder(BorderFactory.createLineBorder(Color.blue));
 
         JLabel jlabel = new JLabel("Join Room: ");

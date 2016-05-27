@@ -15,8 +15,9 @@ import java.net.UnknownHostException;
  */
 public class CreateRoomPanel extends JPanel {
 
-    private static final int PREF_W = 400;
-    private static final int PREF_H = 400;
+    private static final int PREF_W = (int)Math.floor((3*InitialFrame.width)/10);
+    private static final int PREF_H = (int)Math.floor((6*InitialFrame.height)/8);
+
     JLabel jlabel;
     JLabel jlabel1;
     Peer peer;
@@ -27,6 +28,7 @@ public class CreateRoomPanel extends JPanel {
     public CreateRoomPanel() {
         this.peer = peer;
         setPreferredSize(new Dimension(PREF_W, PREF_H));
+        System.out.println("Create Room : H: " + PREF_H + " W: " + PREF_W);
         //setBorder(BorderFactory.createLineBorder(Color.blue));
         jlabel = new JLabel("Create Room: ");
         jlabel.setFont(new Font("Verdana", 1, 30));
