@@ -3,6 +3,7 @@ package graphics.initialFrame;
 import connections.peer2peer.Peer;
 import connections.peer2peer.data.RoomID;
 import connections.server.Client;
+import game.Game24;
 import graphics.gameFrame.GameFrame;
 
 import javax.swing.*;
@@ -74,7 +75,7 @@ public class JoinRoomPanel extends JPanel {
                     peer.setPeerUsername(name);
                     ArrayList keys = new ArrayList(Client.getInstance().getAvailableRooms().keySet());
                     peer.joinRoom((RoomID) keys.get(e.getLastIndex()));
-                    new GameFrame(peer);
+                    new GameFrame(peer, new Game24());
                 }
 
             }

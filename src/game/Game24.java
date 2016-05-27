@@ -1,5 +1,9 @@
 package game;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import utilities.Constants;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -20,6 +24,8 @@ public class Game24 {
     public Game24() {
         this.equation = "";
     }
+
+
 
     public static void main(String args[]) {
         Game24 j = new Game24();
@@ -196,6 +202,10 @@ public class Game24 {
             }
         }
     }
+    public ArrayList<Integer> getRandomGame() {
+        Random r = new Random();
+        return challenges.get(r.nextInt(challenges.size()));
+    }
 
     public void setEquation(String equation) {
         this.equation = equation;
@@ -212,4 +222,12 @@ public class Game24 {
         a = list.toArray(new String[0]);
         return a;
     }
+
+    public JSONObject getJSON() {
+        JSONObject json = new JSONObject();
+        JSONArray array = new JSONArray(challenges);
+        json.put(Constants.GAME, array);
+        return json;
+    }
+
 }

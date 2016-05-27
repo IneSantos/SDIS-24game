@@ -58,7 +58,6 @@ public class RequestHandler implements HttpHandler {
                     roomAndPeers.put(Constants.PEER_ARRAY, array);
                     roomsArray.put(roomAndPeers);
                 }
-                System.out.println("get rooms 1");
                 roomsJson.put(Constants.ROOMS, roomsArray);
                 sendJson(roomsJson, t, Constants.OK);
                 break;
@@ -106,8 +105,13 @@ public class RequestHandler implements HttpHandler {
         Server.getEstablishedConnections().put(peerId, serverPeer.getPort());
         JSONObject jsonOk = new JSONObject();
         jsonOk.put(constraint, "" + serverPeer.getPort());
+        getGame(roomId);
+        if (roomId.getCurrentGame() == null) {
+            roomId.set24Game(Server.getGame24().getRandomGame());
+        }
+        JSONArray array = new JSONArray(roomId.getCurrentGame());
+        jsonOk.put(Constants.GAME, array);
         sendJson(jsonOk, t, Constants.OK);
-
     }
 
     private void sendJson(JSONObject json, HttpExchange t, int code) throws IOException {
@@ -119,4 +123,21 @@ public class RequestHandler implements HttpHandler {
     }
 
 
+    public void getGame(RoomID roomId) {
+        for (RoomID room : Server.getAvailableRooms().keySet()) {
+            if (room.equals(roomId)) {
+                if (room.getCurrentGame() == null) {
+                    System.out.println("Game null");
+                    roomId.set24Game(Server.getGame24().getRandomGame());
+                    return;
+                } else {
+                    System.out.println("Game found");
+                    roomId.set24Game(room.getCurrentGame());
+                    return;
+                }
+            }
+        }
+        System.out.println("Game not found");
+        roomId.set24Game(Server.getGame24().getRandomGame());
+    }
 }

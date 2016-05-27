@@ -4,7 +4,9 @@ import connections.peer2peer.data.DataBase;
 import connections.peer2peer.data.PeerID;
 import connections.peer2peer.data.RoomID;
 import connections.server.messages.ClientMessage;
+import game.Game24;
 import graphics.gameFrame.Chat;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import utilities.Constants;
 
@@ -26,6 +28,7 @@ public class Peer extends Thread {
 
     private DataBase database;
     private static Peer instance;
+
 
     public Peer() throws UnknownHostException, SocketException {
         this.peerId = new PeerID(Constants.ANONYMOUS);
@@ -93,6 +96,7 @@ public class Peer extends Thread {
                 text = "<" + name + "> Disconnected. (Timeout)";
                 Chat.getInstance().add2Chat(text);
                 msg.put(Constants.REQUEST, Constants.R_U_THERE_ACK);
+                break;
             case Constants.MESSAGE:
                 jsonObj = jsonObject.getJSONObject(Constants.PEER_ID);
                 name = jsonObj.getString(Constants.NAME);
@@ -100,6 +104,7 @@ public class Peer extends Thread {
                 text = "<" + name + "> said: " + message;
                 Chat.getInstance().add2Chat(text);
                 msg.put(Constants.REQUEST, Constants.R_U_THERE_ACK);
+                break;
             default:
                 msg.put(Constants.REQUEST, Constants.ERROR_STRING);
                 break;
@@ -173,5 +178,19 @@ public class Peer extends Thread {
 
     public void add2Responses(JSONObject msg) {
         responses.add(msg);
+    }
+
+
+
+    public ArrayList<Integer> getCurrentGame() {
+        return database.getCurrentRoom().getCurrentGame();
+    }
+
+    public void set24Game(JSONArray array) {
+        ArrayList<Integer> game = new ArrayList<>();
+        for (int i = 0; i < array.length(); i++){
+            game.add((Integer)array.get(i));
+        }
+        database.getCurrentRoom().set24Game(game);
     }
 }

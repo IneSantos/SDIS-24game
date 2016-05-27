@@ -46,22 +46,18 @@ class NumbersPanel extends JPanel {
             public void mousePressed(MouseEvent e) {
                 if (e.getX() >= 0 && e.getX() <= 200) {
                     if (e.getY() >= 0 && e.getY() <= 200) {
-                        System.out.println("Primeiro quadrado " + challenges.get(0) + " eq " + game.getEquation());
                         game.setEquation(game.getEquation() + String.valueOf(challenges.get(0)));
                         game.stateMachine(String.valueOf(challenges.get(0)));
                     } else if (e.getY() > 200 && e.getY() <= 400) {
-                        System.out.println("Terceiro quadrado " + challenges.get(2) + " eq " + game.getEquation());
                         game.setEquation(game.getEquation() + String.valueOf(challenges.get(2)));
                         game.stateMachine(String.valueOf(challenges.get(2)));
                     }
                 } else if (e.getX() > 200 && e.getX() <= 400) {
                     if (e.getY() >= 0 && e.getY() <= 200) {
-                        System.out.println("Segundo quadrado " + challenges.get(1) + " eq " + game.getEquation());
                         game.setEquation(game.getEquation() + String.valueOf(challenges.get(1)));
                         game.stateMachine(String.valueOf(challenges.get(1)));
 
                     } else if (e.getY() > 200 && e.getY() <= 400) {
-                        System.out.println("Quarto quadrado " + challenges.get(3) + " eq " + game.getEquation());
                         game.setEquation(game.getEquation() + String.valueOf(challenges.get(3)));
                         game.stateMachine(String.valueOf(challenges.get(3)));
                     }

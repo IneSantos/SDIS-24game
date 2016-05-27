@@ -1,6 +1,7 @@
 package graphics.initialFrame;
 
 import connections.peer2peer.Peer;
+import game.Game24;
 import graphics.gameFrame.GameFrame;
 import graphics.utilities.CustomTextField;
 
@@ -90,7 +91,7 @@ public class CreateRoomPanel extends JPanel {
                     }
                     peer.setPeerUsername(nickName);
                     peer.createRoom(roomName);
-                    new GameFrame(peer);
+                    new GameFrame(peer, new Game24());
                 }
             }
         });

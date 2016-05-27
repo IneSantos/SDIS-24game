@@ -33,24 +33,6 @@ public class DataBase extends Thread {
         this.currentRoom = room;
     }
 
-   /* public void updateRooms(Header header) {
-        if(!availableRooms.containsKey(header.getRoomID())) {
-            ArrayList<PeerID> newPeer = new ArrayList<>();
-            newPeer.add(header.getSenderID());
-            availableRooms.put(header.getRoomID(), newPeer);
-        } else {
-            ArrayList<PeerID> peers = availableRooms.get(header.getRoomID());
-            peers.add(header.getSenderID());
-            availableRooms.put(header.getRoomID(), peers);
-        }
-        DefaultListModel model = new DefaultListModel();
-        for (RoomID room : availableRooms.keySet()) {
-            model.addElement(room.getName());
-        }
-        if (JoinRoomPanel.getInstance() != null)
-            JoinRoomPanel.getInstance().getListbox().setModel(model);
-    }*/
-
     public void clearAvailableRooms() {
         availableRooms.clear();
         if (JoinRoomPanel.getInstance() != null)

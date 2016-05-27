@@ -9,13 +9,11 @@ import java.awt.*;
 public class GameFrame extends JFrame {
     static South south;
 
-    public GameFrame(Peer peer) {
+    public GameFrame(Peer peer, Game24 g) {
         super("Jogo 24");
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-
-        Game24 g = new Game24();
 
         CenterPanel centerPanel = new CenterPanel(peer, g);
         setLayout(new BorderLayout());

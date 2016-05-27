@@ -1,5 +1,8 @@
 package connections.server.messages;
 
+import connections.peer2peer.Peer;
+import game.Game24;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import utilities.Constants;
 
@@ -8,6 +11,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 /**
  * Created by Pedro Fraga on 26-May-16.
@@ -48,6 +52,8 @@ public class ClientMessage {
     public int handleCreateRoom(JSONObject serverResponse) {
         System.out.println(serverResponse);
         String result = serverResponse.getString(Constants.CREATE_ROOM);
+        JSONArray array = serverResponse.getJSONArray(Constants.GAME);
+        Peer.getInstance().set24Game(array);
         return Integer.parseInt(result);
     }
 
@@ -58,6 +64,8 @@ public class ClientMessage {
     public int handleJoinRoom(JSONObject serverResponse) {
         System.out.println(serverResponse);
         String result = serverResponse.getString(Constants.JOIN_ROOM);
+        JSONArray array = serverResponse.getJSONArray(Constants.GAME);
+        Peer.getInstance().set24Game(array);
         return Integer.parseInt(result);
     }
 }
