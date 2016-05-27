@@ -10,7 +10,7 @@ import java.util.Random;
 /**
  * Created by inesa on 19/05/2016.
  */
-public class CenterPanel  extends JPanel {
+public class CenterPanel extends JPanel {
 
     private static final int SPACE = 50;
 
@@ -28,8 +28,6 @@ public class CenterPanel  extends JPanel {
         add(operationsPanel);
 
     }
-
-
 
 
 }

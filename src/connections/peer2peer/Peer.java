@@ -33,15 +33,20 @@ public class Peer extends Thread {
     }
 
 
-    public PeerID getPeerID() { return this.peerId; }
-    public static Peer getInstance() { return instance; }
+    public PeerID getPeerID() {
+        return this.peerId;
+    }
+
+    public static Peer getInstance() {
+        return instance;
+    }
 
     public void run() {
         try {
             String response = sendRequest(Constants.R_U_THERE);
             if (!response.equals(Constants.R_U_THERE_ACK))
                 return;
-        } catch(Exception e) {
+        } catch (Exception e) {
             System.err.println("Could not send a message through tcp");
         }
         while (true) {
@@ -73,7 +78,7 @@ public class Peer extends Thread {
         msgJson.put(Constants.REQUEST, Constants.CREATE_ROOM);
         msgJson.put(Constants.CREATE_ROOM, peerInfo);
         ClientMessage msg = new ClientMessage(msgJson);
-        port =  msg.handleCreateRoom(msg.send());
+        port = msg.handleCreateRoom(msg.send());
         start();
     }
 
@@ -89,8 +94,15 @@ public class Peer extends Thread {
         return response;
     }
 
-    public DataBase getDataBase() { return database; }
-    public void setPeerUsername (String username) { this.peerId.setUsername(username); };
+    public DataBase getDataBase() {
+        return database;
+    }
+
+    public void setPeerUsername(String username) {
+        this.peerId.setUsername(username);
+    }
+
+    ;
 
     public void createRoom(String roomName, String nickName) {
         setPeerUsername(nickName);
@@ -98,6 +110,17 @@ public class Peer extends Thread {
     }
 
     public void joinRoom(RoomID room) {
+        database.setCurrentRoom(room);
+        JSONObject peerInfo = new JSONObject();
+        peerInfo.put(Constants.PEER_ID, new JSONObject(peerId));
+        peerInfo.put(Constants.ROOM_ID, new JSONObject(room));
 
+        JSONObject msgJson = new JSONObject();
+        msgJson.put(Constants.REQUEST, Constants.JOIN_ROOM);
+        msgJson.put(Constants.JOIN_ROOM, peerInfo);
+
+        ClientMessage msg = new ClientMessage(msgJson);
+        port = msg.handleJoinRoom(msg.send());
+        start();
     }
 }

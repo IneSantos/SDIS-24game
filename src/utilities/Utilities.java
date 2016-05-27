@@ -21,13 +21,12 @@ public class Utilities {
         Date date = new Date();
         return dateFormat.format(date);
     }
-    public static String getBytesFromInputStream(InputStream is) throws IOException
-    {
-        try (ByteArrayOutputStream os = new ByteArrayOutputStream();)
-        {
+
+    public static String getBytesFromInputStream(InputStream is) throws IOException {
+        try (ByteArrayOutputStream os = new ByteArrayOutputStream();) {
             byte[] buffer = new byte[0xFFFF];
 
-            for (int len; (len = is.read(buffer)) != -1;)
+            for (int len; (len = is.read(buffer)) != -1; )
                 os.write(buffer, 0, len);
 
             os.flush();
@@ -36,6 +35,7 @@ public class Utilities {
             return URLDecoder.decode(new String(bytes, 0, bytes.length), "UTF-8");
         }
     }
+
     public static boolean isJSONValid(String test) {
         try {
             new JSONObject(test);

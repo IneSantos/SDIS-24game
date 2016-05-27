@@ -2,7 +2,6 @@ package connections.server;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import connections.peer2peer.Peer;
 import connections.peer2peer.data.PeerID;
 import connections.peer2peer.data.RoomID;
 import org.json.JSONArray;
@@ -13,13 +12,14 @@ import utilities.Utilities;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Map;
 
 /**
  * Created by Pedro Fraga on 26-May-16.
  */
-public class RequestHandler implements HttpHandler  {
+public class RequestHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange t) throws IOException {
@@ -37,7 +37,7 @@ public class RequestHandler implements HttpHandler  {
         } else {
             request = Constants.ERROR_STRING;
         }
-        switch(request) {
+        switch (request) {
             case Constants.GET_ROOMS:
                 JSONObject roomsJson = new JSONObject();
                 JSONArray roomsArray = new JSONArray();
@@ -55,21 +55,12 @@ public class RequestHandler implements HttpHandler  {
                 sendJson(roomsJson, t, Constants.OK);
                 break;
             case Constants.CREATE_ROOM:
-                System.out.println(request);
                 JSONObject createdRoom = jsonRequest.getJSONObject(Constants.CREATE_ROOM);
-                JSONObject roomJson = createdRoom.getJSONObject(Constants.ROOM_ID);
-                JSONObject peerJson = createdRoom.getJSONObject(Constants.PEER_ID);
-                RoomID roomId = new RoomID(roomJson);
-                PeerID peerId = new PeerID(peerJson);
-                ArrayList<PeerID> peerArray = new ArrayList<>();
-                peerArray.add(peerId);
-                Server.getAvailableRooms().put(roomId, peerArray);
-                ServerPeer serverPeer = new ServerPeer(roomId, peerId);
-                serverPeer.start();
-                Server.getEstablishedConnections().put(peerId, serverPeer.getPort());
-                JSONObject jsonOk = new JSONObject();
-                jsonOk.put(Constants.CREATE_ROOM, "" + serverPeer.getPort());
-                sendJson(jsonOk, t, Constants.OK);
+                handleRoom(createdRoom, t, request);
+                break;
+            case Constants.JOIN_ROOM:
+                JSONObject joinRoom = jsonRequest.getJSONObject(Constants.JOIN_ROOM);
+                handleRoom(joinRoom, t, request);
                 break;
             default:
                 System.err.println("Unknown request (" + request + ")");
@@ -80,6 +71,28 @@ public class RequestHandler implements HttpHandler  {
         }
     }
 
+    private void handleRoom(JSONObject createdRoom, HttpExchange t, String constraint) throws IOException {
+        JSONObject roomJson = createdRoom.getJSONObject(Constants.ROOM_ID);
+        JSONObject peerJson = createdRoom.getJSONObject(Constants.PEER_ID);
+        RoomID roomId = new RoomID(roomJson);
+        PeerID peerId = new PeerID(peerJson);
+        ArrayList<PeerID> peerArray;
+        if (Server.getAvailableRooms().get(roomId) != null) {
+            peerArray = Server.getAvailableRooms().get(roomId);
+            peerArray.add(peerId);
+        } else {
+            peerArray = new ArrayList<>();
+            peerArray.add(peerId);
+            Server.getAvailableRooms().put(roomId, peerArray);
+        }
+        ServerPeer serverPeer = new ServerPeer(roomId, peerId);
+        serverPeer.start();
+        Server.getEstablishedConnections().put(peerId, serverPeer.getPort());
+        JSONObject jsonOk = new JSONObject();
+        jsonOk.put(constraint, "" + serverPeer.getPort());
+        sendJson(jsonOk, t, Constants.OK);
+    }
+
     private void sendJson(JSONObject json, HttpExchange t, int code) throws IOException {
         OutputStream os = t.getResponseBody();
         String response = json.toString();
@@ -87,7 +100,6 @@ public class RequestHandler implements HttpHandler  {
         os.write(response.getBytes());
         os.close();
     }
-
 
 
 }

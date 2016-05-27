@@ -19,7 +19,8 @@ public class ClientMessage {
     public ClientMessage(JSONObject json) {
         this.jsonMsg = json;
     }
-    public JSONObject send () {
+
+    public JSONObject send() {
         String urlString = "http://" + hostname + ":8000/24game";
         URL url = null;
         try {
@@ -49,7 +50,14 @@ public class ClientMessage {
         String result = serverResponse.getString(Constants.CREATE_ROOM);
         return Integer.parseInt(result);
     }
+
     public static String getHostname() {
         return hostname;
+    }
+
+    public int handleJoinRoom(JSONObject serverResponse) {
+        System.out.println(serverResponse);
+        String result = serverResponse.getString(Constants.JOIN_ROOM);
+        return Integer.parseInt(result);
     }
 }

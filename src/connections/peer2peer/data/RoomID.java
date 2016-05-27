@@ -12,17 +12,18 @@ public class RoomID {
     String dateOfCreation;
 
 
-    public RoomID (String name, String dateOfCreation) {
+    public RoomID(String name, String dateOfCreation) {
         this.name = name;
         this.dateOfCreation = dateOfCreation;
     }
-    public RoomID (String name) {
+
+    public RoomID(String name) {
         this.name = name;
         this.dateOfCreation = Utilities.getCurrentDate();
     }
 
     public RoomID(JSONObject roomIdJson) {
-        name  = roomIdJson.getString(Constants.NAME);
+        name = roomIdJson.getString(Constants.NAME);
         dateOfCreation = roomIdJson.getString(Constants.DATE_CREATION);
     }
 

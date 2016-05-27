@@ -13,7 +13,7 @@ import org.json.JSONObject;
 import utilities.Constants;
 
 import javax.swing.*;
-import java.io.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -41,7 +41,8 @@ public class Client {
         }
         DefaultListModel model = new DefaultListModel();
         for (RoomID room : availableRooms.keySet()) {
-            model.addElement(room.getName());
+            String players = availableRooms.get(room).size() == 1 ? "player" : "players";
+            model.addElement(room.getName() + "  ( " + availableRooms.get(room).size() + " " + players + " )");
         }
         if (JoinRoomPanel.getInstance() != null)
             JoinRoomPanel.getInstance().getListbox().setModel(model);
@@ -78,6 +79,7 @@ public class Client {
         }
         return true;
     }
+
     public static Client getInstance() {
         return instance;
     }
@@ -86,7 +88,7 @@ public class Client {
         availableRooms.clear();
     }
 
-    public HashMap<RoomID,ArrayList<PeerID>> getAvailableRooms() {
+    public HashMap<RoomID, ArrayList<PeerID>> getAvailableRooms() {
         return availableRooms;
     }
 }

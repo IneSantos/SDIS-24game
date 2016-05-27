@@ -15,15 +15,19 @@ public class DataBase extends Thread {
     RoomID currentRoom; /* A sala em que o jogador se encontra, null se não está em nenhuma sala */
     static DataBase instance;
 
-    public DataBase () {
+    public DataBase() {
         currentRoom = null;
         instance = this;
         availableRooms = new HashMap<>();
     }
 
-    public static DataBase getInstance() { return instance; }
+    public static DataBase getInstance() {
+        return instance;
+    }
 
-    public RoomID getCurrentRoom() { return currentRoom; }
+    public RoomID getCurrentRoom() {
+        return currentRoom;
+    }
 
     public void setCurrentRoom(RoomID room) {
         this.currentRoom = room;

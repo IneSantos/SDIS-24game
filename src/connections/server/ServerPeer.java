@@ -15,6 +15,7 @@ import java.util.ArrayList;
  * Created by Pedro Fraga on 26-May-16.
  */
 public class ServerPeer extends Thread {
+
     private DatagramSocket socket;
     private int port;
     private int client_port;
@@ -23,26 +24,20 @@ public class ServerPeer extends Thread {
     private RoomID roomId;
     private PeerID peerId;
 
-    private static ServerPeer instance;
-
     private boolean listening;
 
     private int tries;
 
-    public ServerPeer (RoomID roomId, PeerID peerId) throws SocketException {
-        socket = new DatagramSocket();
-        socket.setSoTimeout(500);
+    public ServerPeer(RoomID roomId, PeerID peerId) throws SocketException {
+        socket = new DatagramSocket(0);
+        socket.setSoTimeout(1300);
         port = socket.getLocalPort();
         client_port = -1;
         this.roomId = roomId;
         this.peerId = peerId;
         listening = true;
         tries = 0;
-        instance = this;
-    }
-
-    public static ServerPeer getInstance() {
-        return instance;
+        System.out.println(port);
     }
 
     public int getPort() {
@@ -60,15 +55,15 @@ public class ServerPeer extends Thread {
     }
 
     public void run() {
-            try {
-                String msg = rcvTcpData();
-                if (msg.equals(Constants.R_U_THERE)) {
-                    sendTcpData(Constants.R_U_THERE_ACK);
-                    checkPeer();
-                }
-            } catch (IOException e) {
-                System.err.println("Could not receive tcp message");
+        try {
+            String msg = rcvTcpData();
+            if (msg.equals(Constants.R_U_THERE)) {
+                sendTcpData(Constants.R_U_THERE_ACK);
+                checkPeer();
             }
+        } catch (IOException e) {
+            System.err.println("Could not receive tcp message");
+        }
     }
 
     private void checkPeer() {
@@ -76,15 +71,15 @@ public class ServerPeer extends Thread {
         while (listening) {
             try {
                 sendTcpData(Constants.R_U_THERE);
-                rcvAck = new RcvAck(instance);
+                rcvAck = new RcvAck(this);
                 rcvAck.start();
                 int ms = 1500;
                 Thread.sleep(ms);
                 tries++;
-            if (tries > 3) {
-                listening = false;
-                rcvAck.interrupt();
-            }
+                if (tries > 3) {
+                    listening = false;
+                    rcvAck.interrupt();
+                }
             } catch (Exception e) {
                 System.err.println("Something was wrong");
             }
@@ -94,7 +89,7 @@ public class ServerPeer extends Thread {
         if (peers.size() == 0)
             Server.getAvailableRooms().remove(roomId);
         this.socket.close();
-        System.err.println("Peer " + peerId.getName() + " connection was closed");
+        System.err.println("Peer " + peerId.getName() + " connection was closed (peer size = " + peers.size() + ")");
     }
 
     private void sendTcpData(String msg) throws IOException {
@@ -103,27 +98,36 @@ public class ServerPeer extends Thread {
         socket.send(packet);
     }
 
+    public PeerID getPeerId() {
+        return peerId;
+    }
+
+
     class RcvAck extends Thread {
         ServerPeer context;
-        public RcvAck (ServerPeer context) {
+
+        public RcvAck(ServerPeer context) {
             this.context = context;
         }
-        public void run () {
+
+        public void run() {
             try {
-                String response = ServerPeer.getInstance().rcvTcpData();
+                String response = context.rcvTcpData();
                 if (response.equals(Constants.R_U_THERE_ACK)) {
                     context.resetTries();
                 }
             } catch (IOException e) {
-                System.err.println("Peer " + peerId.getName() + " timing out");
+                System.err.println("Peer " + context.getPeerId().getName() + " timing out at port " + context.getPort());
             }
         }
     }
+
     @Override
-    public void interrupt(){
+    public void interrupt() {
         super.interrupt();
         this.socket.close();
     }
+
     private void resetTries() {
         tries = 0;
     }

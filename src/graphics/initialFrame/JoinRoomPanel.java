@@ -43,7 +43,7 @@ public class JoinRoomPanel extends JPanel {
         pane.setEditable(false);
 
         // Create a new listbox control
-        listbox = new JList( roomsName.toArray() );
+        listbox = new JList(roomsName.toArray());
 
         JScrollPane areaScroll = new JScrollPane(listbox);
         areaScroll.setPreferredSize(new Dimension(500, 300));
@@ -60,8 +60,8 @@ public class JoinRoomPanel extends JPanel {
             public void valueChanged(ListSelectionEvent e) {
                 System.out.println(e.toString());
                 String name = JOptionPane.showInputDialog(InitialFrame.getFrames()[0], "What's your nickname?");
-                System.out.printf("The user's name is '%s'.\n", name);
-                if(name != null){
+                //System.out.printf("The user's name is '%s'.\n", name);
+                if (name != null) {
                     InitialFrame.getFrames()[0].setVisible(false);
                     Peer peer = null;
                     try {
@@ -73,13 +73,12 @@ public class JoinRoomPanel extends JPanel {
                     ArrayList keys = new ArrayList(Client.getInstance().getAvailableRooms().keySet());
                     peer.joinRoom((RoomID) keys.get(e.getLastIndex()));
                     new GameFrame(peer);
-                }else
-                    System.out.println("sem nome");
+                }
 
             }
         });
 
-                instance = this;
+        instance = this;
     }
 
     public static JoinRoomPanel getInstance() {
@@ -90,7 +89,7 @@ public class JoinRoomPanel extends JPanel {
         return listbox;
     }
 
-    private void buttonListener(){
+    private void buttonListener() {
         refreshButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Client.getInstance().requestAvailableRooms();

@@ -3,14 +3,13 @@ package graphics.gameFrame;
 import connections.peer2peer.Peer;
 import game.Game24;
 
-import java.awt.*;
-
 import javax.swing.*;
+import java.awt.*;
 
 public class GameFrame extends JFrame {
     static South south;
 
-    public GameFrame(Peer peer){
+    public GameFrame(Peer peer) {
         super("Jogo 24");
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

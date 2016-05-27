@@ -6,7 +6,10 @@ import graphics.utilities.CustomTextField;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 /**
@@ -24,18 +27,18 @@ public class Chat extends JPanel {
     JTextArea textArea;
 
     ArrayList<String> messages = new ArrayList<>();
-    Peer p ;
+    Peer p;
     Game24 game;
 
     public Chat(Peer peer, Game24 game) {
         setPreferredSize(new Dimension(PREF_W, PREF_H));
-       // setBorder(BorderFactory.createLineBorder(Color.black));
+        // setBorder(BorderFactory.createLineBorder(Color.black));
 
         this.p = peer;
         this.game = game;
 
-        textArea = new JTextArea(22,35);
-        textArea.setFont(new Font("Verdana",1,15));
+        textArea = new JTextArea(22, 35);
+        textArea.setFont(new Font("Verdana", 1, 15));
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
         textArea.setEditable(false);
@@ -48,7 +51,7 @@ public class Chat extends JPanel {
 
         //enterText
         textField = new CustomTextField("Enter text...", 30);
-        textField.setFont(new Font("Verdana",1,15));
+        textField.setFont(new Font("Verdana", 1, 15));
         textField.setEditable(true);
         keyBoardListener();
 
@@ -69,11 +72,11 @@ public class Chat extends JPanel {
     }
 
 
-    private void buttonListener(){
+    private void buttonListener() {
         sendButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 messages.add(textField.getText());
-                textArea.append(p.getPeerID().getName() +  ": " + messages.get(messages.size()-1) + "\n");
+                textArea.append(p.getPeerID().getName() + ": " + messages.get(messages.size() - 1) + "\n");
                 textField.setText("Enter text...");
                 textField.custText();
             }
@@ -84,7 +87,7 @@ public class Chat extends JPanel {
                 game.setEquation("");
                 GameFrame.getSouth().getEquation().setText("Equation: " + game.getEquation());
                 GameFrame.getSouth().getEquation().paintImmediately(GameFrame.getSouth().getEquation().getVisibleRect());
-                System.out.println("Clear all: " +  game.getEquation());
+                System.out.println("Clear all: " + game.getEquation());
             }
         });
 
@@ -99,15 +102,12 @@ public class Chat extends JPanel {
         });
     }
 
-    public void keyBoardListener(){
-        textField.addKeyListener(new KeyAdapter()
-        {
-            public void keyPressed(KeyEvent e)
-            {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER)
-                {
+    public void keyBoardListener() {
+        textField.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     messages.add(textField.getText());
-                    textArea.append(p.getPeerID().getName() +  ": " + messages.get(messages.size()-1) + "\n");
+                    textArea.append(p.getPeerID().getName() + ": " + messages.get(messages.size() - 1) + "\n");
                     textField.setText("Enter text...");
                     textField.custText();
                 }
