@@ -1,5 +1,6 @@
 package graphics.gameFrame;
 
+import connections.peer2peer.Peer;
 import game.Game24;
 
 import javax.imageio.ImageIO;
@@ -22,6 +23,7 @@ class NumbersPanel extends JPanel {
     private ArrayList<BufferedImage> squares = new ArrayList<BufferedImage>();
     private ArrayList<Integer> challenges = new ArrayList<>();
     private Game24 game;
+
 
 
     public NumbersPanel(ArrayList<Integer> challenges, Game24 game) {
@@ -64,6 +66,11 @@ class NumbersPanel extends JPanel {
                 }
                 GameFrame.getSouth().getEquation().setText("Equation: " + game.getEquation());
                 GameFrame.getSouth().getEquation().paintImmediately(GameFrame.getSouth().getEquation().getVisibleRect());
+                if ( game.check24(game.getEquation())) {
+                    Peer.getInstance().setWinner(game.getEquation());
+                } else {
+                    System.out.println(game.getEquation() + " it's not 24");
+                }
             }
 
             @Override

@@ -2,6 +2,7 @@ package connections.server;
 
 import connections.peer2peer.data.PeerID;
 import connections.peer2peer.data.RoomID;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import utilities.Constants;
 
@@ -148,13 +149,30 @@ public class ServerPeer extends Thread {
                 JSONObject jsonMsg = new JSONObject(response);
                 System.out.println(jsonMsg);
                 String request = jsonMsg.getString(Constants.REQUEST);
+                ArrayList<PeerID> peers;
                 switch (request) {
                     case Constants.R_U_THERE_ACK:
                         context.resetTries();
                         break;
                     case Constants.MESSAGE:
                         context.resetTries();
-                        ArrayList<PeerID> peers = Server.getAvailableRooms().get(context.getRoomId());
+                       peers = Server.getAvailableRooms().get(context.getRoomId());
+                        for (PeerID peer : peers) {
+                            peer.getServerPeer().add2MsgArray(jsonMsg);
+                        }
+                        break;
+                    case Constants.WINNER:
+                        context.resetTries();
+                        ArrayList<Integer> array = new ArrayList();
+                        for (RoomID room : Server.getAvailableRooms().keySet()) {
+                            if (room.equals(roomId)) {
+                                array = Server.getGame24().getRandomGame();
+                                room.set24Game(array);
+                            }
+                        }
+                        JSONArray jsonArray = new JSONArray(array);
+                        jsonMsg.put(Constants.GAME, jsonArray);
+                        peers = Server.getAvailableRooms().get(context.getRoomId());
                         for (PeerID peer : peers) {
                             peer.getServerPeer().add2MsgArray(jsonMsg);
                         }

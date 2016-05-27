@@ -143,9 +143,11 @@ public class Game24 {
             }
         }
 
-        if (results.get(results.size() - 1) == 24)
-            return true;
-        else return false;
+        if (results.size() > 0)
+            if (results.get(results.size() - 1) == 24)
+                return true;
+
+        return false;
     }
 
     public int basicaCalculator(Integer num1, Integer num2, String op) {
@@ -230,4 +232,7 @@ public class Game24 {
         return json;
     }
 
+    public void resetEquation() {
+        equation = "";
+    }
 }

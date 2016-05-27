@@ -18,6 +18,7 @@ public class Constants {
     public static final String JOIN_ROOM = "join room";
     public static final String JOINED_ROOM = "joined room";
     public static final String MESSAGE = "message";
+    public static final String EQUATION = "equation";
     public static final String TIMEDOUT = "timedout";
     public static final String NAME = "name";
     public static final String DATE_CREATION = "dateOfCreation";
@@ -27,6 +28,7 @@ public class Constants {
     public static final String ERROR_STRING = "error";
     public static final String NOT_FOUND = "not found";
     public static final String GAME = "game";
+    public static final String WINNER = "winner";
 
     public static final String OK_STRING = "ok";
 

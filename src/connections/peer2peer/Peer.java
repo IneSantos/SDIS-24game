@@ -5,6 +5,7 @@ import connections.peer2peer.data.PeerID;
 import connections.peer2peer.data.RoomID;
 import connections.server.messages.ClientMessage;
 import game.Game24;
+import graphics.gameFrame.CenterPanel;
 import graphics.gameFrame.Chat;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -105,6 +106,17 @@ public class Peer extends Thread {
                 Chat.getInstance().add2Chat(text);
                 msg.put(Constants.REQUEST, Constants.R_U_THERE_ACK);
                 break;
+            case Constants.WINNER:
+                jsonObj = jsonObject.getJSONObject(Constants.PEER_ID);
+                name = jsonObj.getString(Constants.NAME);
+                String equation = jsonObject.getString(Constants.EQUATION);
+                text = "<" + name + "> Reached 24: " + equation + ". A new board was generated.";
+                Chat.getInstance().add2Chat(text);
+                msg.put(Constants.REQUEST, Constants.R_U_THERE_ACK);
+                JSONArray array = jsonObject.getJSONArray(Constants.GAME);
+                Peer.getInstance().set24Game(array);
+                CenterPanel.getInstance().updateNumbersPanel();
+                break;
             default:
                 msg.put(Constants.REQUEST, Constants.ERROR_STRING);
                 break;
@@ -154,12 +166,6 @@ public class Peer extends Thread {
         this.peerId.setUsername(username);
     }
 
-    ;
-
-    public void createRoom(String roomName, String nickName) {
-        setPeerUsername(nickName);
-        createRoom(roomName);
-    }
 
     public void joinRoom(RoomID room) {
         database.setCurrentRoom(room);
@@ -192,5 +198,13 @@ public class Peer extends Thread {
             game.add((Integer)array.get(i));
         }
         database.getCurrentRoom().set24Game(game);
+    }
+
+    public void setWinner(String equation) {
+        JSONObject jsonMsg = new JSONObject();
+        jsonMsg.put(Constants.REQUEST, Constants.WINNER);
+        jsonMsg.put(Constants.PEER_ID, Peer.getInstance().getPeerID().getJSON());
+        jsonMsg.put(Constants.EQUATION, equation);
+        responses.add(jsonMsg);
     }
 }

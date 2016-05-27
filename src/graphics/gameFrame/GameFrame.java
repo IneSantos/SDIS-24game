@@ -9,6 +9,8 @@ import java.awt.*;
 public class GameFrame extends JFrame {
     static South south;
 
+    static GameFrame instance;
+
     public GameFrame(Peer peer, Game24 g) {
         super("Jogo 24");
 
@@ -36,6 +38,11 @@ public class GameFrame extends JFrame {
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
+        instance = this;
+    }
+
+    public static GameFrame getInstance() {
+        return instance;
     }
 
     public static South getSouth() {
