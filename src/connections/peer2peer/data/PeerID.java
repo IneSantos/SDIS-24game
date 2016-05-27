@@ -1,5 +1,6 @@
 package connections.peer2peer.data;
 
+import connections.server.ServerPeer;
 import org.json.JSONObject;
 import utilities.Constants;
 import utilities.Utilities;
@@ -10,6 +11,7 @@ import utilities.Utilities;
 public class PeerID {
     String username = "";
     String dateOfCreation;
+    ServerPeer serverPeer = null;
 
     public PeerID(String name) {
         this.username = name;
@@ -32,6 +34,14 @@ public class PeerID {
 
     public String getDateOfCreation() {
         return dateOfCreation;
+    }
+
+    public ServerPeer getServerPeer() {
+        return serverPeer;
+    }
+
+    public void setServerPeer(ServerPeer serverPeer) {
+        this.serverPeer = serverPeer;
     }
 
     @Override
@@ -59,5 +69,8 @@ public class PeerID {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public void setServerPeer() {
     }
 }

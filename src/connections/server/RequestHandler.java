@@ -12,7 +12,6 @@ import utilities.Utilities;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -39,18 +38,28 @@ public class RequestHandler implements HttpHandler {
         }
         switch (request) {
             case Constants.GET_ROOMS:
+                ;
                 JSONObject roomsJson = new JSONObject();
                 JSONArray roomsArray = new JSONArray();
+                if (Server.getAvailableRooms() == null)
+                    System.out.println("get rooms null");
+
                 for (Map.Entry<RoomID, ArrayList<PeerID>> entry : Server.getAvailableRooms().entrySet()) {
                     JSONObject roomAndPeers = new JSONObject();
 
                     RoomID roomId = entry.getKey();
                     ArrayList<PeerID> peerArray = entry.getValue();
+                    JSONArray array = new JSONArray();
+                    for (PeerID peer : peerArray) {
+                        JSONObject json = new JSONObject(peer.toString());
+                        array.put(json);
+                    }
                     JSONObject roomIdJson = new JSONObject(roomId);
                     roomAndPeers.put(Constants.ROOM_ID, roomIdJson);
-                    roomAndPeers.put(Constants.PEER_ARRAY, peerArray);
+                    roomAndPeers.put(Constants.PEER_ARRAY, array);
                     roomsArray.put(roomAndPeers);
                 }
+                System.out.println("get rooms 1");
                 roomsJson.put(Constants.ROOMS, roomsArray);
                 sendJson(roomsJson, t, Constants.OK);
                 break;
@@ -85,12 +94,20 @@ public class RequestHandler implements HttpHandler {
             peerArray.add(peerId);
             Server.getAvailableRooms().put(roomId, peerArray);
         }
+        if (constraint.equals(Constants.JOIN_ROOM)) {
+            JSONObject joinedJson = new JSONObject();
+            joinedJson.put(Constants.JOINED_ROOM, peerJson);
+            for (PeerID peer : peerArray) {
+                peer.getServerPeer().add2MsgArray(joinedJson);
+            }
+        }
         ServerPeer serverPeer = new ServerPeer(roomId, peerId);
         serverPeer.start();
         Server.getEstablishedConnections().put(peerId, serverPeer.getPort());
         JSONObject jsonOk = new JSONObject();
         jsonOk.put(constraint, "" + serverPeer.getPort());
         sendJson(jsonOk, t, Constants.OK);
+
     }
 
     private void sendJson(JSONObject json, HttpExchange t, int code) throws IOException {

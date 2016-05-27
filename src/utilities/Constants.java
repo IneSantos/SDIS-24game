@@ -16,6 +16,7 @@ public class Constants {
     public static final String GET_ROOMS = "get rooms";
     public static final String CREATE_ROOM = "create room";
     public static final String JOIN_ROOM = "join room";
+    public static final String JOINED_ROOM = "joined room";
     public static final String NAME = "name";
     public static final String DATE_CREATION = "dateOfCreation";
     public static final String ROOM_ID = "room id";

@@ -29,8 +29,8 @@ public class Server {
     public static HashMap<RoomID, ArrayList<PeerID>> getAvailableRooms() {
         return availableRooms;
     }
-
     public static HashMap<PeerID, Integer> getEstablishedConnections() {
         return establishedConnections;
     }
+
 }

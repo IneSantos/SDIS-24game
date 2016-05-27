@@ -30,6 +30,8 @@ public class Chat extends JPanel {
     Peer p;
     Game24 game;
 
+    static Chat instance;
+
     public Chat(Peer peer, Game24 game) {
         setPreferredSize(new Dimension(PREF_W, PREF_H));
         // setBorder(BorderFactory.createLineBorder(Color.black));
@@ -69,6 +71,7 @@ public class Chat extends JPanel {
         add(sendButton);
         add(clearAll);
         add(backspace);
+        instance = this;
     }
 
 
@@ -113,5 +116,13 @@ public class Chat extends JPanel {
                 }
             }
         });
+    }
+
+    public static Chat getInstance() {
+        return instance;
+    }
+
+    public void addMessage(String text) {
+        messages.add(text);
     }
 }

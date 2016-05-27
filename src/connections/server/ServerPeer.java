@@ -2,6 +2,7 @@ package connections.server;
 
 import connections.peer2peer.data.PeerID;
 import connections.peer2peer.data.RoomID;
+import org.json.JSONObject;
 import utilities.Constants;
 
 import java.io.IOException;
@@ -25,7 +26,7 @@ public class ServerPeer extends Thread {
     private PeerID peerId;
 
     private boolean listening;
-
+    private ArrayList<JSONObject> messagesArray;
     private int tries;
 
     public ServerPeer(RoomID roomId, PeerID peerId) throws SocketException {
@@ -36,8 +37,9 @@ public class ServerPeer extends Thread {
         this.roomId = roomId;
         this.peerId = peerId;
         listening = true;
+        messagesArray = new ArrayList<>();
+        peerId.setServerPeer(this);
         tries = 0;
-        System.out.println(port);
     }
 
     public int getPort() {
@@ -57,9 +59,15 @@ public class ServerPeer extends Thread {
     public void run() {
         try {
             String msg = rcvTcpData();
-            if (msg.equals(Constants.R_U_THERE)) {
-                sendTcpData(Constants.R_U_THERE_ACK);
-                checkPeer();
+            JSONObject jsonMsg = new JSONObject(msg);
+            String request = jsonMsg.getString(Constants.REQUEST);
+            switch (request) {
+                case Constants.R_U_THERE:
+                    jsonMsg = new JSONObject();
+                    jsonMsg.put(Constants.REQUEST, Constants.R_U_THERE_ACK);
+                    sendTcpData(jsonMsg.toString());
+                    checkPeer();
+                    break;
             }
         } catch (IOException e) {
             System.err.println("Could not receive tcp message");
@@ -70,7 +78,16 @@ public class ServerPeer extends Thread {
         RcvAck rcvAck;
         while (listening) {
             try {
-                sendTcpData(Constants.R_U_THERE);
+                JSONObject jsonMsg;
+                if (messagesArray.size() == 0) {
+                    jsonMsg = new JSONObject();
+                    jsonMsg.put(Constants.REQUEST, Constants.R_U_THERE);
+                    sendTcpData(jsonMsg.toString());
+                } else {
+                    jsonMsg = messagesArray.get(messagesArray.size() - 1);
+                    messagesArray.remove(jsonMsg);
+                    sendTcpData(jsonMsg.toString());
+                }
                 rcvAck = new RcvAck(this);
                 rcvAck.start();
                 int ms = 1500;
@@ -102,6 +119,10 @@ public class ServerPeer extends Thread {
         return peerId;
     }
 
+    public void add2MsgArray(JSONObject jsonMsg) {
+        messagesArray.add(jsonMsg);
+    }
+
 
     class RcvAck extends Thread {
         ServerPeer context;
@@ -113,8 +134,12 @@ public class ServerPeer extends Thread {
         public void run() {
             try {
                 String response = context.rcvTcpData();
-                if (response.equals(Constants.R_U_THERE_ACK)) {
-                    context.resetTries();
+                JSONObject jsonMsg = new JSONObject(response);
+                String request = jsonMsg.getString(Constants.REQUEST);
+                switch (request) {
+                    case Constants.R_U_THERE_ACK:
+                        context.resetTries();
+                        break;
                 }
             } catch (IOException e) {
                 System.err.println("Peer " + context.getPeerId().getName() + " timing out at port " + context.getPort());

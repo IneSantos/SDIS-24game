@@ -4,6 +4,7 @@ import connections.peer2peer.data.DataBase;
 import connections.peer2peer.data.PeerID;
 import connections.peer2peer.data.RoomID;
 import connections.server.messages.ClientMessage;
+import graphics.gameFrame.Chat;
 import org.json.JSONObject;
 import utilities.Constants;
 
@@ -43,7 +44,10 @@ public class Peer extends Thread {
 
     public void run() {
         try {
-            String response = sendRequest(Constants.R_U_THERE);
+            JSONObject request = new JSONObject();
+            request.put(Constants.REQUEST, Constants.R_U_THERE);
+            JSONObject responseJson = sendRequest(request);
+            String response = responseJson.getString(Constants.REQUEST);
             if (!response.equals(Constants.R_U_THERE_ACK))
                 return;
         } catch (Exception e) {
@@ -55,15 +59,33 @@ public class Peer extends Thread {
                 DatagramPacket packet = new DatagramPacket(buf, buf.length);
                 this.socket.receive(packet);
                 String response = new String(packet.getData(), 0, packet.getLength());
-                if (response.equals(Constants.R_U_THERE)) {
-                    buf = Constants.R_U_THERE_ACK.getBytes();
-                    packet = new DatagramPacket(buf, buf.length, adress, port);
-                    socket.send(packet);
-                }
+                handleJson(new JSONObject(response));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void handleJson(JSONObject jsonObject) throws IOException {
+        String response = jsonObject.getString(Constants.REQUEST);
+        JSONObject msg = new JSONObject();
+        switch (response) {
+            case Constants.R_U_THERE:
+                msg.put(Constants.REQUEST, Constants.R_U_THERE_ACK);
+                break;
+            case Constants.JOINED_ROOM:
+                JSONObject jsonObj = jsonObject.getJSONObject(Constants.PEER_ID);
+                String name = jsonObj.getString(Constants.NAME);
+                String text = "<" + name + "> Joined the room.";
+                Chat.getInstance().addMessage(text);
+                break;
+            default:
+                msg.put(Constants.REQUEST, Constants.ERROR_STRING);
+                break;
+        }
+        byte[] buf = msg.toString().getBytes();
+        DatagramPacket packet = new DatagramPacket(buf, buf.length, adress, port);
+        socket.send(packet);
     }
 
     public void createRoom(String roomName) {
@@ -82,8 +104,8 @@ public class Peer extends Thread {
         start();
     }
 
-    public String sendRequest(String request) throws IOException {
-        byte[] buf = request.getBytes();
+    public JSONObject sendRequest(JSONObject request) throws IOException {
+        byte[] buf = request.toString().getBytes();
         DatagramPacket packet = new DatagramPacket(buf, buf.length, adress, port);
         socket.send(packet);
 
@@ -91,7 +113,7 @@ public class Peer extends Thread {
         packet = new DatagramPacket(buf, buf.length);
         this.socket.receive(packet);
         String response = new String(packet.getData(), 0, packet.getLength());
-        return response;
+        return new JSONObject(response);
     }
 
     public DataBase getDataBase() {
