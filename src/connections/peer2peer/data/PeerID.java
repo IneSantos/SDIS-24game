@@ -15,6 +15,7 @@ public class PeerID {
         this.username = name;
         this.dateOfCreation = Utilities.getCurrentDate();
     }
+
     public PeerID(String name, String dateOfCreation) {
         this.username = name;
         this.dateOfCreation = dateOfCreation;
@@ -25,8 +26,13 @@ public class PeerID {
         dateOfCreation = peerIdJson.getString(Constants.DATE_CREATION);
     }
 
-    public String getName() { return username; }
-    public String getDateOfCreation() { return dateOfCreation; }
+    public String getName() {
+        return username;
+    }
+
+    public String getDateOfCreation() {
+        return dateOfCreation;
+    }
 
     @Override
     public String toString() {
@@ -35,6 +41,7 @@ public class PeerID {
         peerjson.put(Constants.DATE_CREATION, dateOfCreation);
         return peerjson.toString();
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -42,6 +49,7 @@ public class PeerID {
         PeerID peerId = (PeerID) o;
         return username.equals(peerId.getName()) && dateOfCreation.equals(peerId.getDateOfCreation());
     }
+
     @Override
     public int hashCode() {
         int result = username != null ? username.hashCode() : 0;
@@ -49,5 +57,7 @@ public class PeerID {
         return result;
     }
 
-    public void setUsername(String username) { this.username = username; }
+    public void setUsername(String username) {
+        this.username = username;
+    }
 }

@@ -1,14 +1,13 @@
 package graphics.initialFrame;
 
 import connections.peer2peer.Peer;
-import graphics.utilities.CustomTextField;
 import graphics.gameFrame.GameFrame;
+import graphics.utilities.CustomTextField;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-import java.net.SocketException;
-import java.net.UnknownHostException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Created by inesa on 22/05/2016.

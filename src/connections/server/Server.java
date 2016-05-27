@@ -1,17 +1,16 @@
 package connections.server;
 
 import com.sun.net.httpserver.HttpServer;
+import connections.peer2peer.data.PeerID;
+import connections.peer2peer.data.RoomID;
+
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Pedro Fraga on 25-May-16.
  */
-import java.util.ArrayList;
-import java.util.HashMap;
-
-
-import connections.peer2peer.data.PeerID;
-import connections.peer2peer.data.RoomID;
 
 
 public class Server {

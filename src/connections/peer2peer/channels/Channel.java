@@ -46,6 +46,7 @@ public class Channel {
             return;
         }
     }
+
     void leaveGroup() {
         try {
             socket.leaveGroup(address);
@@ -54,14 +55,25 @@ public class Channel {
             return;
         }
     }
-    public void listen() { thread.start(); }
+
+    public void listen() {
+        thread.start();
+    }
+
     void setThread(Thread thread) {
         this.thread = thread;
     }
+
     public String getChannelTag() {
         return "[" + address.getHostAddress() + ":" + socket.getLocalPort() + "] ";
     }
-    public MulticastSocket getSocket() { return socket; }
-    public InetAddress getAddress() { return address; }
+
+    public MulticastSocket getSocket() {
+        return socket;
+    }
+
+    public InetAddress getAddress() {
+        return address;
+    }
 
 }

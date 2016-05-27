@@ -10,7 +10,7 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
 
 /**
  * Created by inesa on 19/05/2016.
@@ -27,7 +27,7 @@ class NumbersPanel extends JPanel {
     public NumbersPanel(ArrayList<Integer> challenges, Game24 game) {
         this.game = game;
         this.challenges = challenges;
-       // setBorder(BorderFactory.createLineBorder(Color.red));
+        // setBorder(BorderFactory.createLineBorder(Color.red));
         setPreferredSize(new Dimension(PREF_W, PREF_H));
 
         for (int j = 0; j < 2; j++) {
@@ -47,22 +47,22 @@ class NumbersPanel extends JPanel {
                 if (e.getX() >= 0 && e.getX() <= 200) {
                     if (e.getY() >= 0 && e.getY() <= 200) {
                         System.out.println("Primeiro quadrado " + challenges.get(0) + " eq " + game.getEquation());
-                        game.setEquation( game.getEquation() +  String.valueOf(challenges.get(0)));
+                        game.setEquation(game.getEquation() + String.valueOf(challenges.get(0)));
                         game.stateMachine(String.valueOf(challenges.get(0)));
                     } else if (e.getY() > 200 && e.getY() <= 400) {
-                        System.out.println("Terceiro quadrado " + challenges.get(2) + " eq " + game.getEquation() );
-                        game.setEquation( game.getEquation() +  String.valueOf(challenges.get(2)));
+                        System.out.println("Terceiro quadrado " + challenges.get(2) + " eq " + game.getEquation());
+                        game.setEquation(game.getEquation() + String.valueOf(challenges.get(2)));
                         game.stateMachine(String.valueOf(challenges.get(2)));
                     }
                 } else if (e.getX() > 200 && e.getX() <= 400) {
                     if (e.getY() >= 0 && e.getY() <= 200) {
                         System.out.println("Segundo quadrado " + challenges.get(1) + " eq " + game.getEquation());
-                        game.setEquation( game.getEquation() +  String.valueOf(challenges.get(1)));
+                        game.setEquation(game.getEquation() + String.valueOf(challenges.get(1)));
                         game.stateMachine(String.valueOf(challenges.get(1)));
 
                     } else if (e.getY() > 200 && e.getY() <= 400) {
                         System.out.println("Quarto quadrado " + challenges.get(3) + " eq " + game.getEquation());
-                        game.setEquation( game.getEquation() +  String.valueOf(challenges.get(3)));
+                        game.setEquation(game.getEquation() + String.valueOf(challenges.get(3)));
                         game.stateMachine(String.valueOf(challenges.get(3)));
                     }
                 }

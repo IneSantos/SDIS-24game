@@ -22,12 +22,11 @@ public class CenterInitialPanel extends JPanel {
 
         add(Box.createHorizontalStrut(50));
         JSeparator separator = new JSeparator(SwingConstants.VERTICAL);
-        separator.setPreferredSize(new Dimension(2,450));
+        separator.setPreferredSize(new Dimension(2, 450));
         add(separator);
 
         JoinRoomPanel joinRoomPanel = new JoinRoomPanel();
         add(joinRoomPanel);
-
 
 
     }

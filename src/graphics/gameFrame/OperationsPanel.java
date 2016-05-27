@@ -66,7 +66,7 @@ class OperationsPanel extends JPanel {
         }
     }
 
-    public void mouseListener(Game24 game){
+    public void mouseListener(Game24 game) {
         addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -80,28 +80,27 @@ class OperationsPanel extends JPanel {
                     if (e.getX() >= 0 && e.getX() <= 100) {
                         if (e.getY() >= 200 && e.getY() <= 300) {
                             System.out.println("Primeiro quadrado " + " eq " + game.getEquation());
-                            game.setEquation( game.getEquation() + "*");
+                            game.setEquation(game.getEquation() + "*");
                             game.stateMachine("*");
                         } else if (e.getY() > 300 && e.getY() <= 400) {
                             System.out.println("Terceiro quadrado " + " eq " + game.getEquation());
-                            game.setEquation(game.getEquation() +  "/");
+                            game.setEquation(game.getEquation() + "/");
                             game.stateMachine("/");
                         }
                     } else if (e.getX() > 100 && e.getX() <= 200) {
                         if (e.getY() >= 200 && e.getY() <= 300) {
                             System.out.println("Segundo quadrado " + " eq " + game.getEquation());
-                            game.setEquation( game.getEquation() + "-");
+                            game.setEquation(game.getEquation() + "-");
                             game.stateMachine("-");
 
                         } else if (e.getY() > 300 && e.getY() <= 400) {
                             System.out.println("Quarto quadrado " + " eq " + game.getEquation());
-                            game.setEquation( game.getEquation() + "+");
+                            game.setEquation(game.getEquation() + "+");
                             game.stateMachine("+");
 
                         }
-                    }
-                    else{
-                        if(game.check24(game.getEquation())){
+                    } else {
+                        if (game.check24(game.getEquation())) {
                             scores.add("entrou");
                         }
                     }
