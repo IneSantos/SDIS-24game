@@ -30,20 +30,25 @@ public class CreateRoomPanel extends JPanel {
         setPreferredSize(new Dimension(PREF_W, PREF_H));
         System.out.println("Create Room : H: " + PREF_H + " W: " + PREF_W);
         //setBorder(BorderFactory.createLineBorder(Color.blue));
+
+        setLayout(new FlowLayout(FlowLayout.CENTER));
+
         jlabel = new JLabel("Create Room: ");
         jlabel.setFont(new Font("Verdana", 1, 30));
-        jlabel.setPreferredSize(new Dimension(300, 30));
+        jlabel.setPreferredSize(new Dimension(PREF_W, 30));
+        //jlabel.setBorder(BorderFactory.createLineBorder(Color.blue));
         add(jlabel);
 
         add(Box.createVerticalStrut(80));
 
         jlabel1 = new JLabel("Room name: ");
         jlabel1.setFont(new Font("Verdana", 1, 15));
-        jlabel1.setPreferredSize(new Dimension(130, 30));
+        jlabel1.setPreferredSize(new Dimension(PREF_W/3, 30));
+        //jlabel1.setBorder(BorderFactory.createLineBorder(Color.blue));
 
 
         //enterText
-        textFieldRoom = new CustomTextField("Name a room...", 20);
+        textFieldRoom = new CustomTextField("Name a room...", 23);
 
 
         add(jlabel1);
@@ -51,9 +56,11 @@ public class CreateRoomPanel extends JPanel {
 
         jlabel = new JLabel("Your nickname: ");
         jlabel.setFont(new Font("Verdana", 1, 15));
+        jlabel.setPreferredSize(new Dimension(PREF_W/3, 30));
+        //jlabel.setBorder(BorderFactory.createLineBorder(Color.blue));
 
         //enterText
-        textFieldNick = new CustomTextField("insert your nickname...", 20);
+        textFieldNick = new CustomTextField("insert your nickname...", 22);
 
 
         add(jlabel);

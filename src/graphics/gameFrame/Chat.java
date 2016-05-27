@@ -112,7 +112,6 @@ public class Chat extends JPanel {
         msg.put(Constants.MESSAGE, textField.getText());
         Peer.getInstance().add2Responses(msg);
         textField.setText("Enter text...");
-        textField.custText();
     }
 
 
