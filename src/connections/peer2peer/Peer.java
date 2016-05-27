@@ -10,6 +10,7 @@ import utilities.Constants;
 
 import java.io.IOException;
 import java.net.*;
+import java.util.ArrayList;
 
 /**
  * Created by Pedro Fraga on 22-May-16.
@@ -21,6 +22,7 @@ public class Peer extends Thread {
     private InetAddress adress;
     private int port;
     private DatagramSocket socket;
+    private ArrayList<JSONObject> responses;
 
     private DataBase database;
     private static Peer instance;
@@ -30,6 +32,7 @@ public class Peer extends Thread {
         database = new DataBase();
         adress = InetAddress.getByName(ClientMessage.getHostname());
         socket = new DatagramSocket();
+        responses = new ArrayList();
         instance = this;
     }
 
@@ -67,21 +70,43 @@ public class Peer extends Thread {
     }
 
     private void handleJson(JSONObject jsonObject) throws IOException {
+        System.out.println(jsonObject);
         String response = jsonObject.getString(Constants.REQUEST);
         JSONObject msg = new JSONObject();
+        JSONObject jsonObj;
+        String name;
+        String text;
         switch (response) {
             case Constants.R_U_THERE:
                 msg.put(Constants.REQUEST, Constants.R_U_THERE_ACK);
                 break;
             case Constants.JOINED_ROOM:
-                JSONObject jsonObj = jsonObject.getJSONObject(Constants.PEER_ID);
-                String name = jsonObj.getString(Constants.NAME);
-                String text = "<" + name + "> Joined the room.";
-                Chat.getInstance().addMessage(text);
+                jsonObj = jsonObject.getJSONObject(Constants.PEER_ID);
+                name = jsonObj.getString(Constants.NAME);
+                text = "<" + name + "> Joined the room.";
+                Chat.getInstance().add2Chat(text);
+                msg.put(Constants.REQUEST, Constants.R_U_THERE_ACK);
                 break;
+            case Constants.TIMEDOUT:
+                jsonObj = jsonObject.getJSONObject(Constants.PEER_ID);
+                name = jsonObj.getString(Constants.NAME);
+                text = "<" + name + "> Disconnected. (Timeout)";
+                Chat.getInstance().add2Chat(text);
+                msg.put(Constants.REQUEST, Constants.R_U_THERE_ACK);
+            case Constants.MESSAGE:
+                jsonObj = jsonObject.getJSONObject(Constants.PEER_ID);
+                name = jsonObj.getString(Constants.NAME);
+                String message = jsonObject.getString(Constants.MESSAGE);
+                text = "<" + name + "> said: " + message;
+                Chat.getInstance().add2Chat(text);
+                msg.put(Constants.REQUEST, Constants.R_U_THERE_ACK);
             default:
                 msg.put(Constants.REQUEST, Constants.ERROR_STRING);
                 break;
+        }
+        if (responses.size() > 0) {
+            msg = responses.get(0);
+            responses.remove(msg);
         }
         byte[] buf = msg.toString().getBytes();
         DatagramPacket packet = new DatagramPacket(buf, buf.length, adress, port);
@@ -144,5 +169,9 @@ public class Peer extends Thread {
         ClientMessage msg = new ClientMessage(msgJson);
         port = msg.handleJoinRoom(msg.send());
         start();
+    }
+
+    public void add2Responses(JSONObject msg) {
+        responses.add(msg);
     }
 }

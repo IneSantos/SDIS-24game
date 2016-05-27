@@ -38,7 +38,6 @@ public class RequestHandler implements HttpHandler {
         }
         switch (request) {
             case Constants.GET_ROOMS:
-                ;
                 JSONObject roomsJson = new JSONObject();
                 JSONArray roomsArray = new JSONArray();
                 if (Server.getAvailableRooms() == null)
@@ -88,18 +87,19 @@ public class RequestHandler implements HttpHandler {
         ArrayList<PeerID> peerArray;
         if (Server.getAvailableRooms().get(roomId) != null) {
             peerArray = Server.getAvailableRooms().get(roomId);
+            if (constraint.equals(Constants.JOIN_ROOM)) {
+                JSONObject joinedJson = new JSONObject();
+                joinedJson.put(Constants.REQUEST, Constants.JOINED_ROOM);
+                joinedJson.put(Constants.PEER_ID, peerJson);
+                for (int i = 0; i < peerArray.size(); i++) {
+                    peerArray.get(i).getServerPeer().add2MsgArray(joinedJson);
+                }
+            }
             peerArray.add(peerId);
         } else {
             peerArray = new ArrayList<>();
             peerArray.add(peerId);
             Server.getAvailableRooms().put(roomId, peerArray);
-        }
-        if (constraint.equals(Constants.JOIN_ROOM)) {
-            JSONObject joinedJson = new JSONObject();
-            joinedJson.put(Constants.JOINED_ROOM, peerJson);
-            for (PeerID peer : peerArray) {
-                peer.getServerPeer().add2MsgArray(joinedJson);
-            }
         }
         ServerPeer serverPeer = new ServerPeer(roomId, peerId);
         serverPeer.start();

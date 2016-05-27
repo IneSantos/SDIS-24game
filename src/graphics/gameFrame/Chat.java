@@ -3,6 +3,8 @@ package graphics.gameFrame;
 import connections.peer2peer.Peer;
 import game.Game24;
 import graphics.utilities.CustomTextField;
+import org.json.JSONObject;
+import utilities.Constants;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,7 +32,7 @@ public class Chat extends JPanel {
     Peer p;
     Game24 game;
 
-    static Chat instance;
+    private static Chat instance;
 
     public Chat(Peer peer, Game24 game) {
         setPreferredSize(new Dimension(PREF_W, PREF_H));
@@ -78,10 +80,7 @@ public class Chat extends JPanel {
     private void buttonListener() {
         sendButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                messages.add(textField.getText());
-                textArea.append(p.getPeerID().getName() + ": " + messages.get(messages.size() - 1) + "\n");
-                textField.setText("Enter text...");
-                textField.custText();
+                sendMessage();
             }
         });
 
@@ -105,14 +104,23 @@ public class Chat extends JPanel {
         });
     }
 
+    private void sendMessage() {
+        messages.add(textField.getText());
+        JSONObject msg = new JSONObject();
+        msg.put(Constants.REQUEST, Constants.MESSAGE);
+        msg.put(Constants.PEER_ID, Peer.getInstance().getPeerID().getJSON());
+        msg.put(Constants.MESSAGE, textField.getText());
+        Peer.getInstance().add2Responses(msg);
+        textField.setText("Enter text...");
+        textField.custText();
+    }
+
+
     public void keyBoardListener() {
         textField.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    messages.add(textField.getText());
-                    textArea.append(p.getPeerID().getName() + ": " + messages.get(messages.size() - 1) + "\n");
-                    textField.setText("Enter text...");
-                    textField.custText();
+                    sendMessage();
                 }
             }
         });
@@ -122,7 +130,7 @@ public class Chat extends JPanel {
         return instance;
     }
 
-    public void addMessage(String text) {
-        messages.add(text);
+    public void add2Chat(String text) {
+        textArea.append(text + "\n");
     }
 }

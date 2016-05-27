@@ -44,6 +44,11 @@ public class PeerID {
         this.serverPeer = serverPeer;
     }
 
+    public JSONObject getJSON() {
+        JSONObject json = new JSONObject(this.toString());
+        return json;
+    }
+
     @Override
     public String toString() {
         JSONObject peerjson = new JSONObject();

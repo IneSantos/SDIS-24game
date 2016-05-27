@@ -22,6 +22,7 @@ public class ServerPeer extends Thread {
     private int client_port;
     private InetAddress client_address;
 
+
     private RoomID roomId;
     private PeerID peerId;
 
@@ -31,7 +32,7 @@ public class ServerPeer extends Thread {
 
     public ServerPeer(RoomID roomId, PeerID peerId) throws SocketException {
         socket = new DatagramSocket(0);
-        socket.setSoTimeout(1300);
+        socket.setSoTimeout(500);
         port = socket.getLocalPort();
         client_port = -1;
         this.roomId = roomId;
@@ -84,13 +85,13 @@ public class ServerPeer extends Thread {
                     jsonMsg.put(Constants.REQUEST, Constants.R_U_THERE);
                     sendTcpData(jsonMsg.toString());
                 } else {
-                    jsonMsg = messagesArray.get(messagesArray.size() - 1);
+                    jsonMsg = messagesArray.get(0);
                     messagesArray.remove(jsonMsg);
                     sendTcpData(jsonMsg.toString());
                 }
                 rcvAck = new RcvAck(this);
                 rcvAck.start();
-                int ms = 1500;
+                int ms = 500;
                 Thread.sleep(ms);
                 tries++;
                 if (tries > 3) {
@@ -103,6 +104,14 @@ public class ServerPeer extends Thread {
         }
         ArrayList<PeerID> peers = Server.getAvailableRooms().get(roomId);
         peers.remove(peerId);
+
+        JSONObject disconnected = new JSONObject();
+        disconnected.put(Constants.REQUEST, Constants.TIMEDOUT);
+        JSONObject peerJson = new JSONObject(peerId.toString());
+        disconnected.put(Constants.PEER_ID, peerJson);
+        for (PeerID peer : peers) {
+            peer.getServerPeer().add2MsgArray(disconnected);
+        }
         if (peers.size() == 0)
             Server.getAvailableRooms().remove(roomId);
         this.socket.close();
@@ -122,7 +131,9 @@ public class ServerPeer extends Thread {
     public void add2MsgArray(JSONObject jsonMsg) {
         messagesArray.add(jsonMsg);
     }
-
+    public RoomID getRoomId() {
+        return roomId;
+    }
 
     class RcvAck extends Thread {
         ServerPeer context;
@@ -135,10 +146,18 @@ public class ServerPeer extends Thread {
             try {
                 String response = context.rcvTcpData();
                 JSONObject jsonMsg = new JSONObject(response);
+                System.out.println(jsonMsg);
                 String request = jsonMsg.getString(Constants.REQUEST);
                 switch (request) {
                     case Constants.R_U_THERE_ACK:
                         context.resetTries();
+                        break;
+                    case Constants.MESSAGE:
+                        context.resetTries();
+                        ArrayList<PeerID> peers = Server.getAvailableRooms().get(context.getRoomId());
+                        for (PeerID peer : peers) {
+                            peer.getServerPeer().add2MsgArray(jsonMsg);
+                        }
                         break;
                 }
             } catch (IOException e) {
