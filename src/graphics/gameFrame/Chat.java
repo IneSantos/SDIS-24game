@@ -50,13 +50,11 @@ public class Chat extends JPanel {
         JScrollPane areaScroll = new JScrollPane(textArea);
         areaScroll.setPreferredSize(new Dimension(500, 300));
         areaScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        add(areaScroll);
 
 
         //enterText
         textField = new CustomTextField("Enter text...", 30);
         textField.setFont(new Font("Verdana", 1, 15));
-        keyBoardListener();
 
         sendButton = new JButton("SEND");
 
@@ -114,15 +112,6 @@ public class Chat extends JPanel {
     }
 
 
-    public void keyBoardListener() {
-        textField.addKeyListener(new KeyAdapter() {
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    sendMessage();
-                }
-            }
-        });
-    }
 
     public static Chat getInstance() {
         return instance;
