@@ -26,7 +26,7 @@ public class CreateRoomPanel extends JPanel {
 
     public CreateRoomPanel() {
         setPreferredSize(new Dimension(PREF_W, PREF_H));
-        System.out.println("Create Room : H: " + PREF_H + " W: " + PREF_W);
+        //System.out.println("Create Room : H: " + PREF_H + " W: " + PREF_W);
         //setBorder(BorderFactory.createLineBorder(Color.blue));
 
         setLayout(new FlowLayout(FlowLayout.CENTER));

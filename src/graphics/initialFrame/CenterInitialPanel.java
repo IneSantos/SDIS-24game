@@ -13,7 +13,7 @@ public class CenterInitialPanel extends JPanel {
 
     public CenterInitialPanel() {
         setPreferredSize(new Dimension(PREF_W, PREF_H));
-        System.out.println("Center Room : H: " + PREF_H + " W: " + PREF_W);
+        //System.out.println("Center Room : H: " + PREF_H + " W: " + PREF_W);
         //setBorder(BorderFactory.createLineBorder(Color.blue));
 
         CreateRoomPanel createRoom = new CreateRoomPanel();

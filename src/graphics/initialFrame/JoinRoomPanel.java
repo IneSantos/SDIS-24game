@@ -34,7 +34,7 @@ public class JoinRoomPanel extends JPanel {
         int PREF_H = (int) Math.floor((6 * InitialFrame.height) / 8);
 
         setPreferredSize(new Dimension(PREF_W, PREF_H));
-        System.out.println("Join Room : H: " + PREF_H + " W: " + PREF_W);
+        //System.out.println("Join Room : H: " + PREF_H + " W: " + PREF_W);
         //setBorder(BorderFactory.createLineBorder(Color.blue));
 
         JLabel jlabel = new JLabel("Join Room: ");
@@ -64,9 +64,7 @@ public class JoinRoomPanel extends JPanel {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 String name = JOptionPane.showInputDialog(InitialFrame.getFrames()[0], "What's your nickname?");
-                //System.out.println(listbox);
-                //System.out.printf("The user's name is '%s'.\n", name);
-                if (e.getValueIsAdjusting()) {
+                if (!e.getValueIsAdjusting()) {
                     if (name != null) {
                         InitialFrame.getFrames()[0].setVisible(false);
                         Peer peer = null;
@@ -81,7 +79,6 @@ public class JoinRoomPanel extends JPanel {
                         new GameFrame(peer, new Game24());
                     } else {
                         listbox.clearSelection();
-                        System.out.println(listbox.toString());
                     }
                 }
             }
