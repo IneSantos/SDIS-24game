@@ -14,7 +14,7 @@ public class CenterPanel extends JPanel {
 
     private static final int SPACE = 50;
     static CenterPanel instance;
-    Game24 g;
+    private Game24 g;
 
     public CenterPanel(Peer peer, Game24 g) {
         this.g = g;

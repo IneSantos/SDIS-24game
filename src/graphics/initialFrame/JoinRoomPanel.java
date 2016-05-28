@@ -21,17 +21,18 @@ public class JoinRoomPanel extends JPanel {
 
     private JList listbox;
 
-    ArrayList<String> roomsName = new ArrayList<>();
+    private ArrayList<String> roomsName = new ArrayList<>();
 
     public static JoinRoomPanel instance;
-    JButton refreshButton;
+    private JButton refreshButton;
+
 
     public JoinRoomPanel() {
 
-        int PREF_W = (int)Math.floor((4*InitialFrame.width)/10);
-        int PREF_H = (int)Math.floor((6*InitialFrame.height)/8);
+        int PREF_W = (int) Math.floor((4 * InitialFrame.width) / 10);
+        int PREF_H = (int) Math.floor((6 * InitialFrame.height) / 8);
 
-       setPreferredSize(new Dimension(PREF_W, PREF_H));
+        setPreferredSize(new Dimension(PREF_W, PREF_H));
         System.out.println("Join Room : H: " + PREF_H + " W: " + PREF_W);
         //setBorder(BorderFactory.createLineBorder(Color.blue));
 
@@ -61,23 +62,28 @@ public class JoinRoomPanel extends JPanel {
         listbox.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                System.out.println(e.toString());
                 String name = JOptionPane.showInputDialog(InitialFrame.getFrames()[0], "What's your nickname?");
+                //System.out.println(listbox);
                 //System.out.printf("The user's name is '%s'.\n", name);
-                if (name != null) {
-                    InitialFrame.getFrames()[0].setVisible(false);
-                    Peer peer = null;
-                    try {
-                        peer = new Peer();
-                    } catch (Exception e1) {
-                        System.err.println("Could not create a peer");
+                if (e.getValueIsAdjusting()) {
+                    if (name != null) {
+                        InitialFrame.getFrames()[0].setVisible(false);
+                        Peer peer = null;
+                        try {
+                            peer = new Peer();
+                        } catch (Exception e1) {
+                            System.err.println("Could not create a peer");
+                        }
+                        peer.setPeerUsername(name);
+                        ArrayList keys = new ArrayList(Client.getInstance().getAvailableRooms().keySet());
+                        peer.joinRoom((RoomID) keys.get(e.getLastIndex()));
+                        new GameFrame(peer, new Game24());
+                    } else {
+                        listbox.setSelectedIndex(0);
+                        listbox.setSelectionBackground(Color.WHITE);
+                        System.out.println(listbox.toString());
                     }
-                    peer.setPeerUsername(name);
-                    ArrayList keys = new ArrayList(Client.getInstance().getAvailableRooms().keySet());
-                    peer.joinRoom((RoomID) keys.get(e.getLastIndex()));
-                    new GameFrame(peer, new Game24());
                 }
-
             }
         });
 

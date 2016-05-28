@@ -10,7 +10,7 @@ import java.awt.*;
  * Created by inesa on 24/05/2016.
  */
 public class South extends JPanel {
-    JLabel equation;
+    private JLabel equation;
 
     public South(Peer peer, Game24 game) {
 

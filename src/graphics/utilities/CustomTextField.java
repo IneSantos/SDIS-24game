@@ -119,6 +119,10 @@ public class CustomTextField extends JTextField {
         setForeground(getPlaceholderForeground());
     }
 
+    public void setTextCust(String text){
+        customizeText(text);
+    }
+
     private void customizeText(String text) {
         setText(text);
         /**If you change font, family and size will follow

@@ -22,15 +22,15 @@ public class Chat extends JPanel {
     private static final int PREF_W = 600;
     private static final int PREF_H = 400;
 
-    CustomTextField textField;
-    JButton sendButton;
-    JButton clearAll;
-    JButton backspace;
-    JTextArea textArea;
+    private CustomTextField textField;
+    private JButton sendButton;
+    private JButton clearAll;
+    private JButton backspace;
+    private JTextArea textArea;
 
-    ArrayList<String> messages = new ArrayList<>();
-    Peer p;
-    Game24 game;
+    private ArrayList<String> messages = new ArrayList<>();
+    private Peer p;
+    private Game24 game;
 
     private static Chat instance;
 
@@ -56,11 +56,9 @@ public class Chat extends JPanel {
         //enterText
         textField = new CustomTextField("Enter text...", 30);
         textField.setFont(new Font("Verdana", 1, 15));
-        textField.setEditable(true);
         keyBoardListener();
 
         sendButton = new JButton("SEND");
-
 
         clearAll = new JButton("CLEAR ALL");
 
@@ -111,7 +109,8 @@ public class Chat extends JPanel {
         msg.put(Constants.PEER_ID, Peer.getInstance().getPeerID().getJSON());
         msg.put(Constants.MESSAGE, textField.getText());
         Peer.getInstance().add2Responses(msg);
-        textField.setText("Enter text...");
+        textField.setTextCust("Enter text...");
+        textField.setFont(new Font("Verdana", 1, 15));
     }
 
 
