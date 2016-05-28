@@ -7,6 +7,7 @@ import game.Game24;
 import graphics.gameFrame.GameFrame;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
@@ -37,11 +38,11 @@ public class JoinRoomPanel extends JPanel {
         //setBorder(BorderFactory.createLineBorder(Color.blue));
 
         JLabel jlabel = new JLabel("Join Room: ");
+        jlabel.setBorder(new EmptyBorder(0,40,40,40));
         jlabel.setFont(new Font("Verdana", 1, 30));
-        jlabel.setPreferredSize(new Dimension(400, 30));
         add(jlabel);
 
-        add(Box.createVerticalStrut(80));
+        //add(Box.createVerticalStrut(80));
 
         JTextPane pane = new JTextPane();
         pane.setEditable(false);
@@ -50,12 +51,12 @@ public class JoinRoomPanel extends JPanel {
         listbox = new JList(roomsName.toArray());
 
         JScrollPane areaScroll = new JScrollPane(listbox);
-        areaScroll.setPreferredSize(new Dimension(500, 300));
+        areaScroll.setPreferredSize(new Dimension(PREF_W-40, 300));
         areaScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         add(areaScroll);
 
         refreshButton = new JButton("REFRESH");
-        refreshButton.setPreferredSize(new Dimension(200, 30));
+        refreshButton.setPreferredSize(new Dimension(PREF_W/2, 30));
         add(refreshButton);
         buttonListener();
 
