@@ -164,42 +164,6 @@ public class Game24 {
         return (numbers.length == 4 && ops.length == 3);
     }
 
-  /*  public boolean check24(String input) {
-
-        if (check4for3()) {
-
-            String[] numbers = input.split("[*+/-]");
-            String[] ops = removeempty(input.split("[0-9]"));
-
-            ArrayList<String> opslist = new ArrayList<String>(Arrays.asList(ops));
-            ArrayList<Integer> results = new ArrayList<Integer>();
-
-            //operadores com maior prioridade
-            for (int i = 0; i < opslist.size(); i++) {
-                if (opslist.get(i).equals("*") || opslist.get(i).equals("/")) {
-                    results.add(basicaCalculator(Integer.parseInt(numbers[i]), Integer.parseInt(numbers[i + 1]), opslist.get(i)));
-                }
-            }
-
-            //operadores com menor prioridade
-            for (int i = 0; i < opslist.size(); i++) {
-                if (opslist.get(i).equals("+") || opslist.get(i).equals("-")) {
-                    if (i < results.size())
-                        results.add(basicaCalculator(results.get(i - 1), results.get(i), opslist.get(i)));
-                    else
-                        results.add(basicaCalculator(results.get(i - 1), Integer.parseInt(numbers[i + 1]), opslist.get(i)));
-                }
-            }
-
-            if (results.size() > 0)
-                if (results.get(results.size() - 1) == 24)
-                    return true;
-
-            return false;
-        } else return false;
-    }
-*/
-
     public boolean check24(String input) {
 
         if (check4for3()) {
