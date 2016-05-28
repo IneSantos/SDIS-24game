@@ -64,7 +64,8 @@ public class ClientMessage {
     public int handleJoinRoom(JSONObject serverResponse) {
         System.out.println(serverResponse);
         String result = serverResponse.getString(Constants.JOIN_ROOM);
-        if (result.equals(Constants.ERROR + ""))
+        int port = Integer.parseInt(result);
+        if (port == Constants.ERROR)
             return Constants.ERROR;
 
         JSONArray array = serverResponse.getJSONArray(Constants.GAME);

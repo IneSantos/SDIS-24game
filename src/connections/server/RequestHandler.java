@@ -84,7 +84,6 @@ public class RequestHandler implements HttpHandler {
         RoomID roomId = new RoomID(roomJson);
         PeerID peerId = new PeerID(peerJson);
         ArrayList<PeerID> peerArray;
-        boolean found = false;
         if (Server.getAvailableRooms().get(roomId) != null) {
             peerArray = Server.getAvailableRooms().get(roomId);
             if (constraint.equals(Constants.JOIN_ROOM)) {
@@ -92,7 +91,6 @@ public class RequestHandler implements HttpHandler {
                 joinedJson.put(Constants.REQUEST, Constants.JOINED_ROOM);
                 joinedJson.put(Constants.PEER_ID, peerJson);
                 for (int i = 0; i < peerArray.size(); i++) {
-                    found = true;
                     peerArray.get(i).getServerPeer().add2MsgArray(joinedJson);
                 }
             }
@@ -103,15 +101,12 @@ public class RequestHandler implements HttpHandler {
             Server.getAvailableRooms().put(roomId, peerArray);
         }
         String message = Constants.ERROR + "";
-        if (found) {
-            ServerPeer serverPeer = new ServerPeer(roomId, peerId);
-            serverPeer.start();
-            Server.getEstablishedConnections().put(peerId, serverPeer.getPort());
-            message = serverPeer.getPort() + "";
-        }
+        ServerPeer serverPeer = new ServerPeer(roomId, peerId);
+        serverPeer.start();
+        Server.getEstablishedConnections().put(peerId, serverPeer.getPort());
+        message = getGame(roomId) ? serverPeer.getPort() + "" : Constants.ERROR + "";
         JSONObject jsonOk = new JSONObject();
         jsonOk.put(constraint, message);
-        getGame(roomId);
         if (roomId.getCurrentGame() == null) {
             roomId.set24Game(Server.getGame24().getRandomGame());
         }
@@ -129,21 +124,22 @@ public class RequestHandler implements HttpHandler {
     }
 
 
-    public void getGame(RoomID roomId) {
+    public boolean getGame(RoomID roomId) {
         for (RoomID room : Server.getAvailableRooms().keySet()) {
             if (room.equals(roomId)) {
                 if (room.getCurrentGame() == null) {
                     System.out.println("Game null");
                     roomId.set24Game(Server.getGame24().getRandomGame());
-                    return;
+                    return true;
                 } else {
                     System.out.println("Game found");
                     roomId.set24Game(room.getCurrentGame());
-                    return;
+                    return true;
                 }
             }
         }
         System.out.println("Game not found");
         roomId.set24Game(Server.getGame24().getRandomGame());
+        return false;
     }
 }

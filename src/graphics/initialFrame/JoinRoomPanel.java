@@ -64,7 +64,7 @@ public class JoinRoomPanel extends JPanel {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 String name = JOptionPane.showInputDialog(InitialFrame.getFrames()[0], "What's your nickname?");
-                if (!e.getValueIsAdjusting()) {
+                if (e.getValueIsAdjusting()) {
                     if (name != null) {
                         InitialFrame.getFrames()[0].setVisible(false);
                         Peer peer = null;
@@ -79,7 +79,10 @@ public class JoinRoomPanel extends JPanel {
                         if (peer.getPort() != -1)
                             new GameFrame(peer, new Game24());
                         else {
-                            //Código de erro aqui
+                            JOptionPane.showMessageDialog(InitialFrame.getFrames()[0],
+                                    "Sorry that room is no longer available",
+                                    "Error",
+                                    JOptionPane.ERROR_MESSAGE);
                         }
                     } else {
                         listbox.clearSelection();
