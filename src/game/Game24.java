@@ -1,5 +1,6 @@
 package game;
 
+import connections.peer2peer.Peer;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import utilities.Constants;
@@ -23,14 +24,10 @@ public class Game24 {
 
 
     public Game24() {
-        //todo: tirar isto daqui
-        readFile();
         this.equation = "";
-        //todo: isto é para ser passado para o sitio certo!
-        for (int i = 0; i < 4; i++) {
-            this.options.add(challenges.get(0).get(i).toString());
-        }
-        System.out.println(options);
+
+        for (int num : Peer.getInstance().getCurrentGame())
+            this.options.add(num + "");
     }
 
 
@@ -185,9 +182,8 @@ public class Game24 {
             if (results.size() > 0)
                 if (results.get(results.size() - 1) == 24)
                     return true;
-
-            return false;
-        } else return false;
+        }
+        return false;
     }
 
     public int basicCalculator(Integer num1, Integer num2, String op) {
