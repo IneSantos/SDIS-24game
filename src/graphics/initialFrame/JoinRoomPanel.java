@@ -76,7 +76,11 @@ public class JoinRoomPanel extends JPanel {
                         peer.setPeerUsername(name);
                         ArrayList keys = new ArrayList(Client.getInstance().getAvailableRooms().keySet());
                         peer.joinRoom((RoomID) keys.get(e.getLastIndex()));
-                        new GameFrame(peer, new Game24());
+                        if (peer.getPort() != -1)
+                            new GameFrame(peer, new Game24());
+                        else {
+                            //Código de erro aqui
+                        }
                     } else {
                         listbox.clearSelection();
                     }

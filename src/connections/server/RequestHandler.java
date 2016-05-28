@@ -84,6 +84,7 @@ public class RequestHandler implements HttpHandler {
         RoomID roomId = new RoomID(roomJson);
         PeerID peerId = new PeerID(peerJson);
         ArrayList<PeerID> peerArray;
+        boolean found = false;
         if (Server.getAvailableRooms().get(roomId) != null) {
             peerArray = Server.getAvailableRooms().get(roomId);
             if (constraint.equals(Constants.JOIN_ROOM)) {
@@ -91,6 +92,7 @@ public class RequestHandler implements HttpHandler {
                 joinedJson.put(Constants.REQUEST, Constants.JOINED_ROOM);
                 joinedJson.put(Constants.PEER_ID, peerJson);
                 for (int i = 0; i < peerArray.size(); i++) {
+                    found = true;
                     peerArray.get(i).getServerPeer().add2MsgArray(joinedJson);
                 }
             }
@@ -100,11 +102,15 @@ public class RequestHandler implements HttpHandler {
             peerArray.add(peerId);
             Server.getAvailableRooms().put(roomId, peerArray);
         }
-        ServerPeer serverPeer = new ServerPeer(roomId, peerId);
-        serverPeer.start();
-        Server.getEstablishedConnections().put(peerId, serverPeer.getPort());
+        String message = Constants.ERROR + "";
+        if (found) {
+            ServerPeer serverPeer = new ServerPeer(roomId, peerId);
+            serverPeer.start();
+            Server.getEstablishedConnections().put(peerId, serverPeer.getPort());
+            message = serverPeer.getPort() + "";
+        }
         JSONObject jsonOk = new JSONObject();
-        jsonOk.put(constraint, "" + serverPeer.getPort());
+        jsonOk.put(constraint, message);
         getGame(roomId);
         if (roomId.getCurrentGame() == null) {
             roomId.set24Game(Server.getGame24().getRandomGame());

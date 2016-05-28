@@ -179,7 +179,8 @@ public class Peer extends Thread {
 
         ClientMessage msg = new ClientMessage(msgJson);
         port = msg.handleJoinRoom(msg.send());
-        start();
+        if (port != -1)
+            start();
     }
 
     public void add2Responses(JSONObject msg) {
@@ -206,5 +207,9 @@ public class Peer extends Thread {
         jsonMsg.put(Constants.PEER_ID, Peer.getInstance().getPeerID().getJSON());
         jsonMsg.put(Constants.EQUATION, equation);
         responses.add(jsonMsg);
+    }
+
+    public int getPort() {
+        return port;
     }
 }
