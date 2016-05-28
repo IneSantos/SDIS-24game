@@ -41,7 +41,7 @@ public class Game24 {
         String in = reader.nextLine();
 
 
-        while (!j.check4for3()) {
+        while (!j.check24(j.equation)) {
             j.equation += in;
             j.stateMachine(in);
             in = reader.nextLine();
@@ -164,7 +164,7 @@ public class Game24 {
         return (numbers.length == 4 && ops.length == 3);
     }
 
-    public boolean check24(String input) {
+  /*  public boolean check24(String input) {
 
         if (check4for3()) {
 
@@ -198,8 +198,35 @@ public class Game24 {
             return false;
         } else return false;
     }
+*/
 
-    public int basicaCalculator(Integer num1, Integer num2, String op) {
+    public boolean check24(String input) {
+
+        if (check4for3()) {
+
+            String[] numbers = input.split("[*+/-]");
+            String[] ops = removeempty(input.split("[0-9]"));
+
+            ArrayList<String> opslist = new ArrayList<String>(Arrays.asList(ops));
+            ArrayList<Integer> results = new ArrayList<Integer>();
+
+            //operadores com maior prioridade
+            for (int i = 0; i < opslist.size(); i++) {
+                if(results.size() > 0)
+                    results.add(basicCalculator(results.get(i - 1), Integer.parseInt(numbers[i + 1]), opslist.get(i)));
+                else
+                    results.add(basicCalculator(Integer.parseInt(numbers[i]),Integer.parseInt(numbers[i + 1]), opslist.get(i)));
+            }
+
+            if (results.size() > 0)
+                if (results.get(results.size() - 1) == 24)
+                    return true;
+
+            return false;
+        } else return false;
+    }
+
+    public int basicCalculator(Integer num1, Integer num2, String op) {
         int res = 0;
         switch (op) {
             case "*":
