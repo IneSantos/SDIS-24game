@@ -35,7 +35,7 @@ public class Constants {
     public static final int MSG_SIZE = 512;
 
     public static final int OK = 200;
-    public static final int ERROR = 404;
+    public static final int ERROR = -1;
 
     public static final String R_U_THERE = "R U THERE";
     public static final String R_U_THERE_ACK = "R U THERE ACK";

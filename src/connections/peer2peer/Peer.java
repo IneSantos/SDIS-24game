@@ -179,7 +179,7 @@ public class Peer extends Thread {
 
         ClientMessage msg = new ClientMessage(msgJson);
         port = msg.handleJoinRoom(msg.send());
-        if (port != -1)
+        if (port != Constants.ERROR)
             start();
     }
 
