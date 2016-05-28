@@ -26,8 +26,9 @@ public class Game24 {
     public Game24() {
         this.equation = "";
 
-        for (int num : Peer.getInstance().getCurrentGame())
-            this.options.add(num + "");
+        if (Peer.getInstance() != null)
+            for (int num : Peer.getInstance().getCurrentGame())
+                this.options.add(num + "");
     }
 
 
