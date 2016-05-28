@@ -79,8 +79,7 @@ public class JoinRoomPanel extends JPanel {
                         peer.joinRoom((RoomID) keys.get(e.getLastIndex()));
                         new GameFrame(peer, new Game24());
                     } else {
-                        listbox.setSelectedIndex(0);
-                        listbox.setSelectionBackground(Color.WHITE);
+                        listbox.clearSelection();
                         System.out.println(listbox.toString());
                     }
                 }
@@ -101,6 +100,7 @@ public class JoinRoomPanel extends JPanel {
     private void buttonListener() {
         refreshButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                System.out.println("Refresh: " + listbox.toString());
                 Client.getInstance().requestAvailableRooms();
                 Client.getInstance().clearAvailableRooms();
             }
