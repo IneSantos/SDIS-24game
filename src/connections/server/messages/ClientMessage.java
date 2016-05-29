@@ -28,7 +28,7 @@ public class ClientMessage {
 
                     public boolean verify(String hostname,
                                           javax.net.ssl.SSLSession sslSession) {
-                        return hostname.equals("localhost");
+                        return hostname.equals("localhost") || hostname != null || hostname.length() > 0;
                     }
                 });
     }
