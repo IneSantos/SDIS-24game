@@ -1,6 +1,6 @@
-package connections.peer2peer.data;
+package connections.tcp.data;
 
-import connections.server.ServerPeer;
+import connections.server.TCPServer;
 import org.json.JSONObject;
 import utilities.Constants;
 import utilities.Utilities;
@@ -11,7 +11,7 @@ import utilities.Utilities;
 public class PeerID {
     String username = "";
     String dateOfCreation;
-    ServerPeer serverPeer = null;
+    TCPServer TCPServer = null;
 
     public PeerID(String name) {
         this.username = name;
@@ -38,12 +38,12 @@ public class PeerID {
         return dateOfCreation;
     }
 
-    public ServerPeer getServerPeer() {
-        return serverPeer;
+    public TCPServer getTCPServer() {
+        return TCPServer;
     }
 
-    public void setServerPeer(ServerPeer serverPeer) {
-        this.serverPeer = serverPeer;
+    public void setTCPServer(TCPServer TCPServer) {
+        this.TCPServer = TCPServer;
     }
 
     public JSONObject getJSON() {

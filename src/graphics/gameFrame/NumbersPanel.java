@@ -1,7 +1,7 @@
 
 package graphics.gameFrame;
 
-import connections.peer2peer.Peer;
+import connections.tcp.TCPClient;
 import game.Game24;
 
 import javax.imageio.ImageIO;
@@ -70,7 +70,7 @@ public class NumbersPanel extends JPanel {
                 GameFrame.getSouth().getEquation().setText("Equation: " + game.getEquation());
                 GameFrame.getSouth().getEquation().paintImmediately(GameFrame.getSouth().getEquation().getVisibleRect());
                 if ( game.check24(game.getEquation())) {
-                    Peer.getInstance().setWinner(game.getEquation());
+                    TCPClient.getInstance().setWinner(game.getEquation());
                 } else {
                     System.out.println(game.getEquation() + " it's not 24");
                 }

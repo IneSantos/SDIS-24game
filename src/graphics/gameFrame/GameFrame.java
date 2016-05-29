@@ -1,6 +1,6 @@
 package graphics.gameFrame;
 
-import connections.peer2peer.Peer;
+import connections.tcp.TCPClient;
 import game.Game24;
 
 import javax.swing.*;
@@ -11,22 +11,22 @@ public class GameFrame extends JFrame {
 
     static GameFrame instance;
 
-    public GameFrame(Peer peer, Game24 g) {
+    public GameFrame(TCPClient TCPClient, Game24 g) {
         super("Jogo 24");
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-        CenterPanel centerPanel = new CenterPanel(peer, g);
+        CenterPanel centerPanel = new CenterPanel(TCPClient, g);
         setLayout(new BorderLayout());
 
         NorthPanel north = new NorthPanel();
-        Chat east = new Chat(peer, g);
+        Chat east = new Chat(TCPClient, g);
         east.add(Box.createHorizontalStrut(100));
         Panel west = new Panel();
 
         west.add(Box.createHorizontalStrut(10));
-        south = new South(peer, g);
+        south = new South(TCPClient, g);
         south.add(Box.createVerticalStrut(100));
 
         getContentPane().add(north, BorderLayout.PAGE_START);

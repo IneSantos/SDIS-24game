@@ -2,8 +2,8 @@ package connections.server;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import connections.peer2peer.data.PeerID;
-import connections.peer2peer.data.RoomID;
+import connections.tcp.data.PeerID;
+import connections.tcp.data.RoomID;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import utilities.Constants;
@@ -87,9 +87,9 @@ public class RequestHandler implements HttpHandler {
         RoomID roomId = new RoomID(roomJson);
         PeerID peerId = new PeerID(peerJson);
         ArrayList<PeerID> peerArray;
-        ServerPeer serverPeer = new ServerPeer(roomId, peerId);
-        serverPeer.start();
-        String message = getGame(roomId) || constraint.equals(Constants.CREATE_ROOM) ? serverPeer.getPort() + "" : Constants.ERROR + "";
+        TCPServer TCPServer = new TCPServer(roomId, peerId);
+        TCPServer.start();
+        String message = getGame(roomId) || constraint.equals(Constants.CREATE_ROOM) ? TCPServer.getPort() + "" : Constants.ERROR + "";
         JSONObject jsonOk = new JSONObject();
         String name = peerId.getUsername();
         if (Server.getAvailableRooms().get(roomId) != null) {
@@ -108,7 +108,7 @@ public class RequestHandler implements HttpHandler {
                 jsonOk.put(Constants.NAME, peerId.getUsername());
                 joinedJson.put(Constants.PEER_ID, peerId.getJSON());
                 for (int i = 0; i < peerArray.size(); i++) {
-                    peerArray.get(i).getServerPeer().add2MsgArray(joinedJson);
+                    peerArray.get(i).getTCPServer().add2MsgArray(joinedJson);
                 }
             }
             peerArray.add(peerId);

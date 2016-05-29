@@ -1,6 +1,5 @@
-package connections.peer2peer.data;
+package connections.tcp.data;
 
-import game.Game24;
 import org.json.JSONObject;
 import utilities.Constants;
 import utilities.Utilities;

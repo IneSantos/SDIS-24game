@@ -1,4 +1,4 @@
-package connections.peer2peer.data;
+package connections.tcp.data;
 
 import graphics.initialFrame.JoinRoomPanel;
 

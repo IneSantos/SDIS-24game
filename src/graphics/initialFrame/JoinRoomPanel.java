@@ -1,13 +1,11 @@
 package graphics.initialFrame;
 
-import connections.peer2peer.Peer;
-import connections.peer2peer.data.RoomID;
+import connections.tcp.TCPClient;
+import connections.tcp.data.RoomID;
 import connections.server.Client;
 import game.Game24;
 import graphics.gameFrame.GameFrame;
-import jdk.nashorn.internal.scripts.JO;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
@@ -69,17 +67,17 @@ public class JoinRoomPanel extends JPanel {
                 if (e.getValueIsAdjusting()) {
                     if (name != null) {
                         InitialFrame.getFrames()[0].setVisible(false);
-                        Peer peer = null;
+                        TCPClient TCPClient = null;
                         try {
-                            peer = new Peer();
+                            TCPClient = new TCPClient();
                         } catch (Exception e1) {
-                            System.err.println("Could not create a peer");
+                            System.err.println("Could not create client");
                         }
-                        peer.setPeerUsername(name);
+                        TCPClient.setPeerUsername(name);
                         ArrayList keys = new ArrayList(Client.getInstance().getAvailableRooms().keySet());
-                        peer.joinRoom((RoomID) keys.get(e.getLastIndex()));
-                        if (peer.getPort() != -1)
-                            new GameFrame(peer, new Game24());
+                        TCPClient.joinRoom((RoomID) keys.get(e.getLastIndex()));
+                        if (TCPClient.getPort() != -1)
+                            new GameFrame(TCPClient, new Game24());
                         else {
                           if( JOptionPane.showConfirmDialog(InitialFrame.getFrames()[0],
                                     "Sorry that room is no longer available",

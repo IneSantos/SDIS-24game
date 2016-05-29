@@ -4,8 +4,8 @@ package connections.server;
  * Created by Pedro Fraga on 26-May-16.
  */
 
-import connections.peer2peer.data.PeerID;
-import connections.peer2peer.data.RoomID;
+import connections.tcp.data.PeerID;
+import connections.tcp.data.RoomID;
 import connections.server.messages.ClientMessage;
 import graphics.initialFrame.JoinRoomPanel;
 import org.json.JSONArray;

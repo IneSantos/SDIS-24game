@@ -1,6 +1,6 @@
 package graphics.initialFrame;
 
-import connections.peer2peer.Peer;
+import connections.tcp.TCPClient;
 import game.Game24;
 import graphics.gameFrame.GameFrame;
 import graphics.utilities.CustomTextField;
@@ -88,15 +88,15 @@ public class CreateRoomPanel extends JPanel {
                             JOptionPane.ERROR_MESSAGE);
                 } else {
                     InitialFrame.getFrames()[0].setVisible(false);
-                    Peer peer = null;
+                    TCPClient TCPClient = null;
                     try {
-                        peer = new Peer();
+                        TCPClient = new TCPClient();
                     } catch (Exception e1) {
-                        System.err.println("Could not create a peer");
+                        System.err.println("Could not create client");
                     }
-                    peer.setPeerUsername(nickName);
-                    peer.createRoom(roomName);
-                    new GameFrame(peer, new Game24());
+                    TCPClient.setPeerUsername(nickName);
+                    TCPClient.createRoom(roomName);
+                    new GameFrame(TCPClient, new Game24());
                 }
             }
         });

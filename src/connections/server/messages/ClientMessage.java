@@ -1,19 +1,15 @@
 package connections.server.messages;
 
-import connections.peer2peer.Peer;
+import connections.tcp.TCPClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import utilities.Constants;
 
 import javax.net.ssl.*;
 import java.io.*;
-import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
 
 /**
  * Created by Pedro Fraga on 26-May-16.
@@ -52,15 +48,12 @@ public class ClientMessage {
             FileInputStream fis = new FileInputStream("server.keys");
             ks.load(fis, password);
 
-            // setup the key manager factory
             KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
             kmf.init(ks, password);
 
-            // setup the trust manager factory
             TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509");
             tmf.init(ks);
 
-            // setup the HTTPS context and parameters
             sslContext.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
 
             url = new URL(urlString);
@@ -94,7 +87,7 @@ public class ClientMessage {
         System.out.println(serverResponse);
         String result = serverResponse.getString(Constants.CREATE_ROOM);
         JSONArray array = serverResponse.getJSONArray(Constants.GAME);
-        Peer.getInstance().set24Game(array);
+        TCPClient.getInstance().set24Game(array);
         return Integer.parseInt(result);
     }
 
@@ -110,8 +103,8 @@ public class ClientMessage {
             return Constants.ERROR;
         JSONArray array = serverResponse.getJSONArray(Constants.GAME);
         String name = serverResponse.getString(Constants.NAME);
-        Peer.getInstance().set24Game(array);
-        Peer.getInstance().getPeerID().setUsername(name);
+        TCPClient.getInstance().set24Game(array);
+        TCPClient.getInstance().getPeerID().setUsername(name);
 
         return port;
     }

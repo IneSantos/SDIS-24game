@@ -1,7 +1,7 @@
 package connections.server;
 
-import connections.peer2peer.data.PeerID;
-import connections.peer2peer.data.RoomID;
+import connections.tcp.data.PeerID;
+import connections.tcp.data.RoomID;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import utilities.Constants;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 /**
  * Created by Pedro Fraga on 26-May-16.
  */
-public class ServerPeer extends Thread {
+public class TCPServer extends Thread {
 
     private DatagramSocket socket;
     private int port;
@@ -31,7 +31,7 @@ public class ServerPeer extends Thread {
     private ArrayList<JSONObject> messagesArray;
     private int tries;
 
-    public ServerPeer(RoomID roomId, PeerID peerId) throws SocketException {
+    public TCPServer(RoomID roomId, PeerID peerId) throws SocketException {
         socket = new DatagramSocket(0);
         socket.setSoTimeout(500);
         port = socket.getLocalPort();
@@ -40,7 +40,7 @@ public class ServerPeer extends Thread {
         this.peerId = peerId;
         listening = true;
         messagesArray = new ArrayList<>();
-        peerId.setServerPeer(this);
+        peerId.setTCPServer(this);
         tries = 0;
     }
 
@@ -111,12 +111,12 @@ public class ServerPeer extends Thread {
         JSONObject peerJson = new JSONObject(peerId.toString());
         disconnected.put(Constants.PEER_ID, peerJson);
         for (PeerID peer : peers) {
-            peer.getServerPeer().add2MsgArray(disconnected);
+            peer.getTCPServer().add2MsgArray(disconnected);
         }
         if (peers.size() == 0)
             Server.getAvailableRooms().remove(roomId);
         this.socket.close();
-        System.err.println("Peer " + peerId.getUsername() + " connection was closed (peer size = " + peers.size() + ")");
+        System.err.println("Client " + peerId.getUsername() + " connection was closed (peer size = " + peers.size() + ")");
     }
 
     private void sendTcpData(String msg) throws IOException {
@@ -137,9 +137,9 @@ public class ServerPeer extends Thread {
     }
 
     class RcvAck extends Thread {
-        ServerPeer context;
+        TCPServer context;
 
-        public RcvAck(ServerPeer context) {
+        public RcvAck(TCPServer context) {
             this.context = context;
         }
 
@@ -158,7 +158,7 @@ public class ServerPeer extends Thread {
                         context.resetTries();
                         peers = Server.getAvailableRooms().get(context.getRoomId());
                         for (PeerID peer : peers) {
-                            peer.getServerPeer().add2MsgArray(jsonMsg);
+                            peer.getTCPServer().add2MsgArray(jsonMsg);
                         }
                         break;
                     case Constants.WINNER:
@@ -174,12 +174,12 @@ public class ServerPeer extends Thread {
                         jsonMsg.put(Constants.GAME, jsonArray);
                         peers = Server.getAvailableRooms().get(context.getRoomId());
                         for (PeerID peer : peers) {
-                            peer.getServerPeer().add2MsgArray(jsonMsg);
+                            peer.getTCPServer().add2MsgArray(jsonMsg);
                         }
                         break;
                 }
             } catch (IOException e) {
-                System.err.println("Peer " + context.getPeerId().getUsername() + " timing out at port " + context.getPort());
+                System.err.println("Client " + context.getPeerId().getUsername() + " timing out at port " + context.getPort());
             }
         }
     }

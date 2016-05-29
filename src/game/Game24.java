@@ -1,6 +1,6 @@
 package game;
 
-import connections.peer2peer.Peer;
+import connections.tcp.TCPClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import utilities.Constants;
@@ -51,8 +51,8 @@ public class Game24 {
     }
 
     public void initiateOptions(){
-        if (Peer.getInstance() != null)
-            for (int num : Peer.getInstance().getCurrentGame())
+        if (TCPClient.getInstance() != null)
+            for (int num : TCPClient.getInstance().getCurrentGame())
                 this.options.add(num + "");
     }
 

@@ -1,11 +1,10 @@
 package connections.server;
 
-import com.sun.net.httpserver.HttpServer;
 import com.sun.net.httpserver.HttpsConfigurator;
 import com.sun.net.httpserver.HttpsParameters;
 import com.sun.net.httpserver.HttpsServer;
-import connections.peer2peer.data.PeerID;
-import connections.peer2peer.data.RoomID;
+import connections.tcp.data.PeerID;
+import connections.tcp.data.RoomID;
 import game.Game24;
 
 import javax.net.ssl.*;
@@ -34,21 +33,17 @@ public class Server {
         HttpsServer server = HttpsServer.create(new InetSocketAddress(8000), 0);
         SSLContext sslContext = SSLContext.getInstance("TLS");
 
-        // initialise the keystore
         char[] password = "123456".toCharArray ();
         KeyStore ks = KeyStore.getInstance ("JKS");
         FileInputStream fis = new FileInputStream("server.keys");
         ks.load(fis, password);
 
-        // setup the key manager factory
         KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
         kmf.init(ks, password);
 
-        // setup the trust manager factory
         TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509");
         tmf.init(ks);
 
-        // setup the HTTPS context and parameters
         sslContext.init ( kmf.getKeyManagers (), tmf.getTrustManagers (), null );
         server.setHttpsConfigurator ( new HttpsConfigurator( sslContext )
         {
@@ -56,14 +51,12 @@ public class Server {
             {
                 try
                 {
-                    // initialise the SSL context
                     SSLContext c = SSLContext.getDefault ();
                     SSLEngine engine = c.createSSLEngine ();
                     params.setNeedClientAuth(false);
                     params.setCipherSuites(engine.getEnabledCipherSuites());
                     params.setProtocols(engine.getEnabledProtocols());
 
-                    // get the default parameters
                     SSLParameters defaultSSLParameters = c.getDefaultSSLParameters ();
                     params.setSSLParameters ( defaultSSLParameters );
                 }
@@ -74,7 +67,7 @@ public class Server {
             }
         } );
         server.createContext("/24game", new RequestHandler());
-        server.setExecutor(null); // creates a default executor
+        server.setExecutor(null);
         server.start();
     }
 

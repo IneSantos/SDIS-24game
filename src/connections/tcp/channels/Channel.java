@@ -1,4 +1,4 @@
-package connections.peer2peer.channels;
+package connections.tcp.channels;
 
 import utilities.Constants;
 

@@ -1,6 +1,6 @@
 package graphics.gameFrame;
 
-import connections.peer2peer.Peer;
+import connections.tcp.TCPClient;
 import game.Game24;
 import graphics.utilities.CustomTextField;
 import org.json.JSONObject;
@@ -10,8 +10,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 /**
@@ -29,16 +27,16 @@ public class Chat extends JPanel {
     private JTextArea textArea;
 
     private ArrayList<String> messages = new ArrayList<>();
-    private Peer p;
+    private TCPClient p;
     private Game24 game;
 
     private static Chat instance;
 
-    public Chat(Peer peer, Game24 game) {
+    public Chat(TCPClient TCPClient, Game24 game) {
         setPreferredSize(new Dimension(PREF_W, PREF_H));
         // setBorder(BorderFactory.createLineBorder(Color.black));
 
-        this.p = peer;
+        this.p = TCPClient;
         this.game = game;
 
         textArea = new JTextArea(22, 35);
@@ -108,9 +106,9 @@ public class Chat extends JPanel {
         messages.add(textField.getText());
         JSONObject msg = new JSONObject();
         msg.put(Constants.REQUEST, Constants.MESSAGE);
-        msg.put(Constants.PEER_ID, Peer.getInstance().getPeerID().getJSON());
+        msg.put(Constants.PEER_ID, TCPClient.getInstance().getPeerID().getJSON());
         msg.put(Constants.MESSAGE, textField.getText());
-        Peer.getInstance().add2Responses(msg);
+        TCPClient.getInstance().add2Responses(msg);
         textField.setTextCust("Enter text...");
         textField.setFont(new Font("Verdana", 1, 15));
     }

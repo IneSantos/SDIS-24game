@@ -1,10 +1,9 @@
-package connections.peer2peer;
+package connections.tcp;
 
-import connections.peer2peer.data.DataBase;
-import connections.peer2peer.data.PeerID;
-import connections.peer2peer.data.RoomID;
+import connections.tcp.data.DataBase;
+import connections.tcp.data.PeerID;
+import connections.tcp.data.RoomID;
 import connections.server.messages.ClientMessage;
-import game.Game24;
 import graphics.gameFrame.CenterPanel;
 import graphics.gameFrame.Chat;
 import graphics.gameFrame.NumbersPanel;
@@ -20,7 +19,7 @@ import java.util.ArrayList;
  * Created by Pedro Fraga on 22-May-16.
  */
 
-public class Peer extends Thread {
+public class TCPClient extends Thread {
     private PeerID peerId;
 
     private InetAddress adress;
@@ -29,10 +28,10 @@ public class Peer extends Thread {
     private ArrayList<JSONObject> responses;
 
     private DataBase database;
-    private static Peer instance;
+    private static TCPClient instance;
 
 
-    public Peer() throws UnknownHostException, SocketException {
+    public TCPClient() throws UnknownHostException, SocketException {
         this.peerId = new PeerID(Constants.ANONYMOUS);
         database = new DataBase();
         adress = InetAddress.getByName(ClientMessage.getHostname());
@@ -46,7 +45,7 @@ public class Peer extends Thread {
         return this.peerId;
     }
 
-    public static Peer getInstance() {
+    public static TCPClient getInstance() {
         return instance;
     }
 
@@ -116,7 +115,7 @@ public class Peer extends Thread {
                 Chat.getInstance().add2Chat(text);
                 msg.put(Constants.REQUEST, Constants.R_U_THERE_ACK);
                 JSONArray array = jsonObject.getJSONArray(Constants.GAME);
-                Peer.getInstance().set24Game(array);
+                TCPClient.getInstance().set24Game(array);
                 CenterPanel.getInstance().updateNumbersPanel();
                 NumbersPanel.getInstance().resetEquation();
                 break;
@@ -208,7 +207,7 @@ public class Peer extends Thread {
     public void setWinner(String equation) {
         JSONObject jsonMsg = new JSONObject();
         jsonMsg.put(Constants.REQUEST, Constants.WINNER);
-        jsonMsg.put(Constants.PEER_ID, Peer.getInstance().getPeerID().getJSON());
+        jsonMsg.put(Constants.PEER_ID, TCPClient.getInstance().getPeerID().getJSON());
         jsonMsg.put(Constants.EQUATION, equation);
         responses.add(jsonMsg);
     }
