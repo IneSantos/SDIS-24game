@@ -7,6 +7,7 @@ import connections.server.messages.ClientMessage;
 import game.Game24;
 import graphics.gameFrame.CenterPanel;
 import graphics.gameFrame.Chat;
+import graphics.gameFrame.NumbersPanel;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import utilities.Constants;
@@ -116,6 +117,7 @@ public class Peer extends Thread {
                 JSONArray array = jsonObject.getJSONArray(Constants.GAME);
                 Peer.getInstance().set24Game(array);
                 CenterPanel.getInstance().updateNumbersPanel();
+                NumbersPanel.getInstance().getGame().resetEquation();
                 break;
             default:
                 msg.put(Constants.REQUEST, Constants.ERROR_STRING);

@@ -202,7 +202,6 @@ public class Game24 {
 
             if (results.size() > 0)
                 if (results.get(results.size() - 1) == 24) {
-                    this.equation = "";
                     return true;
                 }
         }
