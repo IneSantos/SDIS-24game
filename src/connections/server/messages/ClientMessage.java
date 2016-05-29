@@ -18,27 +18,15 @@ import java.security.KeyStore;
  */
 public class ClientMessage {
     private JSONObject jsonMsg;
-    private static String hostname = "localhost";
+    private static String hostname = "";
     private InetAddress hostAddress;
 
-    static {
-        //for localhost testing only
-        javax.net.ssl.HttpsURLConnection.setDefaultHostnameVerifier(
-                new javax.net.ssl.HostnameVerifier(){
-
-                    public boolean verify(String hostname,
-                                          javax.net.ssl.SSLSession sslSession) {
-                        return hostname.equals("localhost");
-                    }
-                });
-    }
 
     public ClientMessage(JSONObject json) {
         this.jsonMsg = json;
     }
 
     public JSONObject send() {
-
 
         try {
             SSLContext sslContext = SSLContext.getInstance("TLS");
