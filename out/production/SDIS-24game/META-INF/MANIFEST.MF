@@ -1,3 +1,3 @@
 Manifest-Version: 1.0
-Main-Class: launcher.Launcher
+Main-Class: connections.server.Server
 
