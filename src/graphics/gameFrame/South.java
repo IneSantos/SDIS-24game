@@ -33,11 +33,6 @@ public class South extends JPanel {
 
         add(Box.createHorizontalStrut(50));
 
-        //TODO: add number of players
-        jlabel = new JLabel("Nº Players: ");
-        jlabel.setFont(new Font("Verdana", 2, 20));
-        add(jlabel);
-
     }
 
     public JLabel getEquation() {

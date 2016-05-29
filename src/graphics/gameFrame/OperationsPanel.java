@@ -80,8 +80,8 @@ class OperationsPanel extends JPanel {
                     if (e.getX() >= 0 && e.getX() <= 100) {
                         if (e.getY() >= 200 && e.getY() <= 300) {
                             System.out.println("Primeiro quadrado " + " eq " + game.getEquation());
-                            game.setEquation(game.getEquation() + "*");
-                            game.stateMachine("*");
+                            game.setEquation(game.getEquation() + "+");
+                            game.stateMachine("+");
                         } else if (e.getY() > 300 && e.getY() <= 400) {
                             System.out.println("Terceiro quadrado " + " eq " + game.getEquation());
                             game.setEquation(game.getEquation() + "/");
@@ -95,8 +95,8 @@ class OperationsPanel extends JPanel {
 
                         } else if (e.getY() > 300 && e.getY() <= 400) {
                             System.out.println("Quarto quadrado " + " eq " + game.getEquation());
-                            game.setEquation(game.getEquation() + "+");
-                            game.stateMachine("+");
+                            game.setEquation(game.getEquation() + "*");
+                            game.stateMachine("*");
 
                         }
                     } else {

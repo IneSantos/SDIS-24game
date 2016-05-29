@@ -18,11 +18,6 @@ public class PeerID {
         this.dateOfCreation = Utilities.getCurrentDate();
     }
 
-    public PeerID(String name, String dateOfCreation) {
-        this.username = name;
-        this.dateOfCreation = dateOfCreation;
-    }
-
     public PeerID(JSONObject peerIdJson) {
         System.out.println(peerIdJson);
         System.out.println("name: " + peerIdJson.getString(Constants.USERNAME));
