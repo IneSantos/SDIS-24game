@@ -79,10 +79,7 @@ public class Game24 {
                         this.equation += newStr + input;
                         this.currentState = 0;
                     }
-                } /*else if (input.matches("#")) {
-                    this.equation = "";
-                    this.currentState = 0;
-                } */ else this.equation = "";
+                } else this.equation = "";
                 break;
             case 1:
                 if (input.matches("[*+/-]")) {
@@ -125,10 +122,6 @@ public class Game24 {
                         this.equation += newStr;
                         this.currentState = 2;
                     }
-                    /*else if (input.matches("#")) {
-                        this.equation = "";
-                        this.currentState = 0;
-                    } */
                 else  if (input.matches("[*+/-]")){
                     String newStr = this.equation.substring(0, this.equation.length() - 2);
                     this.equation = "";
@@ -158,10 +151,7 @@ public class Game24 {
                         this.equation += newStr + input;
                         this.currentState = 3;
                     }
-                } /*else if (input.matches("#")) {
-                    this.equation = "";
-                    this.currentState = 0;
-                }*/
+                } 
                 break;
             default:
                 break;
