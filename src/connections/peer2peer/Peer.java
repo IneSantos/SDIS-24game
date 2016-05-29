@@ -38,7 +38,7 @@ public class Peer extends Thread {
         adress = InetAddress.getByName(ClientMessage.getHostname());
         socket = new DatagramSocket();
         responses = new ArrayList();
-        instance = this;;
+        instance = this;
     }
 
 
