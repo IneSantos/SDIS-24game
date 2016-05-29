@@ -16,13 +16,14 @@ import java.util.ArrayList;
 /**
  * Created by inesa on 19/05/2016.
  */
-class NumbersPanel extends JPanel {
+public class NumbersPanel extends JPanel {
     private static final int PREF_W = 400;
     private static final int PREF_H = 400;
     private static final int REC_WIDTH = 200;
     private ArrayList<BufferedImage> squares = new ArrayList<BufferedImage>();
     private ArrayList<Integer> challenges = new ArrayList<>();
     private Game24 game;
+    private static NumbersPanel instance;
 
 
 
@@ -31,6 +32,7 @@ class NumbersPanel extends JPanel {
         this.challenges = challenges;
         // setBorder(BorderFactory.createLineBorder(Color.red));
         setPreferredSize(new Dimension(PREF_W, PREF_H));
+        instance = this;
 
         for (int j = 0; j < 2; j++) {
             for (int i = 0; i < 2; i++) {
@@ -90,6 +92,14 @@ class NumbersPanel extends JPanel {
         });
 
         System.out.println(this.toString());
+    }
+
+    public static NumbersPanel getInstance() {
+        return instance;
+    }
+
+    public Game24 getGame() {
+        return game;
     }
 
     public void addSquare(int width, int height, int number) {
