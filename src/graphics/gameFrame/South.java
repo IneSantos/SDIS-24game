@@ -14,7 +14,7 @@ public class South extends JPanel {
 
     public South(TCPClient TCPClient, Game24 game) {
 
-        JLabel jlabel = new JLabel("Room: " + TCPClient.getInstance().getDataBase().getCurrentRoom().getName());
+        JLabel jlabel = new JLabel("Room: " + connections.tcp.TCPClient.getInstance().getDataBase().getCurrentRoom().getName());
         jlabel.setFont(new Font("Verdana", 2, 20));
         add(jlabel);
 
@@ -25,8 +25,8 @@ public class South extends JPanel {
         add(equation);
 
         add(Box.createHorizontalStrut(50));
-        System.out.println("Nickname: " +  TCPClient.getInstance().getPeerID().getUsername());
-        jlabel = new JLabel("Nickname: " + TCPClient.getInstance().getPeerID().getUsername());
+        System.out.println("Nickname: " +  connections.tcp.TCPClient.getInstance().getPeerID().getUsername());
+        jlabel = new JLabel("Nickname: " + connections.tcp.TCPClient.getInstance().getPeerID().getUsername());
         jlabel.setFont(new Font("Verdana", 2, 20));
         add(jlabel);
 
