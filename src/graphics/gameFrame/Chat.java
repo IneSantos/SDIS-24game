@@ -83,9 +83,11 @@ public class Chat extends JPanel {
         clearAll.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 game.setEquation("");
+                game.resetOptions();
                 GameFrame.getSouth().getEquation().setText("Equation: " + game.getEquation());
                 GameFrame.getSouth().getEquation().paintImmediately(GameFrame.getSouth().getEquation().getVisibleRect());
                 System.out.println("Clear all: " + game.getEquation());
+                System.out.println("Options: " + game.getOptions());
             }
         });
 
@@ -94,8 +96,10 @@ public class Chat extends JPanel {
                 String newStr = game.getEquation().substring(0, game.getEquation().length() - 1);
                 game.setEquation("");
                 game.setEquation(newStr);
+                game.addOption();
                 GameFrame.getSouth().getEquation().setText("Equation: " + game.getEquation());
                 GameFrame.getSouth().getEquation().paintImmediately(GameFrame.getSouth().getEquation().getVisibleRect());
+                System.out.println("Options: " + game.getOptions());
             }
         });
     }

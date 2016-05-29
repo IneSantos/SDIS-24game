@@ -18,6 +18,7 @@ public class Game24 {
     private int currentState = 0;
     private String equation;
     private ArrayList<String> options = new ArrayList<>();
+    private ArrayList<String> deletedOptions = new ArrayList<>();
     private Character prevNumb;
     private Character nextNumb;
     public ArrayList<ArrayList<Integer>> challenges = new ArrayList<>();
@@ -25,10 +26,8 @@ public class Game24 {
 
     public Game24() {
         this.equation = "";
+        initiateOptions();
 
-        if (Peer.getInstance() != null)
-            for (int num : Peer.getInstance().getCurrentGame())
-                this.options.add(num + "");
     }
 
 
@@ -51,12 +50,28 @@ public class Game24 {
 
     }
 
+    public void initiateOptions(){
+        if (Peer.getInstance() != null)
+            for (int num : Peer.getInstance().getCurrentGame())
+                this.options.add(num + "");
+    }
+
+    public void resetOptions(){
+        for(String num : deletedOptions)
+            this.options.add(num);
+    }
+
+    public void addOption(){
+        this.options.add(deletedOptions.get(deletedOptions.size() -1));
+    }
+
     public void stateMachine(String input) {
         switch (this.currentState) {
             case 0:
                 if (input.matches("[0-9]+")) {
                     if (validatePlay(input)) {
                         options.remove(input);
+                        deletedOptions.add(input);
                         this.currentState = 1;
                     } else {
                         String newStr = this.equation.substring(0, this.equation.length() - 2);
@@ -75,6 +90,7 @@ public class Game24 {
                 } else if (input.matches("[0-9]+")) {
                     if (validatePlay(input)) {
                         options.remove(input);
+                        deletedOptions.add(input);
                         this.currentState = 1;
 
                         this.prevNumb = this.equation.charAt(this.equation.length() - 2);
@@ -101,6 +117,7 @@ public class Game24 {
                 if (input.matches("[0-9]+"))
                     if (validatePlay(input)) {
                         options.remove(input);
+                        deletedOptions.add(input);
                         this.currentState = 3;
                     } else {
                         String newStr = this.equation.substring(0, this.equation.length() - 1);
@@ -124,6 +141,7 @@ public class Game24 {
                 } else if (input.matches("[0-9]+")) {
                     if (validatePlay(input)) {
                         options.remove(input);
+                        deletedOptions.add(input);
                         this.currentState = 3;
                         this.prevNumb = this.equation.charAt(this.equation.length() - 2);
                         this.nextNumb = this.equation.charAt(this.equation.length() - 1);
@@ -276,5 +294,9 @@ public class Game24 {
 
     public void resetEquation() {
         equation = "";
+    }
+
+    public ArrayList<String> getOptions() {
+        return options;
     }
 }
