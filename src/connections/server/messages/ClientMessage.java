@@ -35,7 +35,7 @@ public class ClientMessage {
     }
 
     public JSONObject send() {
-        String urlString = "https://" + hostname + ":8000/24game";
+        String urlString = "https://" + hostname + ":4563/24game";
         URL url = null;
 
         try {
