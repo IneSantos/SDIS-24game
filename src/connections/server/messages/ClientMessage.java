@@ -21,6 +21,19 @@ public class ClientMessage {
     private static String hostname = "";
     private InetAddress hostAddress;
 
+    static {
+        //for localhost testing only
+        javax.net.ssl.HttpsURLConnection.setDefaultHostnameVerifier(
+                new javax.net.ssl.HostnameVerifier(){
+
+                    public boolean verify(String hostname,
+                                          javax.net.ssl.SSLSession sslSession) {
+                        return hostname.equals("localhost");
+                    }
+                });
+    }
+
+
 
     public ClientMessage(JSONObject json) {
         this.jsonMsg = json;
@@ -43,6 +56,7 @@ public class ClientMessage {
 
             sslContext.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
             hostname = Client.getInstance().getHost();
+            System.out.println("Connecting to " +  hostname);
             String urlString = "https://" + hostname + ":4563/24game";
             URL url = null;
             url = new URL(urlString);
@@ -50,7 +64,7 @@ public class ClientMessage {
             connection.setRequestMethod("POST");
             connection.setDoOutput(true);
             connection.setSSLSocketFactory(sslContext.getSocketFactory());
-
+            System.out.println(1);
 
             connection.setRequestProperty("Content-Type", "application/json");
 
@@ -58,12 +72,14 @@ public class ClientMessage {
             PrintWriter out = new PrintWriter(connection.getOutputStream());
             System.out.println(jsonMsg);
             String msg = jsonMsg.toString();
+            System.out.println(2);
             out.println(URLEncoder.encode(msg, "UTF-8"));
             out.close();
             BufferedReader in = new BufferedReader(
                     new InputStreamReader(connection.getInputStream()));
             String line = in.readLine();
             in.close();
+            System.out.println(3);
             JSONObject rooms = new JSONObject(line);
             return rooms;
         } catch (Exception e) {
