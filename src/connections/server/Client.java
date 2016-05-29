@@ -21,9 +21,12 @@ public class Client {
     private HashMap<RoomID, ArrayList<PeerID>> availableRooms;
     private static Client instance;
 
+    private String host;
 
-    public Client() {
+
+    public Client(String host) {
         availableRooms = new HashMap<>();
+        this.host = host;
         instance = this;
     }
 
@@ -89,5 +92,9 @@ public class Client {
 
     public HashMap<RoomID, ArrayList<PeerID>> getAvailableRooms() {
         return availableRooms;
+    }
+
+    public String getHost() {
+        return host;
     }
 }

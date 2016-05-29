@@ -1,5 +1,6 @@
 package connections.server.messages;
 
+import connections.server.Client;
 import connections.tcp.TCPClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -7,6 +8,7 @@ import utilities.Constants;
 
 import javax.net.ssl.*;
 import java.io.*;
+import java.net.InetAddress;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.security.KeyStore;
@@ -17,6 +19,7 @@ import java.security.KeyStore;
 public class ClientMessage {
     private JSONObject jsonMsg;
     private static String hostname = "localhost";
+    private InetAddress hostAddress;
 
     static {
         //for localhost testing only
@@ -35,8 +38,7 @@ public class ClientMessage {
     }
 
     public JSONObject send() {
-        String urlString = "https://" + hostname + ":4563/24game";
-        URL url = null;
+
 
         try {
             SSLContext sslContext = SSLContext.getInstance("TLS");
@@ -52,7 +54,9 @@ public class ClientMessage {
             tmf.init(ks);
 
             sslContext.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
-
+            hostname = Client.getInstance().getHost();
+            String urlString = "https://" + hostname + ":4563/24game";
+            URL url = null;
             url = new URL(urlString);
             HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
             connection.setRequestMethod("POST");

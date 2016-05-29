@@ -30,7 +30,7 @@ public class Server {
         establishedConnections = new HashMap<>();
         game = new Game24();
         game.readFile();
-        HttpsServer server = HttpsServer.create(new InetSocketAddress("localhost", 4563), 0);
+        HttpsServer server = HttpsServer.create(new InetSocketAddress(4563), 0);
         SSLContext sslContext = SSLContext.getInstance("TLS");
 
         char[] password = "123456".toCharArray ();
