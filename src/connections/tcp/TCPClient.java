@@ -168,7 +168,6 @@ public class TCPClient extends Thread {
         this.peerId.setUsername(username);
     }
 
-
     public void joinRoom(RoomID room) {
         database.setCurrentRoom(room);
         JSONObject peerInfo = new JSONObject();
@@ -189,8 +188,6 @@ public class TCPClient extends Thread {
     public void add2Responses(JSONObject msg) {
         responses.add(msg);
     }
-
-
 
     public ArrayList<Integer> getCurrentGame() {
         return database.getCurrentRoom().getCurrentGame();
