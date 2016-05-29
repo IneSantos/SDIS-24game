@@ -35,6 +35,7 @@ public class Game24 {
     public static void main(String args[]) {
         Game24 j = new Game24();
 
+        /*
         Scanner reader = new Scanner(System.in);
         String in = reader.nextLine();
 
@@ -44,7 +45,8 @@ public class Game24 {
             j.stateMachine(in);
             in = reader.nextLine();
         }
-
+*/
+        j.equation = "2+3*5-1";
         System.out.println(j.check24(j.equation));
 
     }
@@ -202,7 +204,7 @@ public class Game24 {
                 res = num1 + num2;
                 break;
             case "-":
-                res = num1 / num2;
+                res = num1 - num2;
                 break;
             default:
                 res = 0;

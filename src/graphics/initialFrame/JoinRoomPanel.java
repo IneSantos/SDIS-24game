@@ -5,7 +5,9 @@ import connections.peer2peer.data.RoomID;
 import connections.server.Client;
 import game.Game24;
 import graphics.gameFrame.GameFrame;
+import jdk.nashorn.internal.scripts.JO;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
@@ -79,10 +81,12 @@ public class JoinRoomPanel extends JPanel {
                         if (peer.getPort() != -1)
                             new GameFrame(peer, new Game24());
                         else {
-                            JOptionPane.showMessageDialog(InitialFrame.getFrames()[0],
+                          if( JOptionPane.showConfirmDialog(InitialFrame.getFrames()[0],
                                     "Sorry that room is no longer available",
-                                    "Error",
-                                    JOptionPane.ERROR_MESSAGE);
+                                    "Error", JOptionPane.OK_OPTION,
+                                    JOptionPane.ERROR_MESSAGE) == JOptionPane.OK_OPTION){
+                              InitialFrame.getFrames()[0].setVisible(true);
+                          }
                         }
                     } else {
                         listbox.clearSelection();
