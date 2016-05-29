@@ -151,7 +151,7 @@ public class Game24 {
                         this.equation += newStr + input;
                         this.currentState = 3;
                     }
-                } 
+                }
                 break;
             default:
                 break;

@@ -1,3 +1,4 @@
+
 package graphics.gameFrame;
 
 import connections.peer2peer.Peer;
@@ -36,7 +37,7 @@ public class NumbersPanel extends JPanel {
 
         for (int j = 0; j < 2; j++) {
             for (int i = 0; i < 2; i++) {
-                addSquare(REC_WIDTH, REC_WIDTH, this.challenges.get(i * 2 + j));
+                addSquare(REC_WIDTH, REC_WIDTH, this.challenges.get(i * 2 + j), i * 2 + j);
             }
         }
 
@@ -102,17 +103,22 @@ public class NumbersPanel extends JPanel {
         return game;
     }
 
-    public void addSquare(int width, int height, int number) {
+    public void addSquare(int width, int height, int number, int position) {
         BufferedImage rect;
+        BufferedImage whiteRect;
         int posX = number % 5;
         int posY = number / 5;
         try {
             rect = ImageIO.read(new File(System.getProperty("user.dir") + "/resources/images/all.png"));
+            whiteRect = ImageIO.read(new File(System.getProperty("user.dir") + "/resources/images/allwhite.png"));
             BufferedImage resizedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
             Graphics2D g = resizedImage.createGraphics();
             int h = rect.getHeight() / 2;
             int w = rect.getWidth() / 5;
-            g.drawImage(rect.getSubimage(posX * w, posY * h, w, h), 0, 0, width, height, null);
+            if(position == 1 || position == 2)
+                g.drawImage(rect.getSubimage(posX * w, posY * h, w, h), 0, 0, width, height, null);
+            else
+                g.drawImage(whiteRect.getSubimage(posX * w, posY * h, w, h), 0, 0, width, height, null);
             g.dispose();
             squares.add(resizedImage);
         } catch (IOException e) {
@@ -136,9 +142,4 @@ public class NumbersPanel extends JPanel {
         }
     }
 
-    public void resetEquation() {
-        game.resetEquation();
-        GameFrame.getSouth().getEquation().setText("Equation: " + game.getEquation());
-        GameFrame.getSouth().getEquation().paintImmediately(GameFrame.getSouth().getEquation().getVisibleRect());
-    }
 }
