@@ -24,7 +24,9 @@ public class PeerID {
     }
 
     public PeerID(JSONObject peerIdJson) {
-        username = peerIdJson.getString(Constants.NAME);
+        System.out.println(peerIdJson);
+        System.out.println("name: " + peerIdJson.getString(Constants.USERNAME));
+        username = peerIdJson.getString(Constants.USERNAME);
         dateOfCreation = peerIdJson.getString(Constants.DATE_CREATION);
     }
 
@@ -52,7 +54,7 @@ public class PeerID {
     @Override
     public String toString() {
         JSONObject peerjson = new JSONObject();
-        peerjson.put(Constants.NAME, username);
+        peerjson.put(Constants.USERNAME, username);
         peerjson.put(Constants.DATE_CREATION, dateOfCreation);
         return peerjson.toString();
     }

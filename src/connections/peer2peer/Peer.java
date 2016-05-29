@@ -88,21 +88,21 @@ public class Peer extends Thread {
             case Constants.JOINED_ROOM:
                 System.out.println(jsonObject);
                 jsonObj = jsonObject.getJSONObject(Constants.PEER_ID);
-                name = jsonObj.getString(Constants.NAME);
+                name = jsonObj.getString(Constants.USERNAME);
                 text = "<" + name + "> Joined the room.";
                 Chat.getInstance().add2Chat(text);
                 msg.put(Constants.REQUEST, Constants.R_U_THERE_ACK);
                 break;
             case Constants.TIMEDOUT:
                 jsonObj = jsonObject.getJSONObject(Constants.PEER_ID);
-                name = jsonObj.getString(Constants.NAME);
+                name = jsonObj.getString(Constants.USERNAME);
                 text = "<" + name + "> Disconnected. (Timeout)";
                 Chat.getInstance().add2Chat(text);
                 msg.put(Constants.REQUEST, Constants.R_U_THERE_ACK);
                 break;
             case Constants.MESSAGE:
                 jsonObj = jsonObject.getJSONObject(Constants.PEER_ID);
-                name = jsonObj.getString(Constants.NAME);
+                name = jsonObj.getString(Constants.USERNAME);
                 String message = jsonObject.getString(Constants.MESSAGE);
                 text = "<" + name + "> said: " + message;
                 Chat.getInstance().add2Chat(text);
@@ -110,7 +110,7 @@ public class Peer extends Thread {
                 break;
             case Constants.WINNER:
                 jsonObj = jsonObject.getJSONObject(Constants.PEER_ID);
-                name = jsonObj.getString(Constants.NAME);
+                name = jsonObj.getString(Constants.USERNAME);
                 String equation = jsonObject.getString(Constants.EQUATION);
                 text = "<" + name + "> Reached 24: " + equation + ". A new board was generated.";
                 Chat.getInstance().add2Chat(text);
@@ -138,7 +138,7 @@ public class Peer extends Thread {
         database.setCurrentRoom(createdRoom);
 
         JSONObject peerInfo = new JSONObject();
-        peerInfo.put(Constants.PEER_ID, new JSONObject(peerId.toString()));
+        peerInfo.put(Constants.PEER_ID, new JSONObject(peerId));
         peerInfo.put(Constants.ROOM_ID, new JSONObject(createdRoom));
 
         JSONObject msgJson = new JSONObject();

@@ -21,6 +21,7 @@ public class Constants {
     public static final String EQUATION = "equation";
     public static final String TIMEDOUT = "timedout";
     public static final String NAME = "name";
+    public static final String USERNAME = "username";
     public static final String DATE_CREATION = "dateOfCreation";
     public static final String ROOM_ID = "room id";
     public static final String PEER_ID = "peer id";

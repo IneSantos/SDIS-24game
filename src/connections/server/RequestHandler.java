@@ -22,8 +22,11 @@ public class RequestHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange t) throws IOException {
+        System.out.println(1);
         InputStream in = t.getRequestBody();
+        System.out.println(2);
         String request = Utilities.getBytesFromInputStream(in);
+        System.out.println(request);
         handleRequest(request, t);
         in.close();
     }
@@ -82,9 +85,7 @@ public class RequestHandler implements HttpHandler {
         JSONObject roomJson = createdRoom.getJSONObject(Constants.ROOM_ID);
         JSONObject peerJson = createdRoom.getJSONObject(Constants.PEER_ID);
         RoomID roomId = new RoomID(roomJson);
-        System.out.println("1 - " + peerJson);
         PeerID peerId = new PeerID(peerJson);
-        System.out.println("2 - " + peerJson);
         ArrayList<PeerID> peerArray;
         ServerPeer serverPeer = new ServerPeer(roomId, peerId);
         serverPeer.start();

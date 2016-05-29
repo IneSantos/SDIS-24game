@@ -65,7 +65,7 @@ public class JoinRoomPanel extends JPanel {
         listbox.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                String name = JOptionPane.showInputDialog(InitialFrame.getFrames()[0], "What's your nickname?");
+                String name = JOptionPane.showInputDialog(InitialFrame.getFrames()[0], "What's your name?");
                 if (e.getValueIsAdjusting()) {
                     if (name != null) {
                         InitialFrame.getFrames()[0].setVisible(false);
