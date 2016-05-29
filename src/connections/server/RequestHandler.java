@@ -82,17 +82,30 @@ public class RequestHandler implements HttpHandler {
         JSONObject roomJson = createdRoom.getJSONObject(Constants.ROOM_ID);
         JSONObject peerJson = createdRoom.getJSONObject(Constants.PEER_ID);
         RoomID roomId = new RoomID(roomJson);
+        System.out.println("1 - " + peerJson);
         PeerID peerId = new PeerID(peerJson);
+        System.out.println("2 - " + peerJson);
         ArrayList<PeerID> peerArray;
         ServerPeer serverPeer = new ServerPeer(roomId, peerId);
         serverPeer.start();
         String message = getGame(roomId) || constraint.equals(Constants.CREATE_ROOM) ? serverPeer.getPort() + "" : Constants.ERROR + "";
+        JSONObject jsonOk = new JSONObject();
+        String name = peerId.getUsername();
         if (Server.getAvailableRooms().get(roomId) != null) {
             peerArray = Server.getAvailableRooms().get(roomId);
             if (constraint.equals(Constants.JOIN_ROOM)) {
                 JSONObject joinedJson = new JSONObject();
                 joinedJson.put(Constants.REQUEST, Constants.JOINED_ROOM);
-                joinedJson.put(Constants.PEER_ID, peerJson);
+                int tries = 0;
+                for (int i = 0; i < peerArray.size(); i++) {
+                    if (peerArray.get(i).getUsername().equals(peerId.getUsername())) {
+                        tries++;
+                        peerId.setUsername(name + " (" + tries + ")");
+                        i = 0;
+                    }
+                }
+                jsonOk.put(Constants.NAME, peerId.getUsername());
+                joinedJson.put(Constants.PEER_ID, peerId.getJSON());
                 for (int i = 0; i < peerArray.size(); i++) {
                     peerArray.get(i).getServerPeer().add2MsgArray(joinedJson);
                 }
@@ -103,7 +116,6 @@ public class RequestHandler implements HttpHandler {
             peerArray.add(peerId);
             Server.getAvailableRooms().put(roomId, peerArray);
         }
-        JSONObject jsonOk = new JSONObject();
         jsonOk.put(constraint, message);
         if (roomId.getCurrentGame() == null) {
             roomId.set24Game(Server.getGame24().getRandomGame());

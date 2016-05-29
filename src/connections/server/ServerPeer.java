@@ -116,7 +116,7 @@ public class ServerPeer extends Thread {
         if (peers.size() == 0)
             Server.getAvailableRooms().remove(roomId);
         this.socket.close();
-        System.err.println("Peer " + peerId.getName() + " connection was closed (peer size = " + peers.size() + ")");
+        System.err.println("Peer " + peerId.getUsername() + " connection was closed (peer size = " + peers.size() + ")");
     }
 
     private void sendTcpData(String msg) throws IOException {
@@ -156,7 +156,7 @@ public class ServerPeer extends Thread {
                         break;
                     case Constants.MESSAGE:
                         context.resetTries();
-                       peers = Server.getAvailableRooms().get(context.getRoomId());
+                        peers = Server.getAvailableRooms().get(context.getRoomId());
                         for (PeerID peer : peers) {
                             peer.getServerPeer().add2MsgArray(jsonMsg);
                         }
@@ -179,7 +179,7 @@ public class ServerPeer extends Thread {
                         break;
                 }
             } catch (IOException e) {
-                System.err.println("Peer " + context.getPeerId().getName() + " timing out at port " + context.getPort());
+                System.err.println("Peer " + context.getPeerId().getUsername() + " timing out at port " + context.getPort());
             }
         }
     }
@@ -194,4 +194,3 @@ public class ServerPeer extends Thread {
         tries = 0;
     }
 }
-

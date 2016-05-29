@@ -29,6 +29,7 @@ public class Constants {
     public static final String NOT_FOUND = "not found";
     public static final String GAME = "game";
     public static final String WINNER = "winner";
+    public static final String SCORE = "score";
 
     public static final String OK_STRING = "ok";
 

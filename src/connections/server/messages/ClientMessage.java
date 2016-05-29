@@ -67,9 +67,11 @@ public class ClientMessage {
         int port = Integer.parseInt(result);
         if (port == Constants.ERROR)
             return Constants.ERROR;
-
         JSONArray array = serverResponse.getJSONArray(Constants.GAME);
+        String name = serverResponse.getString(Constants.NAME);
         Peer.getInstance().set24Game(array);
-        return Integer.parseInt(result);
+        Peer.getInstance().getPeerID().setUsername(name);
+
+        return port;
     }
 }

@@ -142,4 +142,10 @@ public class NumbersPanel extends JPanel {
         }
     }
 
+    public void resetEquation() {
+        game.resetEquation();
+        GameFrame.getSouth().getEquation().setText("Equation: " + game.getEquation());
+        GameFrame.getSouth().getEquation().paintImmediately(GameFrame.getSouth().getEquation().getVisibleRect());
+    }
+
 }

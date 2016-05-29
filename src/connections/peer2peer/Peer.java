@@ -86,6 +86,7 @@ public class Peer extends Thread {
                 msg.put(Constants.REQUEST, Constants.R_U_THERE_ACK);
                 break;
             case Constants.JOINED_ROOM:
+                System.out.println(jsonObject);
                 jsonObj = jsonObject.getJSONObject(Constants.PEER_ID);
                 name = jsonObj.getString(Constants.NAME);
                 text = "<" + name + "> Joined the room.";
@@ -137,7 +138,7 @@ public class Peer extends Thread {
         database.setCurrentRoom(createdRoom);
 
         JSONObject peerInfo = new JSONObject();
-        peerInfo.put(Constants.PEER_ID, new JSONObject(peerId));
+        peerInfo.put(Constants.PEER_ID, new JSONObject(peerId.toString()));
         peerInfo.put(Constants.ROOM_ID, new JSONObject(createdRoom));
 
         JSONObject msgJson = new JSONObject();

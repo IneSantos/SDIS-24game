@@ -110,8 +110,8 @@ public class JoinRoomPanel extends JPanel {
         refreshButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Refresh: " + listbox.toString());
-                Client.getInstance().requestAvailableRooms();
                 Client.getInstance().clearAvailableRooms();
+                Client.getInstance().requestAvailableRooms();
             }
         });
     }

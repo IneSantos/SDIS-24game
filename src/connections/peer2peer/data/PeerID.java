@@ -28,7 +28,7 @@ public class PeerID {
         dateOfCreation = peerIdJson.getString(Constants.DATE_CREATION);
     }
 
-    public String getName() {
+    public String getUsername() {
         return username;
     }
 
@@ -62,7 +62,7 @@ public class PeerID {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PeerID peerId = (PeerID) o;
-        return username.equals(peerId.getName()) && dateOfCreation.equals(peerId.getDateOfCreation());
+        return username.equals(peerId.getUsername()) && dateOfCreation.equals(peerId.getDateOfCreation());
     }
 
     @Override
@@ -76,6 +76,4 @@ public class PeerID {
         this.username = username;
     }
 
-    public void setServerPeer() {
-    }
 }
