@@ -117,7 +117,7 @@ public class Peer extends Thread {
                 JSONArray array = jsonObject.getJSONArray(Constants.GAME);
                 Peer.getInstance().set24Game(array);
                 CenterPanel.getInstance().updateNumbersPanel();
-                NumbersPanel.getInstance().getGame().resetEquation();
+                NumbersPanel.getInstance().resetEquation();
                 break;
             default:
                 msg.put(Constants.REQUEST, Constants.ERROR_STRING);
