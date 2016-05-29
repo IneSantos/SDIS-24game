@@ -1,5 +1,6 @@
-package connections.server;
+package connections.tcp;
 
+import connections.server.Server;
 import connections.tcp.data.PeerID;
 import connections.tcp.data.RoomID;
 import org.json.JSONArray;
@@ -22,7 +23,6 @@ public class TCPServer extends Thread {
     private int port;
     private int client_port;
     private InetAddress client_address;
-
 
     private RoomID roomId;
     private PeerID peerId;
@@ -77,27 +77,27 @@ public class TCPServer extends Thread {
     }
 
     private void checkPeer() {
-        RcvAck rcvAck;
+        RcvRequest rcvRequest;
         while (listening) {
             try {
-                JSONObject jsonMsg;
-                if (messagesArray.size() == 0) {
-                    jsonMsg = new JSONObject();
-                    jsonMsg.put(Constants.REQUEST, Constants.R_U_THERE);
-                    sendTcpData(jsonMsg.toString());
-                } else {
-                    jsonMsg = messagesArray.get(0);
-                    messagesArray.remove(jsonMsg);
-                    sendTcpData(jsonMsg.toString());
-                }
-                rcvAck = new RcvAck(this);
-                rcvAck.start();
+                rcvRequest = new RcvRequest(this);
+                rcvRequest.start();
                 int ms = 500;
                 Thread.sleep(ms);
                 tries++;
                 if (tries > 3) {
                     listening = false;
-                    rcvAck.interrupt();
+                    rcvRequest.interrupt();
+                }
+                JSONObject jsonMsg;
+                if (messagesArray.size() == 0) {
+                    jsonMsg = new JSONObject();
+                    jsonMsg.put(Constants.REQUEST, Constants.R_U_THERE_ACK);
+                    sendTcpData(jsonMsg.toString());
+                } else {
+                    jsonMsg = messagesArray.get(0);
+                    messagesArray.remove(jsonMsg);
+                    sendTcpData(jsonMsg.toString());
                 }
             } catch (Exception e) {
                 System.err.println("Something was wrong");
@@ -136,10 +136,10 @@ public class TCPServer extends Thread {
         return roomId;
     }
 
-    class RcvAck extends Thread {
+    class RcvRequest extends Thread {
         TCPServer context;
 
-        public RcvAck(TCPServer context) {
+        public RcvRequest(TCPServer context) {
             this.context = context;
         }
 
@@ -151,7 +151,7 @@ public class TCPServer extends Thread {
                 String request = jsonMsg.getString(Constants.REQUEST);
                 ArrayList<PeerID> peers;
                 switch (request) {
-                    case Constants.R_U_THERE_ACK:
+                    case Constants.R_U_THERE:
                         context.resetTries();
                         break;
                     case Constants.MESSAGE:

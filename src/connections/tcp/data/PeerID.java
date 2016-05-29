@@ -1,6 +1,6 @@
 package connections.tcp.data;
 
-import connections.server.TCPServer;
+import connections.tcp.TCPServer;
 import org.json.JSONObject;
 import utilities.Constants;
 import utilities.Utilities;
