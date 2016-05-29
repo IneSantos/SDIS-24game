@@ -128,11 +128,12 @@ public class Game24 {
                     /*else if (input.matches("#")) {
                         this.equation = "";
                         this.currentState = 0;
-                    } else {
+                    } */
+                else  if (input.matches("[*+/-]")){
                     String newStr = this.equation.substring(0, this.equation.length() - 2);
                     this.equation = "";
                     this.equation += newStr + input;
-                }*/
+                }
                 break;
             case 3:
                 if (input.matches("[*+/-]")) {
