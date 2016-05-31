@@ -23,7 +23,7 @@ public class Utilities {
     }
 
     public static String getBytesFromInputStream(InputStream is) throws IOException {
-        try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
+        try (ByteArrayOutputStream os = new ByteArrayOutputStream();) {
             byte[] buffer = new byte[0xFFFF];
 
             for (int len; (len = is.read(buffer)) != -1; )

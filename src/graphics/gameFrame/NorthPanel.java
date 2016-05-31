@@ -17,8 +17,7 @@ public class NorthPanel extends JPanel {
 
         JLabel jlabel = new JLabel("JOGO 24");
         jlabel.setFont(new Font("Verdana", 1, 50));
-       // jlabel.setForeground(new Color(240, 18, 7));
-        jlabel.setForeground(Color.BLACK);
+        jlabel.setForeground(new Color(240, 18, 7));
         add(jlabel);
     }
 }

@@ -1,6 +1,6 @@
 package connections.tcp.data;
 
-import connections.tcp.TCPServer;
+import connections.server.TCPServer;
 import org.json.JSONObject;
 import utilities.Constants;
 import utilities.Utilities;
@@ -16,6 +16,11 @@ public class PeerID {
     public PeerID(String name) {
         this.username = name;
         this.dateOfCreation = Utilities.getCurrentDate();
+    }
+
+    public PeerID(String name, String dateOfCreation) {
+        this.username = name;
+        this.dateOfCreation = dateOfCreation;
     }
 
     public PeerID(JSONObject peerIdJson) {

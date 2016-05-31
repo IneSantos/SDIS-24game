@@ -50,22 +50,23 @@ public class TCPClient extends Thread {
     }
 
     public void run() {
-        JSONObject responseJson = new JSONObject();
         try {
             JSONObject request = new JSONObject();
             request.put(Constants.REQUEST, Constants.R_U_THERE);
-            responseJson = sendRequest(request);
+            JSONObject responseJson = sendRequest(request);
+            String response = responseJson.getString(Constants.REQUEST);
+            if (!response.equals(Constants.R_U_THERE_ACK))
+                return;
         } catch (Exception e) {
             System.err.println("Could not send a message through tcp");
         }
         while (true) {
             try {
-                handleJson(responseJson);
                 byte[] buf = new byte[utilities.Constants.MSG_SIZE];
                 DatagramPacket packet = new DatagramPacket(buf, buf.length);
                 this.socket.receive(packet);
                 String response = new String(packet.getData(), 0, packet.getLength());
-                responseJson = new JSONObject(response);
+                handleJson(new JSONObject(response));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -80,8 +81,8 @@ public class TCPClient extends Thread {
         String name;
         String text;
         switch (response) {
-            case Constants.R_U_THERE_ACK:
-                msg.put(Constants.REQUEST, Constants.R_U_THERE);
+            case Constants.R_U_THERE:
+                msg.put(Constants.REQUEST, Constants.R_U_THERE_ACK);
                 break;
             case Constants.JOINED_ROOM:
                 System.out.println(jsonObject);
@@ -89,14 +90,14 @@ public class TCPClient extends Thread {
                 name = jsonObj.getString(Constants.USERNAME);
                 text = "<" + name + "> Joined the room.";
                 Chat.getInstance().add2Chat(text);
-                msg.put(Constants.REQUEST, Constants.R_U_THERE);
+                msg.put(Constants.REQUEST, Constants.R_U_THERE_ACK);
                 break;
             case Constants.TIMEDOUT:
                 jsonObj = jsonObject.getJSONObject(Constants.PEER_ID);
                 name = jsonObj.getString(Constants.USERNAME);
                 text = "<" + name + "> Disconnected. (Timeout)";
                 Chat.getInstance().add2Chat(text);
-                msg.put(Constants.REQUEST, Constants.R_U_THERE);
+                msg.put(Constants.REQUEST, Constants.R_U_THERE_ACK);
                 break;
             case Constants.MESSAGE:
                 jsonObj = jsonObject.getJSONObject(Constants.PEER_ID);
@@ -104,7 +105,7 @@ public class TCPClient extends Thread {
                 String message = jsonObject.getString(Constants.MESSAGE);
                 text = "<" + name + "> said: " + message;
                 Chat.getInstance().add2Chat(text);
-                msg.put(Constants.REQUEST, Constants.R_U_THERE);
+                msg.put(Constants.REQUEST, Constants.R_U_THERE_ACK);
                 break;
             case Constants.WINNER:
                 jsonObj = jsonObject.getJSONObject(Constants.PEER_ID);
@@ -112,7 +113,7 @@ public class TCPClient extends Thread {
                 String equation = jsonObject.getString(Constants.EQUATION);
                 text = "<" + name + "> Reached 24: " + equation + ". A new board was generated.";
                 Chat.getInstance().add2Chat(text);
-                msg.put(Constants.REQUEST, Constants.R_U_THERE);
+                msg.put(Constants.REQUEST, Constants.R_U_THERE_ACK);
                 JSONArray array = jsonObject.getJSONArray(Constants.GAME);
                 TCPClient.getInstance().set24Game(array);
                 CenterPanel.getInstance().updateNumbersPanel();
@@ -167,6 +168,7 @@ public class TCPClient extends Thread {
         this.peerId.setUsername(username);
     }
 
+
     public void joinRoom(RoomID room) {
         database.setCurrentRoom(room);
         JSONObject peerInfo = new JSONObject();
@@ -187,6 +189,8 @@ public class TCPClient extends Thread {
     public void add2Responses(JSONObject msg) {
         responses.add(msg);
     }
+
+
 
     public ArrayList<Integer> getCurrentGame() {
         return database.getCurrentRoom().getCurrentGame();

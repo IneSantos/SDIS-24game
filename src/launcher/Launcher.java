@@ -8,9 +8,7 @@ import graphics.initialFrame.InitialFrame;
  */
 class Launcher {
     public static void main(String args[]) {
-        if (args.length != 1)
-            System.err.println("Please define an argument as your server");
-        Client client = new Client(args[0]);
+        Client client = new Client();
         new InitialFrame();
         client.requestAvailableRooms();
     }

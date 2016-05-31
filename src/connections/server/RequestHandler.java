@@ -2,7 +2,6 @@ package connections.server;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import connections.tcp.TCPServer;
 import connections.tcp.data.PeerID;
 import connections.tcp.data.RoomID;
 import org.json.JSONArray;

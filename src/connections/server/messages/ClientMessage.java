@@ -1,6 +1,5 @@
 package connections.server.messages;
 
-import connections.server.Client;
 import connections.tcp.TCPClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -8,7 +7,6 @@ import utilities.Constants;
 
 import javax.net.ssl.*;
 import java.io.*;
-import java.net.InetAddress;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.security.KeyStore;
@@ -18,8 +16,7 @@ import java.security.KeyStore;
  */
 public class ClientMessage {
     private JSONObject jsonMsg;
-    private static String hostname = "";
-    private InetAddress hostAddress;
+    private static String hostname = "localhost";
 
     static {
         //for localhost testing only
@@ -28,18 +25,21 @@ public class ClientMessage {
 
                     public boolean verify(String hostname,
                                           javax.net.ssl.SSLSession sslSession) {
-                        return hostname.equals("localhost") || hostname != null || hostname.length() > 0;
+                        if (hostname.equals("localhost")) {
+                            return true;
+                        }
+                        return false;
                     }
                 });
     }
-
-
 
     public ClientMessage(JSONObject json) {
         this.jsonMsg = json;
     }
 
     public JSONObject send() {
+        String urlString = "https://" + hostname + ":8000/24game";
+        URL url = null;
 
         try {
             SSLContext sslContext = SSLContext.getInstance("TLS");
@@ -55,16 +55,13 @@ public class ClientMessage {
             tmf.init(ks);
 
             sslContext.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
-            hostname = Client.getInstance().getHost();
-            System.out.println("Connecting to " +  hostname);
-            String urlString = "https://" + hostname + ":4563/24game";
-            URL url = null;
+
             url = new URL(urlString);
             HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             connection.setDoOutput(true);
             connection.setSSLSocketFactory(sslContext.getSocketFactory());
-            System.out.println(1);
+
 
             connection.setRequestProperty("Content-Type", "application/json");
 
@@ -72,14 +69,12 @@ public class ClientMessage {
             PrintWriter out = new PrintWriter(connection.getOutputStream());
             System.out.println(jsonMsg);
             String msg = jsonMsg.toString();
-            System.out.println(2);
             out.println(URLEncoder.encode(msg, "UTF-8"));
             out.close();
             BufferedReader in = new BufferedReader(
                     new InputStreamReader(connection.getInputStream()));
             String line = in.readLine();
             in.close();
-            System.out.println(3);
             JSONObject rooms = new JSONObject(line);
             return rooms;
         } catch (Exception e) {

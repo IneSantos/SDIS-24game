@@ -27,6 +27,16 @@ class OperationsPanel extends JPanel {
         this.scores = scores;
         //setBorder(BorderFactory.createLineBorder(Color.black));
 
+        JLabel jlabel = new JLabel("Scores: ");
+        jlabel.setFont(new Font("Verdana", 1, 25));
+        add(jlabel);
+
+        for (int k = 0; k < this.scores.size(); k++) {
+            jlabel = new JLabel((k + 1) + ". " + this.scores.get(k));
+            jlabel.setFont(new Font("Verdana", 1, 15));
+            jlabel.setPreferredSize(new Dimension(100, 20));
+            add(jlabel);
+        }
 
         for (int j = 0; j < 2; j++) {
             for (int i = 0; i < 2; i++) {
@@ -70,8 +80,8 @@ class OperationsPanel extends JPanel {
                     if (e.getX() >= 0 && e.getX() <= 100) {
                         if (e.getY() >= 200 && e.getY() <= 300) {
                             System.out.println("Primeiro quadrado " + " eq " + game.getEquation());
-                            game.setEquation(game.getEquation() + "+");
-                            game.stateMachine("+");
+                            game.setEquation(game.getEquation() + "*");
+                            game.stateMachine("*");
                         } else if (e.getY() > 300 && e.getY() <= 400) {
                             System.out.println("Terceiro quadrado " + " eq " + game.getEquation());
                             game.setEquation(game.getEquation() + "/");
@@ -85,8 +95,8 @@ class OperationsPanel extends JPanel {
 
                         } else if (e.getY() > 300 && e.getY() <= 400) {
                             System.out.println("Quarto quadrado " + " eq " + game.getEquation());
-                            game.setEquation(game.getEquation() + "*");
-                            game.stateMachine("*");
+                            game.setEquation(game.getEquation() + "+");
+                            game.stateMachine("+");
 
                         }
                     } else {
